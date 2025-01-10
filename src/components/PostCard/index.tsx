@@ -19,6 +19,7 @@ export default function PostCard(props: cardProps) {
     return (
         <div className="bg-black text-xl p-4 border border-b-0 border-gray-400 text-white hover:bg-gray-950">
 
+            
             <div className="flex justify-start items-center gap-2" >
                 <div className="bg-purple-500 rounded-full p-4"></div>
                 <h2>{title}</h2>
