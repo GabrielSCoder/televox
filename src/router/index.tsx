@@ -7,6 +7,7 @@ import GroupsTemplate from "../templates/GroupsTemplate";
 import NotificationsTemplate from "../templates/Notifications";
 import PrivateMessagesTemplate from "../templates/PrivateMessages";
 import FeedTemplate from "../templates/FeedTemplate";
+import Postview from "../pages/PostView";
 
 export default function FeedRouter() {
 
@@ -33,6 +34,10 @@ export default function FeedRouter() {
             {
                 path : "messages",
                 element : <PrivateMessagesTemplate />
+            },
+            {
+                path : "post",
+                element : <Postview />
             },
             
         ]

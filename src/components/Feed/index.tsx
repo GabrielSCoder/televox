@@ -30,7 +30,7 @@ export default function FeedList() {
     const makeCards = () => {
 
         const cards = data.map((key, index) => (
-            <PostCard key={index} title={"user3490907"} body={key.body} deslieks={0} likes={20} shares={9} />
+            <PostCard key={index} title={"Flemis2024"} body={key.body} deslieks={0} likes={20} shares={9} />
         ))
 
         return cards

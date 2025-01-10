@@ -17,12 +17,19 @@ export default function ProfileCard() {
     return (
         <div className="relative flex flex-col w-full justify-start items-start bg-black border border-gray-700 shadow-md gap-2 pb-6 border-b-0">
 
-            <div className=" w-full">
+            <div className="w-full bg-purple-500">
                 <img src={"https://images5.alphacoders.com/135/1351278.png"} className="object-cover h-[200px] w-full z-0" />
             </div>
 
+            <div className="w-full bg-green-500 flex justify-end px-2">
+                <button className="text-black bg-white rounded-3xl p-2 px-4 font-semibold text-lg">Seguir</button>
+            </div>
 
-            <div className="mt-14 p-3 flex flex-col gap-2">
+
+            <div className="mt-14 p-3 flex flex-col gap-2 bg-yellow-500 ">
+
+
+
                 <div className="">
                     <h2 className="text-2xl font-semibold text-white">UserFlemis</h2>
                     <h3 className="text-base font-normal text-gray-500">@User18299$</h3>
