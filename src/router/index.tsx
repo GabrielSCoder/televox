@@ -1,7 +1,7 @@
 import { Route, BrowserRouter, createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "../pages/Home";
 import FeedLayout from "../layouts/FeedLayout";
-import ProfileCard from "../components/ProfileCard";
+import ProfileCard from "../templates/ProfileCard";
 import ProfileTemplate from "../templates/ProfileTemplate";
 import GroupsTemplate from "../templates/GroupsTemplate";
 import NotificationsTemplate from "../templates/Notifications";
@@ -17,11 +17,11 @@ export default function FeedRouter() {
         children : [
             {
                 path : "home",
-                element : <ProfileTemplate />
+                element : <FeedTemplate />
             },
             {
                 path : "",
-                element : <FeedTemplate />
+                element : <ProfileTemplate />
             },
             {
                 path : "groups",

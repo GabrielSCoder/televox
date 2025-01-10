@@ -48,8 +48,6 @@ export default function FeedList() {
     }
 
     return (
-        // <button className="p-2 bg-blue-400 text-white" onClick={() => getData()}>Apply</button>
-        // <p>{JSON.stringify(data)}</p>
         <div className="flex flex-col h-full">
             {makeCards()}
         </div>
