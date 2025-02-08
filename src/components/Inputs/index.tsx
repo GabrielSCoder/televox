@@ -20,7 +20,7 @@ type fieldInput = {
     maxLength?: number;
     disabled?: boolean;
     onChange?: Function;
-    classes?: string;
+    className?: string;
     placeholder?: string;
     label?: string;
     labelStyle?: string;
@@ -28,7 +28,7 @@ type fieldInput = {
 
 type rootProps = {
     children: ReactNode
-    classes?: string;
+    className?: string;
     label?: string;
     labelStyle?: string;
 }
@@ -50,14 +50,14 @@ type selectInputOptions = {
     control?: Control;
     register?: UseFormRegister<any>;
     dados?: any;
-    classes?: string
+    className?: string
 } & fieldInput
 
 export function FormDate(props: rootProps) {
-    const { children, classes } = props
+    const { children, className } = props
 
     return (
-        <form onSubmit={(e) => e.preventDefault()} className={classNames("flex flex-col space-y-2 border border-slate-300 p-4 rounded-md shadow-md", classes)}>
+        <form onSubmit={(e) => e.preventDefault()} className={classNames("flex flex-col space-y-2 border border-slate-300 p-4 rounded-md shadow-md", className)}>
             {children}
         </form>
     )
@@ -74,7 +74,7 @@ export function Title(labelProps: labelProps) {
 
 export function Input(props: rootProps) {
 
-    const { children, classes } = props
+    const { children, className } = props
 
     return (
         <>
@@ -89,18 +89,18 @@ function Field() {
 
 function TextInput(props: fieldInput) {
 
-    const { name, onChange, disabled, maxLength, register, classes, placeholder, label, labelStyle } = props
+    const { name, onChange, disabled, maxLength, register, className, placeholder, label, labelStyle } = props
 
     const Inputt = () => {
         return (
             <input type="text" name={name} onChange={e => onchange && onChange(e.target.value)} {...register && register(name)} disabled={disabled} maxLength={maxLength}
-                className={classNames(classes, "bg-white rounded-md w-full border-slate-300 text-[15px]")} placeholder={placeholder} />
+                className={classNames(className, " rounded-md w-full border-slate-300 text-[15px]")} placeholder={placeholder} />
         )
     }
 
     return (
 
-        <Input classes={classes}>
+        <Input className={className}>
             {label && !!label ? (
                 <label className={classNames("", labelStyle)}> {label}
                     <Inputt />
@@ -119,7 +119,7 @@ function TextInput(props: fieldInput) {
 
 function TextArea(props: textAreaInput) {
 
-    const { name, onChange, disabled, maxLength, register, classes, placeholder, label, labelStyle, columns, rows } = props
+    const { name, onChange, disabled, maxLength, register, className, placeholder, label, labelStyle, columns, rows } = props
 
     return (
         <textarea
@@ -128,7 +128,7 @@ function TextArea(props: textAreaInput) {
             name={name}
             placeholder={placeholder}
             {...register && register(name)}
-            className={classNames(classes, inputClasses, "border rounded-md w-full placeholder:text-black placeholder:dark:text-white focus:outline-none border-gray-500 dark:border-0")}
+            className={classNames(className, inputClasses, "border rounded-md w-full placeholder:text-black placeholder:dark:text-white focus:outline-none border-gray-500 dark:border-0")}
             disabled={disabled}>
         </textarea>
     )
@@ -137,14 +137,14 @@ function TextArea(props: textAreaInput) {
 function CheckBox(props: fieldInput) {
 
     // const { control } = props;
-    const { name, disabled, classes, label, labelStyle, register, control } = props
+    const { name, disabled, className, label, labelStyle, register, control } = props
 
     // const { field: { value: checkBoxValue, onChange: onChangeCheckBox } } = useController({ name: props.name, control, defaultValue: false });
 
 
     const Check1 = () => {
         return (
-            <input type="checkbox" name={name} {...register && register(name)} disabled={disabled} className={classNames("p-4 rounded-full border-slate-300", classes)} />
+            <input type="checkbox" name={name} {...register && register(name)} disabled={disabled} className={classNames("p-4 rounded-full border-slate-300", className)} />
         )
     }
 
@@ -168,7 +168,7 @@ function CheckBox(props: fieldInput) {
         )
     }
     return (
-        <Input classes={classes}>
+        <Input className={className}>
             {label && !!label ? (
                 // <label className={classNames("", labelStyle)}> {label}
                 //     <Check2 />
@@ -192,7 +192,7 @@ function CheckBox(props: fieldInput) {
 function SelectOption(props: selectInputOptions) {
     const [date, setDate] = useState<any[]>([]);
 
-    const { name, dados, register, classes, label, labelStyle } = props
+    const { name, dados, register, className, label, labelStyle } = props
 
     const Selectt = () => {
         return (
@@ -206,7 +206,7 @@ function SelectOption(props: selectInputOptions) {
     }
 
     return (
-        <Input classes={classes}>
+        <Input className={className}>
             {label && !!label ? (
                 <label className={classNames("", labelStyle)}> {label}
                     <Selectt />
@@ -221,15 +221,15 @@ function SelectOption(props: selectInputOptions) {
 
 function OnlyNumber(props: fieldInput) {
 
-    const { name, disabled, maxLength, register, placeholder, classes, label, labelStyle } = props
+    const { name, disabled, maxLength, register, placeholder, className, label, labelStyle } = props
 
     const Numberr = () => {
         return (
-            <input type="number" name={name} {...register && register(name)} maxLength={maxLength} disabled={disabled} placeholder={placeholder} className={classNames("text-black rounded-md w-full border-slate-300", classes)} />
+            <input type="number" name={name} {...register && register(name)} maxLength={maxLength} disabled={disabled} placeholder={placeholder} className={classNames("text-black rounded-md w-full border-slate-300", className)} />
         )
     }
     return (
-        <Input classes={classes}>
+        <Input className={className}>
             {label && !!label ? (
                 <label className={classNames("", labelStyle)}> {label}
                     <Numberr />
@@ -243,7 +243,7 @@ function OnlyNumber(props: fieldInput) {
 }
 
 function InputCnpj(props: fieldInput) {
-    const { name, label, labelStyle, classes, register } = props
+    const { name, label, labelStyle, className, register } = props
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const formattedValue = formatCNPJ(event.target.value);
@@ -252,12 +252,12 @@ function InputCnpj(props: fieldInput) {
 
     const CCnpj = () => {
         return (
-            <input type="text" name={name} {...register && register(name)} onChange={handleInputChange} className={classNames("text-black rounded-md w-full border-slate-300", classes)} />
+            <input type="text" name={name} {...register && register(name)} onChange={handleInputChange} className={classNames("text-black rounded-md w-full border-slate-300", className)} />
         )
     }
 
     return (
-        <Input classes={classes}>
+        <Input className={className}>
             {label && !!label ? (
                 <label className={classNames("", labelStyle)}> {label}
                     <CCnpj />

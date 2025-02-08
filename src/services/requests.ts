@@ -18,10 +18,10 @@ export const postRequest = async (url: string, obj: any) => {
     try {
         const response = await axios.post(url, obj);
         return {
-            dados: response.data.dados,
-            ...response.data,
+            dados: response.data,
+            status : response.status
         };
     } catch (error: any) {
-        throw (error);
+        throw (error.status);
     }
 };

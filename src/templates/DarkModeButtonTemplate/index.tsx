@@ -1,9 +1,14 @@
 import { useEffect, useState } from "react";
+import classNames from "../../utils/classNames";
 
-export default function DarkModeButton() {
+type props = {
+  className?: string
+}
 
-const [darkMode, setDarkMode] = useState(() => {
- 
+export default function DarkModeButton(props: props) {
+
+  const [darkMode, setDarkMode] = useState(() => {
+
     const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
     const storedTheme = localStorage.getItem("theme");
 
@@ -14,6 +19,8 @@ const [darkMode, setDarkMode] = useState(() => {
 
     return systemPrefersDark;
   });
+
+  const { className } = props
 
   useEffect(() => {
     if (darkMode) {
@@ -26,7 +33,7 @@ const [darkMode, setDarkMode] = useState(() => {
   }, [darkMode]);
 
   const toggleDarkMode = () => setDarkMode((prev) => !prev);
-    return (
-        <button className="p-2 bg-blue-500 hover:bg-blue-400 text-black dark:text-white rounded-md" onClick={toggleDarkMode}>Dark</button>
-    )
+  return (
+    <button className={classNames(className ,"p-2 bg-blue-500 hover:bg-blue-400 text-black dark:text-white rounded-md")} onClick={toggleDarkMode}>Dark</button>
+  )
 }

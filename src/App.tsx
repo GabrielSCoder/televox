@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import Test from './pages/Test'
 import FeedRouter from './router'
+import Home from './pages/Home';
+import Login from './pages/Login';
+import HomeRouter from './router/home';
 
 
 function App() {
@@ -30,8 +33,9 @@ function App() {
     }, [darkMode]);
 
   return (
-    <FeedRouter />
-    // <Test />
+    // <FeedRouter />
+    <HomeRouter />
+    // <Login />
 
   )
 }

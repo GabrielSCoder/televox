@@ -1,7 +1,6 @@
 import LateralMenu from "../templates/LateralMenu";
 import Groups from "../templates/Groups";
 import { Outlet } from "react-router-dom";
-import { Title } from "../components/Inputs";
 import TitleTag from "../components/TitleTags";
 import DarkModeButton from "../templates/DarkModeButtonTemplate";
 
