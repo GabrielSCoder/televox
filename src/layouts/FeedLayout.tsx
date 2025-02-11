@@ -1,11 +1,23 @@
 import LateralMenu from "../templates/LateralMenu";
 import Groups from "../templates/Groups";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import TitleTag from "../components/TitleTags";
-import DarkModeButton from "../templates/DarkModeButtonTemplate";
+import { useEffect } from "react";
+import { useAuth } from "../contexts/userContext";
 
 
 export default function FeedLayout() {
+
+    const { logado } = useAuth()
+    const nav = useNavigate()
+
+    useEffect(() => {
+        if (logado) {
+            nav("/test")
+        } else {
+            nav("/")
+        }
+    }, [logado])
 
     const fakeFriends = () => {
 
@@ -35,10 +47,10 @@ export default function FeedLayout() {
         <div className="flex bg-white dark:bg-black justify-center">
 
             <div className="sticky top-1 w-1/6 flex flex-col gap-10 px-2 overflow-auto h-[600px]">
-                {/* <h1 className="text-2xl font-bold text-white text-center">TeleVox</h1> */}
                 <TitleTag.Main style="text-center">Televox</TitleTag.Main>
                 <LateralMenu />
-                <DarkModeButton />
+                <p className="text-xl text-white text-center mt-10">Olá!</p>
+                {/* <DarkModeButton /> */}
             </div>
 
             <div className="w-1/3 flex flex-col justify-start items-start gap-0 border-l  border-r ">

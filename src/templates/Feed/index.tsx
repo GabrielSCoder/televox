@@ -5,7 +5,7 @@ import PostCard from "../PostCard"
 
 export default function FeedList() {
 
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(false)
     const [data, setData] = useState()
 
     const getData = async () => {
@@ -36,20 +36,29 @@ export default function FeedList() {
         return cards
     }
 
+    const makeFakeCards = () => {
+
+         const cards = Array.from({ length: 5 }, (_, index) => (
+            <PostCard key={index} title={"Flemis2024"} body={"DSAJKDJASLDKJASLDJALJ"} deslieks={0} likes={20} shares={9} />
+        ))
+
+        return cards
+    }
+
 
     useEffect(() => {
-        getData()
+        // getData()
     }, [])
 
     if (loading) {
         return (
-            <h2 className="font-bold text-xl">Loading...</h2>
+            <h2 className="font-bold text-xl text-white text-center">Loading...</h2>
         )
     }
 
     return (
-        <div className="flex flex-col h-full">
-            {makeCards()}
+        <div className="flex flex-col h-full w-full">
+            {makeFakeCards()}
         </div>
     )
 }

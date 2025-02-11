@@ -4,16 +4,14 @@ export default function useLogin() {
 
     const handleLogin = async (data: any) => {
 
-        const resp = await login(data)
+        try {
+            const resp = await login({email : data.email, senha : data.senha})
 
-        if (resp.status == 200) {
-            localStorage.setItem("token", resp.dados.sign)
+            return {success : true, data : resp.data}
+
+        } catch (error : any) {
+           return {success : false, msg : error.response.data ?? "Erro desconhecido"}
         }
-
-        return resp
-    }
-
-    const checkLogin = async (token : string) => {
 
     }
 

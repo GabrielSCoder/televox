@@ -1,27 +1,34 @@
 import getaxios from "./axiosConfig";
 
-export const getRequest = async (url : string) => {
+export const getRequest = async (accessToken: string, url: string) => {
+
     const axios = await getaxios();
 
     try {
-        const resp = await axios.get(url);
-        return resp;
+        return axios.get(url, {
+            headers: {
+                Authorization: accessToken ? `Bearer ${accessToken}` : "",
+            },
+            withCredentials : true
+        });
 
     } catch (error) {
         throw error
     }
 }
 
-export const postRequest = async (url: string, obj: any) => {
+export const postRequest = async (accessToken: string, url: string, obj: any) => {
+
     const axios = await getaxios();
 
     try {
-        const response = await axios.post(url, obj);
-        return {
-            dados: response.data,
-            status : response.status
-        };
+        return axios.post(url, obj, {
+            headers: {
+                Authorization: accessToken ? `Bearer ${accessToken}` : "",
+            },
+            withCredentials : true
+        });
     } catch (error: any) {
-        throw (error.status);
+        throw (error);
     }
 };

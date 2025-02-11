@@ -1,7 +1,10 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import DarkModeButton from "../templates/DarkModeButtonTemplate";
+import { useAuth } from "../contexts/userContext";
+import { useEffect } from "react";
 
 export default function HomeLayout() {
+    
     return (
         <div className="dark:bg-black flex h-screen p-2 bg-white">
 
@@ -17,3 +20,4 @@ export default function HomeLayout() {
         </div>
     )
 }
+

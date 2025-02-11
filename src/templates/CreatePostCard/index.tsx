@@ -17,7 +17,7 @@ export default function CreatePostCard() {
             </Card>
 
             <Card classes="flex-col gap-2">
-                <Input.TextArea name="msg" placeholder="Your message here..." register={register} columns={100} rows={5} classes="w-full pl-2" />
+                <Input.TextArea name="msg" placeholder="Your message here..." register={register} columns={100} rows={5} className="w-full pl-2" />
 
                 <Card classes="justify-end ">
                     <Button text="Submit" onClick={() => { }} type="submitt" />

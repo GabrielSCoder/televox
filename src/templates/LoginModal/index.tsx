@@ -4,10 +4,10 @@ import { modalProps } from "../../components/Dialog Alert";
 import { Input } from "../../components/Inputs";
 import Card from "../../components/Card";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { useState } from "react";
-import useLogin from "../../hooks/useLogin";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { login } from "../../services/auth";
+import { useAuth } from "../../contexts/userContext";
+import { useNavigate } from "react-router-dom";
 
 const contentStyle = "p-8 px-36 fixed left-1/2 top-1/2 h-[68vh] max-h-[100vh] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-2xl bg-black p-[25px] shadow-[var(--shadow-6)] focus:outline-none data-[state=open]:animate-contentShow"
 
@@ -15,26 +15,50 @@ export default function LoginModal(props: modalProps) {
 
     const { stateMng, state } = props
     const [loading, setLoading] = useState(false)
-    const { handleLogin } = useLogin()
+    const [errorMsg, setErrorMsg] = useState<string>()
+    const { tipo_usuario, login, logado } = useAuth()
+    const nav = useNavigate()
 
-    const { register, handleSubmit} = useForm({
-        defaultValues : {
-            email : "",
-            senha : ""
+    const { register, handleSubmit, getValues } = useForm({
+        defaultValues: {
+            email: "",
+            senha: "",
+            errorMsg: ""
         }
     })
 
+    const clearErrorMsg = () => {
+        setErrorMsg("")
+    }
+
     const submit = async () => {
-        handleSubmit((data) => {
-           handleLogin(data)
+        setLoading(true)
+        console.log(tipo_usuario)
+        handleSubmit(async (data) => {
+            const resp = await login(data)
+            console.log(resp)
+            if (!resp.success) {
+                mapMsg(resp.msg)
+                console.log(resp)
+            } else {
+                clearErrorMsg()
+                nav("/test")
+            }
+
         })()
+        setInterval(() => setLoading(false), 1000)
+    }
+
+    const mapMsg = (data: any[]) => {
+        const resp = data.map(item => item.menssagem)
+        setErrorMsg(resp.toString())
     }
 
     const loadContent = () => {
         if (loading) {
             return (
                 <div className="flex items-center justify-center h-full">
-                    <AiOutlineLoading3Quarters className="text-blue-500 animate-spin" size={30}/>
+                    <AiOutlineLoading3Quarters className="text-blue-500 animate-spin" size={30} />
                 </div>
             )
         } else {
@@ -48,12 +72,13 @@ export default function LoginModal(props: modalProps) {
                         <div className="flex flex-col gap-4 w-full">
                             <Input.Text register={register} name="email" placeholder="E-mail" className="px-2 p-4 outline-none text-white placeholder:text-gray-500 border bg-black focus:border-blue-500" />
                             <Input.Text register={register} name="senha" placeholder="Senha" className="px-2 p-4 outline-none text-white placeholder:text-gray-500 border bg-black focus:border-blue-500" />
+                            <p className="text-red-500 text-center" hidden={!errorMsg}>{errorMsg}</p>
                         </div>
 
                         <p className="border-b border-gray-500 w-full" />
 
                         <Card classes="flex-col w-full gap-6 mt-1">
-                            <button className="bg-black dark:bg-white dark:text-black text-white text-base rounded-3xl py-1 hover:bg-gray-200 font-semibold h-[36px]" onClick={submit}>Login</button>
+                            <button className="bg-black dark:bg-white dark:text-black text-white text-base rounded-3xl py-1 hover:bg-gray-200 font-semibold h-[36px] disabled:bg-gray-500" onClick={submit}>Login</button>
                             <button className="text-black dark:text-white text-base border rounded-3xl py-1 hover:bg-custom-bg-x font-semibold h-[36px]">Esqueceu sua senha?</button>
                         </Card>
 
@@ -75,6 +100,11 @@ export default function LoginModal(props: modalProps) {
             )
         }
     }
+
+    useEffect(() => {
+        setErrorMsg("")
+    }, [state])
+
 
     return (
 

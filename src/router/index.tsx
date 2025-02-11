@@ -1,47 +1,35 @@
-import { Route, BrowserRouter, createBrowserRouter, RouterProvider } from "react-router-dom";
-import Home from "../pages/Home";
-import FeedLayout from "../layouts/FeedLayout";
-import ProfileCard from "../templates/ProfileCard";
-import ProfileTemplate from "../templates/ProfileTemplate";
-import GroupsTemplate from "../templates/GroupsTemplate";
-import NotificationsTemplate from "../templates/Notifications";
-import PrivateMessagesTemplate from "../templates/PrivateMessages";
-import FeedTemplate from "../templates/FeedTemplate";
-import Postview from "../pages/PostView";
+import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
+import Login from "../pages/Login";
+import HomeLayout from "../layouts/HomeLayout";
+import routesFeed from "./home";
+import ReqTest from "../pages/requisitionsTest";
+import ProtectedRoute from "./ProtectedRoutes";
 
-export default function FeedRouter() {
+export default function MainRouter() {
 
-    const router = createBrowserRouter([{
-        path : "/",
-        element : <FeedLayout />,
-        children : [
-            {
-                path : "home",
-                element : <FeedTemplate />
-            },
-            {
-                path : "",
-                element : <ProfileTemplate />
-            },
-            {
-                path : "groups",
-                element : <GroupsTemplate />
-            },
-            {
-                path : "notifications",
-                element : <NotificationsTemplate />
-            },
-            {
-                path : "messages",
-                element : <PrivateMessagesTemplate />
-            },
-            {
-                path : "post",
-                element : <Postview />
-            },
-            
-        ]
-    }])
+    const router = createBrowserRouter([
+        {
+            path: "/",
+            element: < HomeLayout />,
+            errorElement: "Non ecziste",
+            children: [
+                {
+                    path: "",
+                    element: <Login />
+                },
+                {
+                    path: "/*",
+                    element: <Navigate to={"/"} />
+                }
+            ]
+        },
+        {
+            path: "/test",
+            element: <ProtectedRoute />,
+            children: [{ path: "", element: <ReqTest /> }]
+        },
+        routesFeed
+    ])
 
     return (
         <RouterProvider router={router} />
