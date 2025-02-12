@@ -34,6 +34,6 @@ export default function DarkModeButton(props: props) {
 
   const toggleDarkMode = () => setDarkMode((prev) => !prev);
   return (
-    <button className={classNames(className ,"p-2 bg-blue-500 hover:bg-blue-400 text-black dark:text-white rounded-md")} onClick={toggleDarkMode}>Dark</button>
+    <button className={classNames("p-2 bg-blue-500 hover:bg-blue-400 text-black dark:text-white rounded-md", className)} onClick={toggleDarkMode}>Dark</button>
   )
 }

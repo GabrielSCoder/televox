@@ -13,12 +13,23 @@ const tst = {
     ProfileAvatarUrl: "https://dogsinc.org/wp-content/uploads/2021/08/extraordinary-dog.png"
 }
 
-export default function ProfileTemplate() {
+type ProfileTemplateProps = {
+    nome : string
+    quantidadePosts : number
+    username : string
+    textoIntroducao : string
+    dataInicioConta : string
+    fotoUrl : string
+    ProfileAvatarUrl : string
+    feedData : any
+}
+
+export default function ProfileTemplate(props : ProfileTemplateProps) {
     
     return (
         <>
             <div className="sticky top-0 dark:bg-black bg-white bg-white/50 dark:text-white text-black w-full pl-8 z-20 p-2 dark:bg-black/50 backdrop-blur-[10px]">
-                <h2 className="text-lg font-semibold">UserFlemis</h2>
+                <h2 className="text-lg font-semibold">Gabriel</h2>
                 <h3 className="text-gray-500 text-xs">19 posts</h3>
             </div>
 

@@ -6,7 +6,7 @@ export const content = [
 ];
 export const theme = {
   extend: {
-    colors: {...violet, ...blackA, 'custom-bg-x' : 'rgba(36,45,52,0.5)'}
+    colors: {...violet, ...blackA, 'custom-bg-x' : 'rgba(36,45,52,0.5)'},
   }
 };
 

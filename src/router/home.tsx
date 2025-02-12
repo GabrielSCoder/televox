@@ -3,8 +3,8 @@ import FeedTemplate from "../templates/FeedTemplate";
 import GroupsTemplate from "../templates/GroupsTemplate";
 import NotificationsTemplate from "../templates/Notifications";
 import PrivateMessagesTemplate from "../templates/PrivateMessages";
-import ProfileTemplate from "../templates/ProfileTemplate";
 import FeedLayout from "../layouts/FeedLayout";
+import ProfilePage from "../pages/Profile";
 
 const routesFeed = {
     path: "/",
@@ -16,8 +16,8 @@ const routesFeed = {
             element : <FeedTemplate />
         },
         {
-            path : "",
-            element : <ProfileTemplate />
+            path : ":username",
+            element : <ProfilePage />
         },
         {
             path : "groups",

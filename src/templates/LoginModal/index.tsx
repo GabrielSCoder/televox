@@ -42,7 +42,7 @@ export default function LoginModal(props: modalProps) {
                 console.log(resp)
             } else {
                 clearErrorMsg()
-                nav("/test")
+                nav("/")
             }
 
         })()

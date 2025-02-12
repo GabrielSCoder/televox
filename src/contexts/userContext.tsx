@@ -1,7 +1,7 @@
 import { useState, createContext, ReactNode, useEffect, useContext } from "react";
-import { logadoAsync, refreshAsync } from "../services/auth";
+import { logadoAsync, logoutAsync, refreshAsync } from "../services/auth";
 import useLogin from "../hooks/useLogin";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { getByUserId, getByUsername } from "../services/user";
 
 interface AuthContextType {
@@ -15,6 +15,7 @@ interface AuthContextType {
     getToken: Function
     login: Function
     logout: Function
+    reValid: Function
 }
 
 type props = {
@@ -29,6 +30,7 @@ const AuthContext = createContext<AuthContextType>({
     validRefresh: false,
     loading: true,
     verificarAuth: async () => { },
+    reValid: () => "",
     getToken: () => "",
     login: () => "",
     logout: () => ""
@@ -49,10 +51,15 @@ export function AuthProvider(props: props) {
     const verificarAuth = async () => {
 
         try {
+            setLoading(true)
             const resp = await refreshAsync()
             if (resp.data.success) {
                 setValidRefresh(true)
                 setTokenAccess(resp.data.token)
+                const r = await logadoAsync(resp.data.token)
+                setUsuarioID(r.data.dados.id)
+                await getUsername(resp.data.token, r.data.dados.id)
+                setTipo_Usuario("conta")
                 setLogado(true)
             }
         } catch (error) {
@@ -60,7 +67,7 @@ export function AuthProvider(props: props) {
         } finally {
             setLoading(false)
         }
-        
+
     }
 
     const login = async (data: any) => {
@@ -75,7 +82,19 @@ export function AuthProvider(props: props) {
         return (resp)
     }
 
+    const reValid = async () => {
+
+        const resp = await logadoAsync(tokenAccess)
+
+        if (resp.data.success) {
+            await getUsername(tokenAccess, usuario_ID)
+        }
+
+        return resp
+    }
+
     const getUsername = async (token: string, id: any) => {
+        console.log("getUserID :", token, id)
         const resp = await getByUserId(token, id)
         if (resp.data.success) {
             setUsuarionNome(resp.data.dados.username)
@@ -83,21 +102,20 @@ export function AuthProvider(props: props) {
 
     }
 
-    const logout = () => setLogado(false)
+    const logout = async () => {
+        const resp = await logoutAsync()
+        console.log(resp)
+        if (resp.data.success) setLogado(false)
+    }
 
     const getToken = () => tokenAccess
 
     useEffect(() => {
         verificarAuth()
-    }, []);
-
-    useEffect(() => {
-        console.log(tokenAccess)
-        console.log(logado)
-    }, [tokenAccess, logado])
+    }, [])
 
     return (
-        <AuthContext.Provider value={{ logado, usuario_ID, tipo_usuario, usuario_nome, validRefresh, loading, verificarAuth, getToken, login, logout }}>
+        <AuthContext.Provider value={{ logado, usuario_ID, tipo_usuario, usuario_nome, validRefresh, loading, verificarAuth, getToken, login, logout, reValid }}>
             {children}
         </AuthContext.Provider>
     )

@@ -38,7 +38,7 @@ export default function FeedList() {
 
     const makeFakeCards = () => {
 
-         const cards = Array.from({ length: 5 }, (_, index) => (
+         const cards = Array.from({ length: 10 }, (_, index) => (
             <PostCard key={index} title={"Flemis2024"} body={"DSAJKDJASLDKJASLDJALJ"} deslieks={0} likes={20} shares={9} />
         ))
 
