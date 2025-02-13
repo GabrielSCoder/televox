@@ -5,37 +5,46 @@ import NotificationsTemplate from "../templates/Notifications";
 import PrivateMessagesTemplate from "../templates/PrivateMessages";
 import FeedLayout from "../layouts/FeedLayout";
 import ProfilePage from "../pages/Profile";
+import Home from "../pages/Home";
+import { FeedProtectedRoute, ProfileProtectedRoute } from "./ProtectedRoutes";
 
 const routesFeed = {
     path: "/",
-    element: <FeedLayout />,
+    element: (
+        <FeedProtectedRoute>
+            <FeedLayout />
+        </FeedProtectedRoute>
+    ),
     errorElement: "",
-    children:  [
+    children: [
         {
-            path : "home",
-            element : <FeedTemplate />
+            path: "home",
+            element: <Home />
         },
         {
-            path : ":username",
-            element : <ProfilePage />
+            path: ":username",
+            element: (
+                <ProfileProtectedRoute>
+                    <ProfilePage />
+                </ProfileProtectedRoute>
+            )
         },
         {
-            path : "groups",
-            element : <GroupsTemplate />
-        },
-        {
-            path : "notifications",
-            element : <NotificationsTemplate />
-        },
-        {
-            path : "messages",
-            element : <PrivateMessagesTemplate />
-        },
-        {
-            path : "post",
-            element : <Postview />
-        },
-        
+            path: "grupos",
+            element: <GroupsTemplate />
+        }
+        // {
+        //     path : "notifications",
+        //     element : <NotificationsTemplate />
+        // },
+        // {
+        //     path : "messages",
+        //     element : <PrivateMessagesTemplate />
+        // },
+        // {
+        //     path : "post",
+        //     element : <Postview />
+        // },
     ]
 }
 

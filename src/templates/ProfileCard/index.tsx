@@ -3,64 +3,55 @@ import Button from "../../components/Button";
 import Card from "../../components/Card";
 import ProfileWallpaper from "../../components/ProfileWallpaper";
 import TitleTag from "../../components/TitleTags";
-
-type ProfileCardProps = {
-    profileName: string;
-    postValue: number;
-    accountUser: string;
-    meetText: string;
-    createDate: string;
-    followingValue: number;
-    followersValue: number;
-    backgroundUrl: string;
-    ProfileAvatarUrl: string;
-
-}
+import { profile } from "../../types/profileType";
+import { formatDate } from "../../utils/dateFormat";
 
 
-export default function ProfileCard({ props }: { props: ProfileCardProps }) {
+export default function ProfileCard(props: profile & { loggedUsername?: string }) {
 
-    const { ProfileAvatarUrl, accountUser, backgroundUrl, createDate, followersValue, followingValue, meetText, postValue, profileName } = props
+    const { data_criacao, data_nascimento, genero, id, img_url, nome, username, background_url, loggedUsername } = props
 
     return (
-       
+
         <>
 
             <Card classes="relative flex-col w-full justify-start items-start pb-6 border-b">
 
-                <ProfileWallpaper backgroundUrl={backgroundUrl} />
+                <ProfileWallpaper backgroundUrl={background_url} />
 
-                <div className="w-full flex justify-end mt-2 px-2">
-                    <Button className="text-white dark:text-black dark:bg-white bg-black rounded-3xl p-2 px-4 font-semibold text-lg" text="Seguir" onClick={() => {}} />
+
+                <div className="w-full flex justify-end mt-2 px-2 h-[44px]">
+                    {loggedUsername && loggedUsername != username ? (
+                        <Button className="text-white dark:text-black dark:bg-white bg-black rounded-3xl py-0 px-4 font-semibold text-lg" text="Seguir" onClick={() => { }} />
+                    ) : <p className=""></p>}
                 </div>
-
 
                 <div className="mt-4 p-3 px-4 flex flex-col gap-2">
 
                     <div>
-                        <TitleTag.Main style="text-2xl font-semibold">{profileName}</TitleTag.Main>
-                        <TitleTag.Normal style="text-base font-normal dark:text-gray-500 text-gray-500">{accountUser}</TitleTag.Normal>
+                        <TitleTag.Main style="text-2xl font-semibold">{nome}</TitleTag.Main>
+                        <TitleTag.Normal style="text-base font-normal dark:text-gray-500 text-gray-500">@{username}</TitleTag.Normal>
                     </div>
 
                     <div>
-                        <TitleTag.Normal style="">{meetText}</TitleTag.Normal>
-                        <TitleTag.Normal style="text-gray-500 dark:text-gray-500">Joined {createDate}</TitleTag.Normal>
+                        <TitleTag.Normal style="">{""}</TitleTag.Normal>
+                        <TitleTag.Normal style="text-gray-500 dark:text-gray-500">Entrou em {formatDate(data_criacao)}</TitleTag.Normal>
                     </div>
 
 
                     <Card classes="gap-4">
                         <div className="text-gray-500 flex gap-1">
-                            <p className="dark:text-white text-black">{followingValue}</p>
-                            <p> Following</p>
+                            <p className="dark:text-white text-black">{0}</p>
+                            <p>Seguindo</p>
                         </div>
                         <div className="text-gray-500 flex gap-1">
-                            <p className="dark:text-white text-black">{followersValue}</p>
-                            <p>Followers</p>
+                            <p className="dark:text-white text-black">{0}</p>
+                            <p>Seguidores</p>
                         </div>
                     </Card>
                 </div>
 
-                <Avatar ProfileAvatarUrl={ProfileAvatarUrl}/>
+                <Avatar ProfileAvatarUrl={img_url} />
 
             </Card>
         </>

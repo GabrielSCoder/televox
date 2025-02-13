@@ -1,21 +1,26 @@
 import { useState, createContext, ReactNode, useEffect, useContext } from "react";
 import { logadoAsync, logoutAsync, refreshAsync } from "../services/auth";
-import useLogin from "../hooks/useLogin";
 import { useLocation, useNavigate } from "react-router-dom";
-import { getByUserId, getByUsername } from "../services/user";
+import { getByUserId } from "../services/user";
+import useRequest from "../hooks/useRequest";
 
 interface AuthContextType {
     logado: boolean
     usuario_ID: number | null
     tipo_usuario: string
     usuario_nome: string
+    userPostData : any
     validRefresh: boolean
+    postQTD : number
     loading: boolean
+    userData : any
+
     verificarAuth: Function
     getToken: Function
     login: Function
     logout: Function
     reValid: Function
+    getUserData: Function
 }
 
 type props = {
@@ -25,28 +30,57 @@ type props = {
 const AuthContext = createContext<AuthContextType>({
     logado: false,
     usuario_ID: -1,
+    postQTD : -1,
     tipo_usuario: "convidado",
     usuario_nome: "",
     validRefresh: false,
     loading: true,
+    userData : "",
+    userPostData : "",
     verificarAuth: async () => { },
     reValid: () => "",
     getToken: () => "",
     login: () => "",
-    logout: () => ""
+    logout: () => "",
+    getUserData: () => ""
 });
 
 export function AuthProvider(props: props) {
 
+    const { handleGetByUsername, handleGetPostsByFilter } = useRequest()
     const [logado, setLogado] = useState(false)
     const [tipo_usuario, setTipo_Usuario] = useState("convidado")
     const [usuario_ID, setUsuarioID] = useState(-1)
     const [usuario_nome, setUsuarionNome] = useState("")
     const [tokenAccess, setTokenAccess] = useState("")
     const [validRefresh, setValidRefresh] = useState(false)
+    const [userData, setUserData] = useState()
+    const [userPostData, setUserPostData] = useState()
+    const [postQTD, setPostQTD] = useState(-1)
     const [loading, setLoading] = useState(true)
-    const { handleLogin } = useLogin()
+    const { handleLogin } = useRequest()
     const { children } = props
+
+
+    async function getUserData(username : string) {
+        setLoading(true)
+        const resp = await handleGetByUsername(getToken(), username)
+        if (resp.success) {
+            setUserData(resp.dados)
+            await getPostsData(username)
+            console.log("xxxxxxxxxx", resp)
+        }
+        setLoading(false)
+    }
+
+    async function getPostsData(username : string) {
+        const resp = await handleGetPostsByFilter(getToken(), { usuario: username ?? "", numeroPagina: 1, tamanhoPagina: 10 })
+        if (resp.success) {
+            setPostQTD(resp.dados.dados.quantidade_postagens)
+            setUserPostData(resp.dados.dados.listaPostagens)
+            console.log("yyyyyyyy", resp)
+        }
+    }
 
     const verificarAuth = async () => {
 
@@ -98,14 +132,15 @@ export function AuthProvider(props: props) {
         const resp = await getByUserId(token, id)
         if (resp.data.success) {
             setUsuarionNome(resp.data.dados.username)
+            await getUserData(resp.data.dados.username)
         }
 
     }
 
     const logout = async () => {
         const resp = await logoutAsync()
-        console.log(resp)
         if (resp.data.success) setLogado(false)
+        
     }
 
     const getToken = () => tokenAccess
@@ -115,7 +150,7 @@ export function AuthProvider(props: props) {
     }, [])
 
     return (
-        <AuthContext.Provider value={{ logado, usuario_ID, tipo_usuario, usuario_nome, validRefresh, loading, verificarAuth, getToken, login, logout, reValid }}>
+        <AuthContext.Provider value={{ logado, usuario_ID, tipo_usuario, usuario_nome, validRefresh, loading, userData, userPostData, postQTD, verificarAuth, getToken, login, logout, reValid, getUserData }}>
             {children}
         </AuthContext.Provider>
     )

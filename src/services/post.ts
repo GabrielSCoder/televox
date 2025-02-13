@@ -1,3 +1,4 @@
+import { postFilterDTO } from "../types/postType";
 import { getRequest, postRequest } from "./requests";
 
 export const getPostbyId = async (id : string) => {
@@ -10,4 +11,8 @@ export const getAllPostByUsrId = async (token : string, id : string) => {
 
 export const sendPostAsync = async (token : string, data : any) => {
     return await postRequest(token, "/post", data)
+}
+
+export const getPostsByFilter = async (token : string, data : postFilterDTO) => {
+    return await postRequest(token, "post/filter/", data)
 }

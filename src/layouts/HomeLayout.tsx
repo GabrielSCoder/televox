@@ -1,7 +1,6 @@
 import { Outlet, useNavigate} from "react-router-dom";
 import DarkModeButton from "../templates/DarkModeButtonTemplate";
 import { useAuth } from "../contexts/userContext";
-import { useEffect } from "react";
 
 export default function HomeLayout() {
 

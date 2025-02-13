@@ -1,3 +1,5 @@
+import PostCard from "../templates/PostCard"
+
 export const FakeFriends = () => {
 
     let ff = []
@@ -42,6 +44,15 @@ export const FakeGroups = () => {
             {ff}
         </div>
     )
+}
+
+export const MakeFakeCards = () => {
+
+    const cards = Array.from({ length: 10 }, (_, index) => (
+       <PostCard key={index} title={"Flemis2024"} body={"DSAJKDJASLDKJASLDJALJ"} deslieks={0} likes={20} shares={9} />
+   ))
+
+   return cards
 }
 
 

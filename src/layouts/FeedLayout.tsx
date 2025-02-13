@@ -1,6 +1,6 @@
 import LateralMenu from "../templates/LateralMenu";
 import Groups from "../templates/Groups";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import TitleTag from "../components/TitleTags";
 import DarkModeButton from "../templates/DarkModeButtonTemplate";
 import { useAuth } from "../contexts/userContext";
@@ -11,37 +11,31 @@ import { FakeFriends } from "../hooks/useFakeData";
 
 export default function FeedLayout() {
 
-    const { logado, login, tipo_usuario, usuario_ID, logout, usuario_nome, verificarAuth, getToken, validRefresh, reValid } = useAuth()
-    const token = getToken()
+    const { usuario_ID, logout, usuario_nome } = useAuth()
+    const nav = useNavigate()
+
     const [loading, setLoading] = useState(false)
-    const [userData, setUserData] = useState([])
 
-    const getData = async () => {
-        setLoading(true)
-        const resp = await getByUserId(token, usuario_ID?.toString() ?? "")
-        if (resp.data.success)
-        setLoading(false)
+    const handleLogout = () => {
+        logout()
+        nav("/")
     }
-
-    useEffect(() => {
-        // getData()
-    }, [])
 
     if (loading || usuario_ID && usuario_ID < 0 ) {
         return (
-            <div className="bg-black"><h1 className="text-4xl text-white">carregando....</h1></div>
+            <div className="bg-black"><h1 className="text-4xl text-white">carregando....X</h1></div>
         )
     }
 
     return (
-        <div className="flex bg-white dark:bg-black justify-center">
+        <div className="flex bg-black dark:bg-black justify-center">
 
             <div className="sticky top-1 w-1/6 flex flex-col gap-10 px-2 overflow-auto h-[920px]">
                 <TitleTag.Main style="text-center">Televox</TitleTag.Main>
                 <LateralMenu />
                 <p className="text-xl text-black dark:text-white text-center mt-6">Olá! {usuario_nome}</p>
                 {/* <DarkModeButton className="w-fit mx-auto py-2 px-4 rounded-3xl"/> */}
-                <button className="px-4 py-2 rounded-3xl text-black dark:text-white bg-gray-400 w-fit mx-auto mt-auto mb-2">Logout</button>
+                <button className="px-4 py-2 rounded-3xl text-black dark:text-white bg-gray-400 w-fit mx-auto mt-auto mb-2" onClick={handleLogout}>Logout</button>
             </div>
 
             <div className="w-[600px] flex flex-col justify-start items-start gap-0 border-l  border-r">
