@@ -21,7 +21,7 @@ const rootRoute = () => {
     }
 
     return logado ? <Navigate to="/home" replace /> : <HomeLayout />;
-}
+} 
 
 
 export default function MainRouter() {

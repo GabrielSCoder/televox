@@ -18,6 +18,7 @@ export const HomeProtectedRoute = () => {
 };
 
 export const ProfileProtectedRoute = ({children} : {children : JSX.Element}) => {
+    
     const palavras_reservadas = ["home", "perfil", "grupos", "post"]
 
     const { username } = useParams()

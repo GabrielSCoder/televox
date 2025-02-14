@@ -1,6 +1,5 @@
 import { useState, createContext, ReactNode, useEffect, useContext } from "react";
 import { logadoAsync, logoutAsync, refreshAsync } from "../services/auth";
-import { useLocation, useNavigate } from "react-router-dom";
 import { getByUserId } from "../services/user";
 import useRequest from "../hooks/useRequest";
 

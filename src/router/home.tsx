@@ -7,13 +7,12 @@ import FeedLayout from "../layouts/FeedLayout";
 import ProfilePage from "../pages/Profile";
 import Home from "../pages/Home";
 import { FeedProtectedRoute, ProfileProtectedRoute } from "./ProtectedRoutes";
+import { Navigate } from "react-router-dom";
 
 const routesFeed = {
     path: "/",
     element: (
-        <FeedProtectedRoute>
-            <FeedLayout />
-        </FeedProtectedRoute>
+        <FeedLayout />
     ),
     errorElement: "",
     children: [
@@ -24,14 +23,16 @@ const routesFeed = {
         {
             path: ":username",
             element: (
-                <ProfileProtectedRoute>
-                    <ProfilePage />
-                </ProfileProtectedRoute>
+                <ProfilePage />
             )
         },
         {
             path: "grupos",
             element: <GroupsTemplate />
+        },
+        {
+            path: "/*",
+            element: <Navigate to={"/home"} />
         }
         // {
         //     path : "notifications",

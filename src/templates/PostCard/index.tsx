@@ -26,8 +26,8 @@ export default function PostCard(props: cardProps) {
 
     return (
         <>
-            <Card classes="flex-col hover:bg-gray-100 dark:hover:bg-gray-900 hover:cursor-pointer p-4 border-b" click={redirect}>
-                <Card classes="justify-start items-center gap-2" >
+            <Card className="flex-col hover:bg-gray-100 dark:hover:bg-gray-900 hover:cursor-pointer p-4 border-b" click={redirect}>
+                <Card className="justify-start items-center gap-2" >
                     <div className="rounded-full h-[40px] w-[40px] bg-purple-500 ">
                         {!img_url ? <div className="w-full h-full rounded-full bg-red-500 m-2"></div> : <img src={img_url} className="h-full w-full rounded-full object-cover"></img>}
                     </div>

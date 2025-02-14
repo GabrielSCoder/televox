@@ -32,3 +32,19 @@ export const postRequest = async (accessToken: string, url: string, obj: any) =>
         throw (error);
     }
 };
+
+export const postRequestWoError = async (accessToken: string, url: string, obj: any) => {
+    
+    const axios = await getaxios();
+
+    try {
+        return axios.post(url, obj, {
+            headers: {
+                Authorization: accessToken ? `Bearer ${accessToken}` : "",
+            },
+            withCredentials : true
+        });
+    } catch (error: any) {
+        return (error);
+    }
+}

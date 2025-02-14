@@ -1,11 +1,15 @@
 import { useForm, Control, UseFormRegister, Controller } from "react-hook-form"
 import classNames from "../../utils/classNames";
-import { ReactNode, useState } from "react";
+import { JSXElementConstructor, Key, ReactElement, ReactNode, ReactPortal, useState } from "react";
 import { formatCNPJ } from "../../utils/formartar";
 import * as Switch from "@radix-ui/react-switch";
 import * as Check from "@radix-ui/react-checkbox"
 import { CheckIcon } from "@radix-ui/react-icons"
+import { LuEye, LuEyeClosed } from "react-icons/lu";
 import { inputClasses } from "../classes/inputs";
+import { SelectMain } from "../Select";
+import GeneroSelectTemplate from "../../templates/selects/GeneroSelect";
+import { IconBase } from "react-icons/lib";
 
 type SwitchInput = {
     control: Control;
@@ -24,6 +28,9 @@ type fieldInput = {
     placeholder?: string;
     label?: string;
     labelStyle?: string;
+    Isrequired?: boolean
+    requiredText?: boolean
+    errors?: any
 }
 
 type rootProps = {
@@ -89,31 +96,18 @@ function Field() {
 
 function TextInput(props: fieldInput) {
 
-    const { name, onChange, disabled, maxLength, register, className, placeholder, label, labelStyle } = props
+    const { name, onChange, disabled, maxLength, register, className, placeholder, Isrequired, requiredText, errors } = props
 
-    const Inputt = () => {
-        return (
-            <input type="text" name={name} onChange={e => onchange && onChange(e.target.value)} {...register && register(name)} disabled={disabled} maxLength={maxLength}
-                className={classNames(className, " rounded-md w-full border-slate-300 text-[15px]")} placeholder={placeholder} />
-        )
-    }
 
     return (
-
-        <Input className={className}>
-            {label && !!label ? (
-                <label className={classNames("", labelStyle)}> {label}
-                    <Inputt />
-                </label>
-            ) : (
-                <Inputt />
-            )}
-        </Input>
-
-
-
+        <div>
+            <input type="text" name={name} {...register && register(name, {required : "obrigatório"})} disabled={disabled} maxLength={maxLength}
+                className={classNames(className, " rounded-md w-full border-slate-300 text-[15px]", errors?.[name] && "border-red-500")} placeholder={placeholder} />
+            {errors?.[name] && <p className="text-red-500 text-sm mt-1">{errors[name]?.message}</p>}
+        </div>
 
     )
+
 }
 
 
@@ -198,7 +192,7 @@ function SelectOption(props: selectInputOptions) {
         return (
             <select {...register && register(name)} className="rounded-md p-2 w-full border-slate-300">
                 <option className="">Selecione</option>
-                {dados && dados.map((item) => (
+                {dados && dados.map((item: { id: Key | null | undefined; name: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | null | undefined; }) => (
                     <option key={item.id}>{item.name}</option>
                 ))}
             </select>
@@ -216,6 +210,20 @@ function SelectOption(props: selectInputOptions) {
             )}
         </Input>
 
+    )
+}
+
+function SelectOpt2(props: { control: any, name: string }) {
+
+    const { control, name } = props
+
+    return (
+        <Controller
+            name={name}
+            control={control}
+            render={({ field }) => (
+                <GeneroSelectTemplate field={field} />
+            )} />
     )
 }
 
@@ -304,11 +312,36 @@ function SwitchIPT(props: SwitchInput) {
     )
 }
 
+function Password(props: fieldInput) {
+    const [eyeOpen, setEyeOpen] = useState(false)
+    const [inputType, setInputType] = useState("password")
+
+    const { register, className, name } = props
+
+    const handleToggle = () => {
+
+        setEyeOpen(!eyeOpen)
+        if (inputType === "password") {
+            setInputType("text")
+        } else {
+            setInputType("password")
+        }
+    }
+
+    return (
+        <div className="flex ml-4 border rounded-md px-2 h-[56px]">
+            <input type={inputType} {...register && register(name)} className={classNames("text-[15px] bg-black text-white border-none outline-none w-full", className)} />
+            <p onClick={handleToggle} className="dark:text-white text-black flex items-center justify-center">{eyeOpen ? <LuEye size={25} /> : <LuEyeClosed size={25} />}</p>
+        </div>
+    )
+}
+
 Input.Switch = SwitchIPT
 Input.TextArea = TextArea
 Input.Number = OnlyNumber
 Input.Text = TextInput
 Input.CheckBox = CheckBox
 Input.Title = Title
-Input.SelectOpt = SelectOption
+Input.SelectOpt = SelectOpt2
 Input.Cnpj = InputCnpj
+Input.Password = Password

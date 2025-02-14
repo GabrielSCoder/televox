@@ -1,4 +1,4 @@
-import { violet, blackA, grass } from "@radix-ui/colors";
+import { violet, blackA, grass, mauve } from "@radix-ui/colors";
 
 export const content = [
   "./index.html",
@@ -6,7 +6,7 @@ export const content = [
 ];
 export const theme = {
   extend: {
-    colors: {...violet, ...blackA, 'custom-bg-x' : 'rgba(36,45,52,0.5)'},
+    colors: {...violet, ...blackA, ...mauve,'custom-bg-x' : 'rgba(36,45,52,0.5)'},
   }
 };
 

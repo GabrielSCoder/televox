@@ -77,7 +77,7 @@ export default function LoginModal(props: modalProps) {
 
                         <p className="border-b border-gray-500 w-full" />
 
-                        <Card classes="flex-col w-full gap-6 mt-1">
+                        <Card className="flex-col w-full gap-6 mt-1">
                             <button className="bg-black dark:bg-white dark:text-black text-white text-base rounded-3xl py-1 hover:bg-gray-200 font-semibold h-[36px] disabled:bg-gray-500" onClick={submit}>Login</button>
                             <button className="text-black dark:text-white text-base border rounded-3xl py-1 hover:bg-custom-bg-x font-semibold h-[36px]">Esqueceu sua senha?</button>
                         </Card>

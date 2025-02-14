@@ -15,7 +15,7 @@ export default function ProfileCard(props: profile & { loggedUsername?: string }
 
         <>
 
-            <Card classes="relative flex-col w-full justify-start items-start pb-6 border-b">
+            <Card className="relative flex-col w-full justify-start items-start pb-6 border-b">
 
                 <ProfileWallpaper backgroundUrl={background_url} />
 
@@ -39,7 +39,7 @@ export default function ProfileCard(props: profile & { loggedUsername?: string }
                     </div>
 
 
-                    <Card classes="gap-4">
+                    <Card className="gap-4">
                         <div className="text-gray-500 flex gap-1">
                             <p className="dark:text-white text-black">{0}</p>
                             <p>Seguindo</p>
