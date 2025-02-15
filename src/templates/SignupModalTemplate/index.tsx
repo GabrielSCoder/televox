@@ -10,22 +10,27 @@ import { Input } from "../../components/Inputs"
 import useDebounce from "../../hooks/useDebounce";
 import { SignupModalEtapaUm } from "./EtapaUm";
 import { SignupModalEtapaDois } from "./EtapaDois";
-import { verifyEmail } from "../../services/user";
+import { signup, verifyEmail, verifyPassword, verifyUsername } from "../../services/user";
+import EtapaConclusao from "./EtapaConclusao";
+import CadastroConcluido from "./CadastroConcluido";
 
-const contentStyle = "p-8 px-36 fixed left-1/2 top-1/2 h-[68vh] max-h-[100vh] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-2xl bg-black p-[25px] shadow-[var(--shadow-6)] focus:outline-none data-[state=open]:animate-contentShow"
+const contentStyle = "p-8 px-36 fixed left-1/2 top-1/2 min-h-[68vh] max-h-[100vh] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-2xl bg-black p-[25px] shadow-[var(--shadow-6)] focus:outline-none data-[state=open]:animate-contentShow"
 
 export default function SignupModalTemplate(props: modalProps) {
 
     const { stateMng, state } = props
     const [loading, setLoading] = useState(false)
-    const [errorMsg, setErrorMsg] = useState<string>()
-    const [etapaUm, setEtapaUm] = useState(true)
+    const [loadingVerify, setLoadingVerify] = useState(false)
+    const [validEmail, setValidEmail] = useState(false)
+    const [validUsername, setValidUsername] = useState(false)
+    const [validPassword, setValidPassword] = useState(false)
+    const [etapaUm, setEtapaUm] = useState(false)
     const [etapaDois, setEtapaDois] = useState(false)
-    const [etapaConcluida, setEtapaConcluida] = useState(false)
+    const [etapaUmCompleta, setEtapaUmCompleta] = useState(false)
+    const [etapaDoisCompleta, setEtapaDoisCompleta] = useState(false)
+    const [cadastroConcluido, setCadastroConcluido] = useState(false)
 
-    const nav = useNavigate()
-
-    const { register, handleSubmit, reset, watch, getValues, control, formState : {errors}, setError, clearErrors } = useForm({
+    const { register, handleSubmit, reset, watch, getValues, control, formState: { errors }, setError, clearErrors } = useForm({
         defaultValues: {
             nome: "",
             username: "",
@@ -33,35 +38,197 @@ export default function SignupModalTemplate(props: modalProps) {
             email: "",
             genero: "",
             senha: "",
-            errorMsg: ""
+            senha_confirmacao: "",
+            termos: false
         }
     })
 
-    const onSub = () => {
-        handleSubmit(data => {
-            console.log(data)
-        })()
+    const senha = watch("senha");
+    const senhaConfirmacao = watch("senha_confirmacao");
+    const email = watch("email")
+    const nome = watch("nome")
+    const genero = watch("genero")
+    const data_nascimento = watch("data_nascimento")
+    const username = watch("username")
+    const cookieCheck = watch("termos")
+
+    const sign = async () => {
+        // clearErrors()
+        // setLoading(true)
+        // handleSubmit(async data => {
+        //     const item = { ...data }
+        //     const resp = await signup(item)
+        //     if (resp.data.dados.success) {
+        //         setCadastroConcluido(true)
+        //         reset()
+        //     }
+        // })()
+        // setLoading(false)
+        setCadastroConcluido(true)
     }
+
+    const manageEtapa = (etapa: number) => {
+        if (etapa == 1) {
+            setEtapaUm(true)
+        } else if (etapa == 2) {
+            setEtapaDois(true)
+        } else if (etapa == 0) {
+            setLoading(true)
+            setEtapaUm(false)
+            setEtapaDois(false)
+            setInterval(() => setLoading(false), 2000)
+        }
+    }
+
+    // const handleUmSub = useDebounce(etapaUmBtn, 1000)
 
     const handleVerifyEmail = async () => {
-        const resp = await verifyEmail({email : getValues("email")})
+        setLoadingVerify(true)
+        const resp = await verifyEmail({ email: getValues("email") })
+        if (!resp.data.succes) {
+            setError("email", { type: "custom", message: resp.data.message })
+            setValidEmail(false)
+        } else {
+            setError("email", { type: "custom", message: "true" })
+            setValidEmail(true)
+        }
+        setLoadingVerify(false)
     }
 
-    const handleVerifyDebounce = useDebounce(handleVerifyEmail, 2000)
-
-    const clearErrorMsg = () => {
-        setErrorMsg("")
+    const handleVerifyUsername = async () => {
+        setLoadingVerify(true)
+        const resp = await verifyUsername({ username: getValues("username") })
+        if (!resp.data.succes) {
+            setError("username", { type: "custom", message: resp.data.message })
+            setValidUsername(false)
+        } else {
+            setError("username", { type: "custom", message: "true" })
+            setValidUsername(true)
+        }
+        setLoadingVerify(false)
     }
 
-    const mapMsg = (data: any[]) => {
-        const resp = data.map(item => item.menssagem)
-        setErrorMsg(resp.toString())
+    const handleVerifyPassword = async () => {
+        setLoadingVerify(true)
+        const resp = await verifyPassword({ password: getValues("senha") })
+        if (!resp.data.success) {
+            setError("senha", { type: "custom", message: resp.data.message })
+            // setValidPassword(false)
+        } else {
+            setError("senha", { type: "custom", message: "true" })
+            // setValidPassword(true)
+        }
+        setLoadingVerify(false)
     }
+
+
+    const handleVerifyEmailDebounce = useDebounce(handleVerifyEmail, 2000)
+    const handleVerifyUsernameDebounce = useDebounce(handleVerifyUsername, 2000)
+    const handleVerifyPasswordDebounce = useDebounce(handleVerifyPassword, 2000)
+    const handleSignUpDebounce = useDebounce(sign, 1000)
+
 
     useEffect(() => {
-        if (watch("email") != "") handleVerifyDebounce()
+        if (getValues("email").length > 0) {
+            if (validEmail) {
+                setValidEmail(false)
+                clearErrors("email")
+            }
+            handleVerifyEmailDebounce()
+        }
     }, [watch("email")])
 
+
+    useEffect(() => {
+        if (getValues("username").length > 0) {
+
+            if (validUsername) {
+                setValidUsername(false)
+                clearErrors("username")
+            }
+            handleVerifyUsernameDebounce()
+        }
+    }, [watch("username")])
+
+    useEffect(() => {
+        if (getValues("senha").length > 0) {
+            if (validPassword) {
+                setValidPassword(false)
+                clearErrors("senha")
+            }
+            handleVerifyPasswordDebounce()
+        }
+    }, [watch("senha")])
+
+
+    useEffect(() => {
+        clearErrors()
+        reset()
+    }, [state])
+
+    useEffect(() => {
+        if (nome != "" && email != "" && data_nascimento != "" && genero != "") {
+            setEtapaUmCompleta(true)
+        } else {
+            setEtapaUmCompleta(false)
+        }
+    }, [nome, email, data_nascimento, genero])
+
+    useEffect(() => {
+        if (username != "" && senha != "" && senhaConfirmacao != "" && cookieCheck == true) {
+            setEtapaDoisCompleta(true)
+            console.log("segunda completa")
+        } else {
+            setEtapaDoisCompleta(false)
+        }
+    }, [username, senha, senhaConfirmacao, cookieCheck])
+
+
+    useEffect(() => {
+        if (senhaConfirmacao) {
+            if (senha === senhaConfirmacao) {
+                clearErrors("senha_confirmacao");
+                setValidPassword(true)
+            } else {
+                setError("senha_confirmacao", { message: "As senhas são diferentes" });
+                setValidPassword(false)
+            }
+        }
+    }, [senha, senhaConfirmacao]);
+
+    const loadContent = () => {
+        return (
+            <div className="h-[600px] flex justify-center items-center">
+                <AiOutlineLoading3Quarters size={50} className="text-blue-500 animate-spin" />
+            </div>
+        )
+    }
+
+    const CC = () => {
+        return (
+            <CadastroConcluido />
+        )
+    }
+
+    const content = () => {
+
+        return (
+            <>
+                <Dialog.Title className="mt-8 text-[30px] font-medium text-mauve12 dark:text-white text-start">
+                    Criar sua conta
+                </Dialog.Title>
+
+                <div className="mt-8 flex flex-col justify-center items-center gap-8">
+
+                    {!loading && !etapaUm && <SignupModalEtapaUm register={register} control={control} errors={errors} manageF={manageEtapa} validEmail={validEmail} etapaUmCompleta={etapaUmCompleta} loadingVerify={loadingVerify} />}
+                    {!loading && etapaUm && !etapaDois && <SignupModalEtapaDois register={register} control={control} errors={errors} validPassword={validPassword} validUsername={validUsername} etapaDoisCompleta={etapaDoisCompleta} manageF={manageEtapa} loadingVerify={loadingVerify} />}
+                    {!loading && etapaUm && etapaDois && <EtapaConclusao email={email} nome={nome} senha={senha} username={username} data_nascimento={data_nascimento} genero={genero} manageF={manageEtapa} manageF2={handleSignUpDebounce} />}
+
+                </div>
+
+            </>
+        )
+    }
 
     return (
 
@@ -72,9 +239,7 @@ export default function SignupModalTemplate(props: modalProps) {
                     className={contentStyle}
                     onPointerDownOutside={(e) => e.preventDefault()}>
 
-                    <SignupModalContent loading={loading} register={register} control={control} sub={onSub} etapaUm={etapaUm} etapaDois={etapaDois} setEtapaUm={setEtapaUm} 
-                    setEtapaDois={setEtapaDois} errors={errors}/>
-
+                    {cadastroConcluido ? CC() : loading ? loadContent() : content()}
 
                     <Dialog.Close asChild>
                         <button
@@ -87,34 +252,6 @@ export default function SignupModalTemplate(props: modalProps) {
                 </Dialog.Content>
             </Dialog.Portal>
         </Dialog.Root>
-    )
-}
-
-function SignupModalContent(props: { loading: boolean, register: any, control : any, sub : Function, etapaUm : any, etapaDois : any, setEtapaDois : any, setEtapaUm : any, errors :any }) {
-
-    const { loading, register, control, sub, etapaDois, etapaUm, errors } = props
-
-    return (
-
-        <>
-            <Dialog.Title className="mt-8 text-[30px] font-medium text-mauve12 dark:text-white text-start">
-                Criar sua conta
-            </Dialog.Title>
-            <div className="mt-8 flex flex-col justify-center items-center gap-8">
-
-                {etapaUm && <SignupModalEtapaUm register={register} control={control} errors={errors}/>}
-                {etapaUm && etapaDois && <SignupModalEtapaDois register={register}/>}
-
-                <p className="border-b border-gray-500 w-full" />
-
-                <Card className="flex-col w-full gap-6 mt-1">
-                    <button className="bg-black dark:bg-white dark:text-black text-white text-base rounded-3xl py-1 hover:bg-gray-200 font-semibold h-[36px] disabled:bg-gray-500" onClick={() => sub()}>Avançar</button>
-                </Card>
-
-            </div>
-
-        </>
-
     )
 }
 

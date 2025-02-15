@@ -37,6 +37,14 @@ export default function useRequest() {
         }
     }
 
+    const handleSignup = async (data : any)  => {
+        try {
+
+        } catch (error) {
+            
+        }
+    }
+
     return {
         handleLogin, handleGetByUsername, handleGetPostsByFilter
     }

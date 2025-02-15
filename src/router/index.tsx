@@ -5,6 +5,8 @@ import routesFeed from "./home";
 import ReqTest from "../pages/requisitionsTest";
 import { HomeProtectedRoute } from "./ProtectedRoutes";
 import { useAuth } from "../contexts/userContext";
+import Groups from "../templates/Groups";
+import { Example } from "../pages/Group";
 
 const rootRoute = () => {
 
@@ -21,7 +23,7 @@ const rootRoute = () => {
     }
 
     return logado ? <Navigate to="/home" replace /> : <HomeLayout />;
-} 
+}
 
 
 export default function MainRouter() {
@@ -36,6 +38,10 @@ export default function MainRouter() {
                 {
                     path: "",
                     element: <Login />
+                },
+                {
+                    path: "grupos",
+                    element: <Example />
                 }
             ]
         },
@@ -44,7 +50,7 @@ export default function MainRouter() {
             element: <HomeProtectedRoute />,
             children: [{ path: "", element: <ReqTest /> }]
         },
-        routesFeed
+        // routesFeed
     ])
 
     return (

@@ -1,3 +1,33 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.datePickerWrapper {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+.react-datepicker-wrapper {
+    width: 100%;
+}
+
+.react-datepicker__input-container input {
+    width: 100%;
+    border: 1px solid #ccc;
+    padding: 8px;
+    border-radius: 6px;
+    transition: border-color 0.2s;
+    background-color: black;
+    text-align: center;
+    color: white;
+    height: 56px;
+}
+
+.react-datepicker__input-container input:focus {
+    border-color: #3182ce;
+}
+
+.react-datepicker__input-container input.error {
+    border-color: #ef4444;
+}

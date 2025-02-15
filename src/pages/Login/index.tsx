@@ -1,8 +1,6 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import LoginModalTemplate from "../../templates/LoginModal"
 import SignupModalTemplate from "../../templates/SignupModalTemplate"
-import { useForm } from "react-hook-form"
-import { SelectMain } from "../../components/Select"
 
 export default function Login() {
 

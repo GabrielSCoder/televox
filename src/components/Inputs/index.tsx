@@ -10,6 +10,11 @@ import { inputClasses } from "../classes/inputs";
 import { SelectMain } from "../Select";
 import GeneroSelectTemplate from "../../templates/selects/GeneroSelect";
 import { IconBase } from "react-icons/lib";
+import DatePicker from "react-datepicker"
+import { parse, format } from "date-fns";
+import { ptBR } from "date-fns/locale";
+import "react-datepicker/dist/react-datepicker.css";
+
 
 type SwitchInput = {
     control: Control;
@@ -29,8 +34,9 @@ type fieldInput = {
     label?: string;
     labelStyle?: string;
     Isrequired?: boolean
-    requiredText?: boolean
+    requiredText?: string
     errors?: any
+    value ?: any
 }
 
 type rootProps = {
@@ -42,7 +48,7 @@ type rootProps = {
 
 type labelProps = {
     children: ReactNode
-    classNamee?: string;
+    className?: string;
 }
 
 type textAreaInput = {
@@ -72,10 +78,10 @@ export function FormDate(props: rootProps) {
 
 export function Title(labelProps: labelProps) {
 
-    const { children, classNamee } = labelProps;
+    const { children, className } = labelProps;
 
     return (
-        <label className={classNamee}>{children}</label>
+        <label className={className}>{children}</label>
     )
 }
 
@@ -94,22 +100,75 @@ function Field() {
     return (<></>)
 }
 
+function DateInput(props: fieldInput) {
+
+    const { name, Isrequired, className, requiredText, control } = props
+
+    return (
+        <Controller
+            name={name}
+            control={control}
+            rules={Isrequired ? { required: requiredText || "Campo obrigatório" } : {}}
+            render={({ field, fieldState }) => {
+
+                const selectedDate = field.value ? parse(field.value, "dd/MM/yyyy", new Date()) : null;
+
+                return (
+                    <div className="">
+                        <DatePicker
+
+                            selected={selectedDate}
+                            onChange={(date) => {
+                                field.onChange(date ? format(date, "dd/MM/yyyy") : "");
+                            }}
+                            dateFormat="dd/MM/yyyy"
+                            locale={ptBR}
+                            placeholderText="dd/mm/yyyy"
+                            wrapperClassName="datePicker"
+                            className={classNames(
+                                "react-datepicker__input-container",
+                                fieldState.error && "error"
+                            )}
+                        />
+                        {fieldState.error && <p className="text-red-500 text-sm">{fieldState.error.message}</p>}
+                    </div>
+                );
+            }}
+        />
+    );
+}
+
 function TextInput(props: fieldInput) {
 
-    const { name, onChange, disabled, maxLength, register, className, placeholder, Isrequired, requiredText, errors } = props
+    const { name, onChange, disabled, maxLength, register, className, placeholder, errors, requiredText, Isrequired, value } = props
 
 
     return (
         <div>
-            <input type="text" name={name} {...register && register(name, {required : "obrigatório"})} disabled={disabled} maxLength={maxLength}
-                className={classNames(className, " rounded-md w-full border-slate-300 text-[15px]", errors?.[name] && "border-red-500")} placeholder={placeholder} />
-            {errors?.[name] && <p className="text-red-500 text-sm mt-1">{errors[name]?.message}</p>}
+            <input type="text" value={value} {...(register ? Isrequired ? register(name, { required: requiredText }) : register(name) : {})} disabled={disabled} maxLength={maxLength}
+                className={classNames("rounded-md w-full text-[15px]", className, errors?.[name] ? "border-red-500 focus:border-red-500" : "border-slate-300")} placeholder={placeholder} />
+            {errors?.[name]?.message && <p className="text-red-500 text-sm">{errors?.[name]?.message}</p>}
         </div>
 
     )
 
 }
 
+function VerifyTextInput(props: fieldInput) {
+
+    const { name, onChange, disabled, maxLength, register, className, placeholder, errors, Isrequired, requiredText } = props
+
+
+    return (
+        <div>
+            <input type="text" {...(register ? Isrequired ? register(name, { required: requiredText }) : register(name) : {})} disabled={disabled} maxLength={maxLength}
+                className={classNames(className, "rounded-md w-full text-[15px]", errors?.[name] ? errors?.[name]?.message == "true" ? "border-green-500 focus:border-green-500" : "border-red-500 focus:border-red-500" : "border-slate-300")} placeholder={placeholder} />
+            {errors?.[name]?.message && <p className={classNames("text-sm", errors?.[name]?.message == "true" ? "text-green-500" : "text-red-500 ")}>{errors?.[name]?.message == "true" ? "" : errors?.[name]?.message}</p>}
+        </div>
+
+    )
+
+}
 
 function TextArea(props: textAreaInput) {
 
@@ -148,7 +207,7 @@ function CheckBox(props: fieldInput) {
                 name={name}
                 control={control}
                 render={({ field }) => (
-                    <Check.Root className="flex justify-center items-center size-[25px] appearance-none rounded bg-white shadow-[0_2px_10px] shadow-blackA4 outline-none hover:bg-violet3 focus:shadow-[0_0_0_2px_black]"
+                    <Check.Root className="flex justify-center items-center size-[25px] appearance-none rounded  bg-white shadow-[0_2px_10px] shadow-blackA4 outline-none hover:bg-violet3 focus:shadow-[0_0_0_2px_black]"
                         checked={field.value}
                         onCheckedChange={field.onChange}
                     >
@@ -170,7 +229,7 @@ function CheckBox(props: fieldInput) {
                 <div className="flex items-center justify-center">
                     <Check2 />
                     <label
-                        className="pl-[15px] text-[15px] leading-none text-black"
+                        className={classNames("pl-[15px] text-[15px] leading-none ", labelStyle)}
                         htmlFor="c1"
                     >
                         {label}
@@ -213,17 +272,21 @@ function SelectOption(props: selectInputOptions) {
     )
 }
 
-function SelectOpt2(props: { control: any, name: string }) {
+function SelectOpt2(props: { control: any, name: string, errors?: any, isRequired?: boolean, requiredText?: string }) {
 
-    const { control, name } = props
+    const { control, name, isRequired, errors, requiredText } = props
 
     return (
-        <Controller
-            name={name}
-            control={control}
-            render={({ field }) => (
-                <GeneroSelectTemplate field={field} />
-            )} />
+        <>
+            <Controller
+                name={name}
+                control={control}
+                rules={isRequired ? { required: requiredText || "Campo obrigatório" } : {}}
+                render={({ field, fieldState }) => (
+                    <GeneroSelectTemplate field={field} Isrequired={isRequired} errors={fieldState.error} />
+                )} />
+        </>
+
     )
 }
 
@@ -312,11 +375,11 @@ function SwitchIPT(props: SwitchInput) {
     )
 }
 
-function Password(props: fieldInput) {
+function Password(props: fieldInput & React.InputHTMLAttributes<HTMLInputElement> & { toggled?: boolean }) {
     const [eyeOpen, setEyeOpen] = useState(false)
     const [inputType, setInputType] = useState("password")
 
-    const { register, className, name } = props
+    const { register, className, name, placeholder, toggled, errors, ...rest } = props
 
     const handleToggle = () => {
 
@@ -329,15 +392,20 @@ function Password(props: fieldInput) {
     }
 
     return (
-        <div className="flex ml-4 border rounded-md px-2 h-[56px]">
-            <input type={inputType} {...register && register(name)} className={classNames("text-[15px] bg-black text-white border-none outline-none w-full", className)} />
-            <p onClick={handleToggle} className="dark:text-white text-black flex items-center justify-center">{eyeOpen ? <LuEye size={25} /> : <LuEyeClosed size={25} />}</p>
+        <div className="flex flex-col gap-1">
+            <div className={classNames("flex border rounded-md h-[56px]", errors?.[name] ? errors?.[name]?.message == "true" ? "border-green-500 focus:border-green-500" : "border-red-500 focus:border-red-500" : "border-slate-300")}>
+                <input type={!toggled ? inputType : "password"} {...rest} {...register && register(name)} placeholder={placeholder} className={classNames("dark:bg-black bg-white text-[15px] border-none outline-none w-full px-2 rounded-md dark:text-white text-black ", className)} />
+                {!toggled && <p onClick={handleToggle} className="flex items-center justify-center dark:text-white text-black px-2">{eyeOpen ? <LuEye size={25} /> : <LuEyeClosed size={25} />}</p>}
+            </div>
+            {errors?.[name]?.message && <p className={classNames("text-sm", errors?.[name]?.message == "true" ? "text-green-500" : "text-red-500 ")}>{errors?.[name]?.message == "true" ? "" : errors?.[name]?.message}</p>}
         </div>
+
     )
 }
 
 Input.Switch = SwitchIPT
 Input.TextArea = TextArea
+Input.VerifyInputText = VerifyTextInput
 Input.Number = OnlyNumber
 Input.Text = TextInput
 Input.CheckBox = CheckBox
@@ -345,3 +413,4 @@ Input.Title = Title
 Input.SelectOpt = SelectOpt2
 Input.Cnpj = InputCnpj
 Input.Password = Password
+Input.Date = DateInput
