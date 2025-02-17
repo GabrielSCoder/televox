@@ -11,6 +11,7 @@ export type modalProps = {
     title: string;
     cancelText?: string;
     confirmText?: string;
+    changeModals ?: Function
     alertType: ModalType;
 }
 

@@ -53,18 +53,29 @@ export default function SignupModalTemplate(props: modalProps) {
     const cookieCheck = watch("termos")
 
     const sign = async () => {
-        // clearErrors()
-        // setLoading(true)
-        // handleSubmit(async data => {
-        //     const item = { ...data }
-        //     const resp = await signup(item)
-        //     if (resp.data.dados.success) {
-        //         setCadastroConcluido(true)
-        //         reset()
-        //     }
-        // })()
-        // setLoading(false)
-        setCadastroConcluido(true)
+        clearErrors()
+        setLoading(true)
+        handleSubmit(async data => {
+            const item = { ...data }
+            const resp = await signup(item)
+            console.log(resp)
+            if (resp.data.success) {
+                setCadastroConcluido(true)
+                // reset()
+                resetEtapas()
+            }
+        })()
+        setLoading(false)
+        // setCadastroConcluido(true)
+    }
+
+    const resetEtapas = () => {
+        setEtapaUm(false)
+        setEtapaDois(false)
+        // setCadastroConcluido(false)
+        setValidEmail(false)
+        setValidUsername(false)
+        setValidPassword(false)
     }
 
     const manageEtapa = (etapa: number) => {
@@ -210,6 +221,16 @@ export default function SignupModalTemplate(props: modalProps) {
         )
     }
 
+    const closeBTN = (event : any) => {
+       
+        if (cadastroConcluido) {
+            event.preventDefault()
+            stateMng(!state)
+            setCadastroConcluido(false)
+        }
+
+    }
+
     const content = () => {
 
         return (
@@ -223,7 +244,7 @@ export default function SignupModalTemplate(props: modalProps) {
                     {!loading && !etapaUm && <SignupModalEtapaUm register={register} control={control} errors={errors} manageF={manageEtapa} validEmail={validEmail} etapaUmCompleta={etapaUmCompleta} loadingVerify={loadingVerify} />}
                     {!loading && etapaUm && !etapaDois && <SignupModalEtapaDois register={register} control={control} errors={errors} validPassword={validPassword} validUsername={validUsername} etapaDoisCompleta={etapaDoisCompleta} manageF={manageEtapa} loadingVerify={loadingVerify} />}
                     {!loading && etapaUm && etapaDois && <EtapaConclusao email={email} nome={nome} senha={senha} username={username} data_nascimento={data_nascimento} genero={genero} manageF={manageEtapa} manageF2={handleSignUpDebounce} />}
-
+                    {/* {!loading && etapaUm && etapaDois && cadastroConcluido && <CadastroConcluido />} */}
                 </div>
 
             </>
@@ -241,7 +262,7 @@ export default function SignupModalTemplate(props: modalProps) {
 
                     {cadastroConcluido ? CC() : loading ? loadContent() : content()}
 
-                    <Dialog.Close asChild>
+                    <Dialog.Close asChild onClick={closeBTN}>
                         <button
                             className="absolute left-2.5 top-2.5 inline-flex size-[26px] appearance-none items-center justify-center rounded-full text-white hover:bg-custom-bg-x hover:bg-violet4 focus:shadow-[0_0_0_2px] focus:shadow-violet7 focus:outline-none"
                             aria-label="Close"

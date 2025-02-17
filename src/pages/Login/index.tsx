@@ -7,6 +7,11 @@ export default function Login() {
     const [loginModal, setLoginModal] = useState(false)
     const [cadastroModal, setCadastroModal] = useState(false)
 
+    const changeM = () => {
+        setLoginModal(!loginModal)
+        setCadastroModal(!cadastroModal)
+    }
+
     return (
         <>
             <div className="">
@@ -20,7 +25,7 @@ export default function Login() {
                     onClick={() => setLoginModal(true)} />
             </div>
            
-            <LoginModalTemplate state={loginModal} stateMng={setLoginModal} title="Teste" cancelText="Cancelar" confirmText="Confirmar" alertType="success"><></></LoginModalTemplate>
+            <LoginModalTemplate state={loginModal} stateMng={setLoginModal} title="Teste" cancelText="Cancelar" confirmText="Confirmar" alertType="success" changeModals={changeM}><></></LoginModalTemplate>
             <SignupModalTemplate state={cadastroModal} stateMng={setCadastroModal} title="teste2" cancelText="Cancelar" confirmText="Confirmar" alertType="success"><></></SignupModalTemplate>
         </>
 
