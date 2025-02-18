@@ -1,21 +1,40 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useProfileMang } from "../../hooks/useProfileMang";
 import FeedTemplate from "../../templates/FeedTemplate";
 import { useAuth } from "../../contexts/userContext";
 import UsuarioInexistente from "../../templates/UsuarioInexistente";
+import LoadingPageTemplate from "../../templates/LoadingPage";
+import { getFeedMk1 } from "../../services/post";
 
 const ProfileAvatarUrl = "https://dogsinc.org/wp-content/uploads/2021/08/extraordinary-dog.png"
 
 export default function Home() {
 
-    const { usuario_nome, usuario_ID, getUserData, loading, userData, userPostData } = useAuth()
+    const { userData, getToken } = useAuth()
+    const [data, setData] = useState([])
+    const [loading, setLoading] = useState(false)
 
-    if (loading || usuario_ID && usuario_ID < 0 && !userPostData) {
-        return <h1 className="text-center text-white text-3xl">CARREGANDO DADOS</h1>
+    const getData = async () => {
+        setLoading(true)
+        const resp = await getFeedMk1(getToken(), {id : 21, numeroPagina : 0, tamanhoPagina : 10} )
+        if (resp.data.success) {
+            console.log(resp)
+            setData(resp.data.dados)
+        }
+        setLoading(false)
+    }
+
+    
+    useEffect(() => {
+        getData()
+    }, [])
+
+    if (loading) {
+        return <LoadingPageTemplate />
     }
 
     return (
-        <FeedTemplate data_criacao={""} data_nascimento={""} genero={""} id={0} img_url={ProfileAvatarUrl} background_url={""} nome={userData?.nome ?? ""} username={usuario_nome} feedData={userPostData}/>
+        <FeedTemplate img_url={userData.img_url} nome={userData.nome} username={userData.username} feedData={data}/>
     )
 
 }

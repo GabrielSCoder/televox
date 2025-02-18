@@ -6,9 +6,6 @@ import { MakeFakeCards } from "../../hooks/useFakeData"
 
 type props = {
     data: any
-    username : string
-    name : string
-    img_url : string
 }
 
 export default function FeedList(props: props) {
@@ -18,14 +15,15 @@ export default function FeedList(props: props) {
 
     const makeCards = () => {
 
-        const cards = data.map((key: { conteudo: string }, index: Key | null | undefined) => (
-            <PostCard key={index} title={"Flemis2024"} body={key.conteudo} deslieks={0} likes={20} shares={9} user={props.name} username={props.username} img_url={props.img_url}/>
+        const cards = data.map((key: { conteudo: string, usuario : any }, index: Key | null | undefined) => (
+            <PostCard key={index} title={"Flemis2024"} body={key.conteudo} deslieks={0} likes={20} shares={9} user={key.usuario.nome} username={key.usuario.username} img_url={key.usuario.img_url}/>
         ))
 
         return cards
     }
 
     useEffect(() => {
+        console.log(data)
         setLoading(false)
     }, [data.lenght])
 
@@ -39,6 +37,7 @@ export default function FeedList(props: props) {
         <div className="flex flex-col h-full w-full">
             {/* <MakeFakeCards /> */}
             {makeCards()}
+    
         </div>
     )
 }

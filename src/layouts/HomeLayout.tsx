@@ -1,4 +1,4 @@
-import { Outlet, useNavigate} from "react-router-dom";
+import { Outlet} from "react-router-dom";
 import DarkModeButton from "../templates/DarkModeButtonTemplate";
 import { useAuth } from "../contexts/userContext";
 

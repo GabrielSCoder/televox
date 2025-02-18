@@ -4,7 +4,7 @@ import { PiCarDuotone } from "react-icons/pi"
 import Card from "../../components/Card"
 import { ProfileTemplateProps } from "../ProfileTemplate"
 
-export default function FeedTemplate(props : ProfileTemplateProps) {
+export default function FeedTemplate(props : {username: any, feedData: any, img_url: any, nome: any}) {
 
     const { username, feedData, img_url, nome} = props
 
@@ -15,7 +15,7 @@ export default function FeedTemplate(props : ProfileTemplateProps) {
 
             <div className=" border-b w-full"></div>
 
-            <FeedList data={feedData} img_url={img_url} name={nome} username={username} />
+            <FeedList data={feedData} />
 
         </Card>
     )

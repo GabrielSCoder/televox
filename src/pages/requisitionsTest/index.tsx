@@ -11,7 +11,7 @@ interface post {
 
 export default function ReqTest() {
 
-    const { logado, login, tipo_usuario, usuario_ID, logout, usuario_nome, verificarAuth, getToken, validRefresh, reValid } = useAuth()
+    const { tipo_usuario, usuario_ID, logout, getToken, userData } = useAuth()
     const [fields , setFields] = useState({msg : "teste"})
     const [posts, setPosts] = useState<post[]>([])
 
@@ -61,7 +61,8 @@ export default function ReqTest() {
             <div className="grid grid-cols-4 gap-3 text-center bg-red-800">
                 <h2 className="text-white text-xl p-4">{tipo_usuario}</h2>
                 <h2 className="text-white text-xl p-4">{usuario_ID}</h2>
-                <h2 className="text-white text-xl p-4">{usuario_nome}</h2>
+                <h2 className="text-white text-xl p-4">{userData.nome}</h2>
+                <h2 className="text-white text-xl p-4">{userData.email}</h2>
                 <button className="p-4 text-white text-xl bg-blue-500" onClick={handleLogout}>logout</button>
             </div>
 
@@ -76,7 +77,7 @@ export default function ReqTest() {
             <div className="grid grid-cols-3 gap-3 ">
                 <button className="p-4 text-white text-xl bg-blue-500" onClick={() => logadoAsync(getToken())}>função logado</button>
                 <button className="p-4 text-white text-xl bg-blue-500" onClick={() => refreshAsync()}>função refresh</button>
-                <button className="p-4 text-white text-xl bg-blue-500" onClick={() => reValid()}>função logado</button>
+                <button className="p-4 text-white text-xl bg-blue-500" onClick={() =>  nav("/")}>função voltar</button>
                 <button className="p-4 text-white text-xl bg-blue-500" onClick={() => handleGetData()}>função pegar posts</button>
                 <button className="p-4 text-white text-xl bg-blue-500" >post</button>
                 <button className="p-4 text-white text-xl bg-blue-500">edit user</button>

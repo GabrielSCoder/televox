@@ -9,7 +9,10 @@ import { formatDate } from "../../utils/dateFormat";
 
 export default function ProfileCard(props: profile & { loggedUsername?: string }) {
 
-    const { data_criacao, data_nascimento, genero, id, img_url, nome, username, background_url, loggedUsername } = props
+    const { data_criacao, data_nascimento, img_url, nome, username, background_url, loggedUsername } = props
+    const logado = window.sessionStorage.getItem("content")
+
+    console.log(loggedUsername, username)
 
     return (
 
@@ -21,7 +24,7 @@ export default function ProfileCard(props: profile & { loggedUsername?: string }
 
 
                 <div className="w-full flex justify-end mt-2 px-2 h-[44px]">
-                    {loggedUsername && loggedUsername != username ? (
+                    {logado == "true" && loggedUsername && loggedUsername != username ? (
                         <Button className="text-white dark:text-black dark:bg-white bg-black rounded-3xl py-0 px-4 font-semibold text-lg" text="Seguir" onClick={() => { }} />
                     ) : <p className=""></p>}
                 </div>

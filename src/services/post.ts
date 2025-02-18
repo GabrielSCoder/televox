@@ -1,4 +1,4 @@
-import { postFilterDTO } from "../types/postType";
+import { feedFilterDTO, postFilterDTO } from "../types/postType";
 import { getRequest, postRequest } from "./requests";
 
 export const getPostbyId = async (id : string) => {
@@ -15,4 +15,8 @@ export const sendPostAsync = async (token : string, data : any) => {
 
 export const getPostsByFilter = async (token : string, data : postFilterDTO) => {
     return await postRequest(token, "post/filter/", data)
+}
+
+export const getFeedMk1 = async (token : string, data : feedFilterDTO) => {
+    return await postRequest(token, "feed/mk1/", data)
 }

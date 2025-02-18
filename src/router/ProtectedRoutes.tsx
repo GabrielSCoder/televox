@@ -1,16 +1,16 @@
 import { Navigate, Outlet, useParams } from "react-router-dom";
 import { useAuth } from "../contexts/userContext";
-import { ReactNode } from "react";
 
 export const HomeProtectedRoute = () => {
     
-    const { logado, loading } = useAuth();
+    const { loading } = useAuth();
+    const logado = window.sessionStorage.getItem("content")
     
     if (loading) {
         return <div className="h-screen p-8 bg-black "><p className="text-xl text-white"></p></div>
     }
     
-    if (!logado) {
+    if (logado == "true") {
         return <Navigate to="/" replace />; 
     }
 
@@ -32,7 +32,7 @@ export const ProfileProtectedRoute = ({children} : {children : JSX.Element}) => 
 
 export function FeedProtectedRoute({children} : {children : JSX.Element}) {
 
-    const { logado } = useAuth()
+    const logado = window.sessionStorage.getItem("content")
 
     if (!logado) {
         return <Navigate to="/" replace />;

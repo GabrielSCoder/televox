@@ -6,7 +6,6 @@ import PrivateMessagesTemplate from "../templates/PrivateMessages";
 import FeedLayout from "../layouts/FeedLayout";
 import ProfilePage from "../pages/Profile";
 import Home from "../pages/Home";
-import { FeedProtectedRoute, ProfileProtectedRoute } from "./ProtectedRoutes";
 import { Navigate } from "react-router-dom";
 
 const routesFeed = {

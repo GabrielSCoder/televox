@@ -14,4 +14,8 @@ export const logadoAsync = async (token : string) => {
 
 export const refreshAsync = async () => {
     return await getRequest("","/auth/refresh")
+}
+
+export const accessAsync = async () => {
+    return await getRequest("","/auth/access")
 } 

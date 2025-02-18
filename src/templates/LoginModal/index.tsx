@@ -17,7 +17,7 @@ export default function LoginModal(props: modalProps) {
     const { stateMng, state, changeModals } = props
     const [loading, setLoading] = useState(false)
     const [errorMsg, setErrorMsg] = useState<string>()
-    const { tipo_usuario, login, logado } = useAuth()
+    const { tipo_usuario, login, userData } = useAuth()
     const [forgotPasword, setForgotPassword] = useState(false)
 
     const nav = useNavigate()
@@ -39,12 +39,11 @@ export default function LoginModal(props: modalProps) {
         console.log(tipo_usuario)
         handleSubmit(async (data) => {
             const resp = await login(data)
-            console.log(resp)
             if (!resp.success) {
                 mapMsg(resp.msg)
-                console.log(resp)
             } else {
                 clearErrorMsg()
+                // nav("/profile", {state : {id : resp.data.usuario_id}})
                 nav("/home")
             }
 

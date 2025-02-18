@@ -31,10 +31,10 @@ export default function ProfileTemplate(props : ProfileTemplateProps) {
                 <h3 className="text-gray-500 text-xs">{quantidadePosts} posts</h3>
             </div>
 
-            <ProfileCard  data_criacao={data_criacao} data_nascimento={data_nascimento} genero="" id={id} img_url={tst.ProfileAvatarUrl} nome={nome} username={username} 
+            <ProfileCard  data_criacao={data_criacao} data_nascimento={data_nascimento} genero="" id={id} img_url={img_url ?? tst.ProfileAvatarUrl} nome={nome} username={username} 
             background_url={tst.backgroundUrl} loggedUsername={loggedUsername ?? ""}/>
             
-            <FeedList data={feedData} name={nome} username={username} img_url={tst.ProfileAvatarUrl}/>
+            <FeedList data={feedData} />
 
         </>
 

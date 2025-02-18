@@ -1,28 +1,26 @@
-import { createBrowserRouter, Navigate, Outlet, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Navigate, RouterProvider,  } from "react-router-dom";
 import Login from "../pages/Login";
 import HomeLayout from "../layouts/HomeLayout";
-import routesFeed from "./home";
 import ReqTest from "../pages/requisitionsTest";
-import { HomeProtectedRoute } from "./ProtectedRoutes";
 import { useAuth } from "../contexts/userContext";
-import Groups from "../templates/Groups";
-import { Example } from "../pages/Group";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import routesFeed from "./home";
 
 const rootRoute = () => {
 
-    const { loading, logado } = useAuth()
-
-    console.log("está logado = ", logado)
+    const { loading } = useAuth()
+    const logado = window.sessionStorage.getItem("content")
 
     if (loading) {
+
         return (
-            <div className="h-[100vh] flex justify-center items-center bg-blue text-white text-3xl">
-                <h1>Estou preso aqui...</h1>
+            <div className="flex items-center justify-center h-[100vh]">
+                <AiOutlineLoading3Quarters className="text-blue-500 animate-spin" size={30} />
             </div>
         )
     }
 
-    return logado ? <Navigate to="/home" replace /> : <HomeLayout />;
+    return logado == "true" ? <Navigate to="/test" replace /> : <HomeLayout />;
 }
 
 
@@ -32,25 +30,20 @@ export default function MainRouter() {
     const router = createBrowserRouter([
         {
             path: "/",
-            element: (() => rootRoute())(),
+            element: <HomeLayout />,
             errorElement: "Non ecziste",
             children: [
                 {
                     path: "",
                     element: <Login />
                 },
-                {
-                    path: "grupos",
-                    element: <Example />
-                }
             ]
         },
         {
             path: "/test",
-            element: <HomeProtectedRoute />,
-            children: [{ path: "", element: <ReqTest /> }]
+            element: <ReqTest />
         },
-        // routesFeed
+        routesFeed
     ])
 
     return (
