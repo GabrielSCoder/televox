@@ -7,4 +7,5 @@ export type profile = {
     background_url : string
     nome : string
     username : string
+    email : string
 }

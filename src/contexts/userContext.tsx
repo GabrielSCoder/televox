@@ -1,6 +1,9 @@
 import { useState, createContext, ReactNode, useEffect, useContext } from "react";
 import { accessAsync, logadoAsync, logoutAsync } from "../services/auth";
 import useRequest from "../hooks/useRequest";
+import LoadingPageTemplate from "../templates/LoadingPage";
+import { socket } from "../services/socket";
+import { followForm } from "../types/follow";
 
 interface AuthContextType {
 
@@ -25,11 +28,10 @@ const AuthContext = createContext<AuthContextType>({
     tipo_usuario: "convidado",
     loading: true,
     userData: "",
-
     verificarAuth: async () => { },
     getToken: () => "",
     login: () => "",
-    logout: () => "",
+    logout: () => ""
 });
 
 export function AuthProvider(props: props) {
@@ -51,11 +53,11 @@ export function AuthProvider(props: props) {
             if (resp.data.success) {
                 setTokenAccess(resp.data.token)
                 const r = await logadoAsync(resp.data.token)
-                console.log("r :", r)
                 setUserData(r.data.user)
                 setUsuarioID(r.data.user.id)
                 setTipo_Usuario("conta")
                 window.sessionStorage.setItem("content", "true")
+                socket.connect()
             }
         } catch (error) {
             window.sessionStorage.setItem("content", "false")
@@ -74,26 +76,33 @@ export function AuthProvider(props: props) {
             setUserData(r.data.user)
             setUsuarioID(resp.data.usuario_id)
             window.sessionStorage.setItem("content", "true")
+            socket.connect()
         }
         return (resp)
     }
 
     const logout = async () => {
-        
+
         setLoading(true)
         const delay = new Promise(resolve => setTimeout(resolve, 2000));
 
-       
+
         const resp = await Promise.all([logoutAsync(), delay]);
 
         if (resp[0].data.success) {
             window.sessionStorage.setItem("content", "false");
+            socket.disconnect()
         }
 
         setLoading(false)
     }
 
     const getToken = () => tokenAccess
+
+
+    // if (loading) {
+    //     return <LoadingPageTemplate />
+    // }
 
     useEffect(() => {
         verificarAuth()

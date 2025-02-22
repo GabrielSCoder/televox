@@ -23,7 +23,6 @@ export default function FeedList(props: props) {
     }
 
     useEffect(() => {
-        console.log(data)
         setLoading(false)
     }, [data.lenght])
 

@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import MainRouter from './router';
 import { AuthProvider } from './contexts/userContext';
+import ChatMK1 from './templates/ChatMK1Template';
 
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
     <AuthProvider>
       <MainRouter />
     </AuthProvider>
+    // <ChatMK1 />
   )
 }
 

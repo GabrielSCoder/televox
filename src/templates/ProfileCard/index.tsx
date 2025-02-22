@@ -3,16 +3,55 @@ import Button from "../../components/Button";
 import Card from "../../components/Card";
 import ProfileWallpaper from "../../components/ProfileWallpaper";
 import TitleTag from "../../components/TitleTags";
-import { profile } from "../../types/profileType";
+import useDebounce from "../../hooks/useDebounce";
 import { formatDate } from "../../utils/dateFormat";
 
+const background_test = "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/70/header.jpg"
 
-export default function ProfileCard(props: profile & { loggedUsername?: string }) {
+type cardProps = {
+    profileData: any
+    userData: any
+    isFollowing: boolean
+    handleFollow: any
+    handleUnfollow: any
+    followers: any
+    following: any
+}
 
-    const { data_criacao, data_nascimento, img_url, nome, username, background_url, loggedUsername } = props
+export default function ProfileCard(props: cardProps) {
+
+    const { profileData, userData, isFollowing, followers, following, handleFollow, handleUnfollow } = props
+
     const logado = window.sessionStorage.getItem("content")
 
-    console.log(loggedUsername, username)
+    const debounceFollow = (data: any) => {
+        handleFollow(data)
+    }
+
+    const debounceUnfollow = (data: any) => [
+        handleUnfollow(data)
+    ]
+
+    const debounceHandlerFollow = useDebounce(debounceFollow, 2000)
+    const debounceHandlerUnfollow = useDebounce(debounceUnfollow, 2000)
+
+    const FollowBtn = () => {
+        if (logado) {
+            if (isFollowing) {
+                return <Button className="text-white dark:text-black dark:bg-white bg-black rounded-3xl py-0 px-4 font-semibold text-lg hover:bg-slate-200"
+                    text="Deixar de seguir" onClick={() => debounceHandlerUnfollow({ follower_id: userData.id, following_id: profileData.id })} />
+            } else if (userData.id != profileData.id) {
+                return <Button className="text-white dark:text-black dark:bg-white bg-black rounded-3xl py-0 px-4 font-semibold text-lg hover:bg-slate-200"
+                    text="Seguir" onClick={() => debounceHandlerFollow({ follower_id: userData.id, following_id: profileData.id })} />
+            } else {
+                return <p className=""></p>
+            }
+
+        } else {
+            return <p className=""></p>
+        }
+
+    }
 
     return (
 
@@ -20,41 +59,39 @@ export default function ProfileCard(props: profile & { loggedUsername?: string }
 
             <Card className="relative flex-col w-full justify-start items-start pb-6 border-b">
 
-                <ProfileWallpaper backgroundUrl={background_url} />
+                <ProfileWallpaper backgroundUrl={profileData.background_url ?? background_test} />
 
 
                 <div className="w-full flex justify-end mt-2 px-2 h-[44px]">
-                    {logado == "true" && loggedUsername && loggedUsername != username ? (
-                        <Button className="text-white dark:text-black dark:bg-white bg-black rounded-3xl py-0 px-4 font-semibold text-lg" text="Seguir" onClick={() => { }} />
-                    ) : <p className=""></p>}
+                    <FollowBtn />
                 </div>
 
                 <div className="mt-4 p-3 px-4 flex flex-col gap-2">
 
                     <div>
-                        <TitleTag.Main style="text-2xl font-semibold">{nome}</TitleTag.Main>
-                        <TitleTag.Normal style="text-base font-normal dark:text-gray-500 text-gray-500">@{username}</TitleTag.Normal>
+                        <TitleTag.Main className="text-2xl font-semibold">{profileData.nome}</TitleTag.Main>
+                        <TitleTag.Normal className="text-base font-normal dark:text-gray-500 text-gray-500">@{profileData.username}</TitleTag.Normal>
                     </div>
 
                     <div>
-                        <TitleTag.Normal style="">{""}</TitleTag.Normal>
-                        <TitleTag.Normal style="text-gray-500 dark:text-gray-500">Entrou em {formatDate(data_criacao)}</TitleTag.Normal>
+                        <TitleTag.Normal className="">{""}</TitleTag.Normal>
+                        <TitleTag.Normal className="text-gray-500 dark:text-gray-500">Entrou em {formatDate(profileData.data_criacao)}</TitleTag.Normal>
                     </div>
 
 
                     <Card className="gap-4">
-                        <div className="text-gray-500 flex gap-1">
-                            <p className="dark:text-white text-black">{0}</p>
+                        <div className="text-gray-500 flex gap-1 hover:underline hover:decoration-white hover:cursor-pointer">
+                            <p className="dark:text-white text-black">{following}</p>
                             <p>Seguindo</p>
                         </div>
-                        <div className="text-gray-500 flex gap-1">
-                            <p className="dark:text-white text-black">{0}</p>
+                        <div className="text-gray-500 flex gap-1 hover:underline hover:decoration-white hover:cursor-pointer">
+                            <p className="dark:text-white text-black">{followers}</p>
                             <p>Seguidores</p>
                         </div>
                     </Card>
                 </div>
 
-                <Avatar ProfileAvatarUrl={img_url} />
+                <Avatar ProfileAvatarUrl={profileData.img_url} />
 
             </Card>
         </>

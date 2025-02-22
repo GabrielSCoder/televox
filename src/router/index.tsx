@@ -5,6 +5,7 @@ import ReqTest from "../pages/requisitionsTest";
 import { useAuth } from "../contexts/userContext";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import routesFeed from "./home";
+import ChatMK1 from "../templates/ChatMK1Template";
 
 const rootRoute = () => {
 
@@ -41,7 +42,7 @@ export default function MainRouter() {
         },
         {
             path: "/test",
-            element: <ReqTest />
+            element: <ChatMK1 />
         },
         routesFeed
     ])

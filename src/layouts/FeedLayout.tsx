@@ -11,22 +11,20 @@ import LoadingPageTemplate from "../templates/LoadingPage";
 
 export default function FeedLayout() {
 
-    const { usuario_ID, logout, userData, tipo_usuario } = useAuth()
+    const { usuario_ID, logout, userData, tipo_usuario, loading } = useAuth()
     const nav = useNavigate()
-
-    const [loading, setLoading] = useState(false)
 
     const handleLogout = () => {
         logout()
         nav("/")
     }
 
-    if (loading) {
-        
-        return (
-            <LoadingPageTemplate />
-        )
+    const Frame = () => {
+
+        return loading ? <LoadingPageTemplate /> : <Outlet />
+
     }
+
 
     return (
         <div className="flex bg-black dark:bg-black justify-center">
@@ -40,7 +38,7 @@ export default function FeedLayout() {
             </div>
 
             <div className="w-[600px] flex flex-col justify-start items-start gap-0 border-l  border-r">
-                <Outlet />
+                <Frame />
             </div>
 
             <div className="sticky w-1/6 flex flex-col justify-start items-start px-4 gap-10 overflow-auto h-[920px] top-1 ">

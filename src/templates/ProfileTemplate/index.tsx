@@ -1,3 +1,4 @@
+import { useProfileMang } from "../../hooks/useProfileMang"
 import { profile } from "../../types/profileType"
 import FeedList from "../Feed"
 import ProfileCard from "../ProfileCard"
@@ -15,26 +16,32 @@ const tst = {
 }
 
 export type ProfileTemplateProps = {
-    feedData ?: any
-    quantidadePosts? : number
-    loggedUsername? : string
-} & profile
+    profileData : any
+    userData : any
+    postData : any
+    ProfilePostQTD : any
+    isFollowing : boolean
+    handleFollow : any
+    handleUnfollow : any
+    followers : number
+    following : number
+}
 
 export default function ProfileTemplate(props : ProfileTemplateProps) {
 
-    const {background_url, data_criacao, data_nascimento, genero, id, img_url, nome, username, feedData, quantidadePosts, loggedUsername } = props
     
+    const { postData, ProfilePostQTD, profileData, userData, isFollowing, handleFollow, handleUnfollow, followers, following} = props
+
     return (
         <>
             <div className="sticky top-0 dark:bg-black bg-white bg-white/50 dark:text-white text-black w-full pl-8 z-20 p-2 dark:bg-black/50 backdrop-blur-[10px]">
-                <h2 className="text-lg font-semibold">{nome}</h2>
-                <h3 className="text-gray-500 text-xs">{quantidadePosts} posts</h3>
+                <h2 className="text-lg font-semibold">{profileData.nome}</h2>
+                <h3 className="text-gray-500 text-xs">{ProfilePostQTD} posts</h3>
             </div>
 
-            <ProfileCard  data_criacao={data_criacao} data_nascimento={data_nascimento} genero="" id={id} img_url={img_url ?? tst.ProfileAvatarUrl} nome={nome} username={username} 
-            background_url={tst.backgroundUrl} loggedUsername={loggedUsername ?? ""}/>
+            <ProfileCard profileData={profileData} userData={userData} isFollowing={isFollowing} handleFollow={handleFollow} handleUnfollow={handleUnfollow} followers={followers} following={following} />
             
-            <FeedList data={feedData} />
+            <FeedList data={postData} />
 
         </>
 
