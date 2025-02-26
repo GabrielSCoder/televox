@@ -7,3 +7,8 @@ export type followTotalizer = {
     TotalFollowers ?: number
     TotalFollowings ?: number
 }
+
+export type compareForm = {
+    user_id : number
+    compare_id : number
+}

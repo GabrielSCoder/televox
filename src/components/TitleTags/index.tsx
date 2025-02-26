@@ -4,7 +4,8 @@ import classNames from "../../utils/classNames";
 type mainProps = {
     className?: string;
     children : ReactNode;
-}
+    onClick ?: Function
+} & React.InputHTMLAttributes<HTMLInputElement>
 
 
 function TitleTag() {
@@ -15,20 +16,20 @@ function TitleTag() {
     )
 }
 
-const Main = ({ className, children }: mainProps) => {
-    return <h1 className={classNames("text-2xl font-bold dark:text-neutral-200 text-black", className)}>{children}</h1>
+const Main = ({ className, children, ...rest }: mainProps) => {
+    return <h1 className={classNames("text-2xl font-bold dark:text-neutral-200 text-black", className)} >{children}</h1>
 }
 
-const Sub = ({ className, children }: mainProps) => {
+const Sub = ({ className, children, ...rest  }: mainProps) => {
     return <h2 className={classNames("text-xl font-medium dark:text-neutral-200 text-black", className)}>{children}</h2>
 }
 
-const Normal = ({ className, children }: mainProps) => {
-    return <h3 className={classNames("text-sm dark:text-neutral-200 text-black", className)}>{children}</h3>
+const Normal = ({ className, children, ...rest  }: mainProps) => {
+    return <h3 className={classNames("text-sm dark:text-neutral-200 text-black", className)} >{children}</h3>
 }
 
-const Paragraph = ({ className, children }: mainProps) => {
-    return <p className={classNames("dark:text-neutral-200 text-black text-base", className)}>{children}</p>
+const Paragraph = ({ className, children, ...rest  }: mainProps) => {
+    return <p className={classNames("dark:text-neutral-200 text-black text-base", className)}>{children} </p>
 }
 
 TitleTag.Main = Main;

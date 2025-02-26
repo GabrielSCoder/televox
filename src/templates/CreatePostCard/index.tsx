@@ -3,20 +3,24 @@ import Button from "../../components/Button"
 import TitleTag from "../../components/TitleTags"
 import { Input } from "../../components/Inputs"
 import Card from "../../components/Card"
-import { useAuth } from "../../contexts/userContext"
 import { sendPostAsync } from "../../services/post"
 import { useState } from "react"
 import LoadingPageTemplate from "../LoadingPage"
 
-export default function CreatePostCard() {
+type props = {
+    userData : any
+}
+
+export default function CreatePostCard(props : props) {
+
+    const { userData} = props
 
     const { register, handleSubmit, reset } = useForm()
     const [loading, setLoading] = useState(false)
-    const { userData, getToken } = useAuth()
 
     const handlePost = async () => {
         handleSubmit(async data => {
-            const resp = await sendPostAsync(getToken(), {tipo : "feed", conteudo : data.message, usuario_id : userData.id})
+            const resp = await sendPostAsync({tipo : "feed", conteudo : data.message, usuario_id : userData.id})
             if (resp.data.success) {
                 console.log(resp)
                 reset()

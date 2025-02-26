@@ -32,9 +32,9 @@ function App() {
 
 
   return (
-    <AuthProvider>
-      <MainRouter />
-    </AuthProvider>
+
+    <MainRouter />
+
     // <ChatMK1 />
   )
 }

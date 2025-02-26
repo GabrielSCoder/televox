@@ -189,18 +189,10 @@ function TextArea(props: textAreaInput) {
 
 function CheckBox(props: fieldInput) {
 
-    // const { control } = props;
+
     const { name, disabled, className, label, labelStyle, register, control } = props
 
-    // const { field: { value: checkBoxValue, onChange: onChangeCheckBox } } = useController({ name: props.name, control, defaultValue: false });
-
-
-    const Check1 = () => {
-        return (
-            <input type="checkbox" name={name} {...register && register(name)} disabled={disabled} className={classNames("p-4 rounded-full border-slate-300", className)} />
-        )
-    }
-
+    
     const Check2 = () => {
         return (
             <Controller
@@ -223,9 +215,7 @@ function CheckBox(props: fieldInput) {
     return (
         <Input className={className}>
             {label && !!label ? (
-                // <label className={classNames("", labelStyle)}> {label}
-                //     <Check2 />
-                // </label>
+       
                 <div className="flex items-center justify-center">
                     <Check2 />
                     <label

@@ -1,25 +1,25 @@
 import { getRequest, postRequest, postRequestWoError } from "./requests";
 
-export const getByUserId = async (token : string, id : string) => {
-    return await getRequest(token, "/usuario/" + id)
+export const getByUserId = async (  id : string) => {
+    return await getRequest("/usuario/" + id)
 }
 
-export const getByUsername = async (token : string, username : string) => {
-    return await getRequest(token, "/usuario/find/" + username)
+export const getByUsername = async ( username : string) => {
+    return await getRequest("/usuario/find/" + username)
 }
 
 export const signup = async (data : any) => {
-    return await postRequest("", "/usuario", data)
+    return await postRequest("/usuario", data)
 }
 
 export const verifyEmail = async (data : any) => {
-    return await postRequestWoError("", "/usuario/verify/email", data)
+    return await postRequestWoError("/usuario/verify/email", data)
 }
 
 export const verifyUsername = async (data : any) => {
-    return await postRequestWoError("", "/usuario/verify/username", data)
+    return await postRequestWoError("/usuario/verify/username", data)
 }
 
 export const verifyPassword = async (data : any) => {
-    return await postRequestWoError("", "/usuario/verify/password", data)
+    return await postRequestWoError("/usuario/verify/password", data)
 }

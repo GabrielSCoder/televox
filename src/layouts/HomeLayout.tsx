@@ -1,15 +1,8 @@
 import { Outlet} from "react-router-dom";
 import DarkModeButton from "../templates/DarkModeButtonTemplate";
-import { useAuth } from "../contexts/userContext";
 
 export default function HomeLayout() {
 
-    const { loading } = useAuth()
-
-    if (loading) {
-        return <div className="h-screen w-screen bg-black text-white text-3xl flex justify-center items-center"><h1></h1></div>
-    }
-    
     return (
         <div className="dark:bg-black flex h-screen p-2 bg-white">
 

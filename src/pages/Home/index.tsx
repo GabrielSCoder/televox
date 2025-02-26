@@ -1,25 +1,30 @@
 import { useEffect, useState } from "react";
-import { useProfileMang } from "../../hooks/useProfileMang";
 import FeedTemplate from "../../templates/FeedTemplate";
-import { useAuth } from "../../contexts/userContext";
-import UsuarioInexistente from "../../templates/UsuarioInexistente";
 import LoadingPageTemplate from "../../templates/LoadingPage";
 import { getFeedMk1 } from "../../services/post";
+import { AuthProvider } from "../../contexts/userContext";
 
 const ProfileAvatarUrl = "https://dogsinc.org/wp-content/uploads/2021/08/extraordinary-dog.png"
 
 export default function Home() {
 
-    const { userData, getToken } = useAuth()
-    const [data, setData] = useState([])
-    const [loading, setLoading] = useState(false)
+    const [feedData, setFeedData] = useState([])
+    const [userData, setUserData] = useState<any>([])
+    const [loading, setLoading] = useState(true)
+    const {getUser} = AuthProvider()
+    
 
     const getData = async () => {
         setLoading(true)
-        const resp = await getFeedMk1(getToken(), {id : 21, numeroPagina : 0, tamanhoPagina : 10} )
+        const handle = await getUser()
+        const resp = await getFeedMk1({id : 21, numeroPagina : 0, tamanhoPagina : 10} )
         if (resp.data.success) {
             console.log(resp)
-            setData(resp.data.dados)
+            setFeedData(resp.data.dados)
+        }
+        if (handle?.data) {
+            setUserData(handle.data.user)
+            console.log(handle.data.user)
         }
         setLoading(false)
     }
@@ -34,7 +39,7 @@ export default function Home() {
     }
 
     return (
-        <FeedTemplate img_url={userData.img_url} nome={userData.nome} username={userData.username} feedData={data}/>
+        <FeedTemplate feedData={feedData} userData={userData}/>
     )
 
 }

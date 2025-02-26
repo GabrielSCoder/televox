@@ -1,21 +1,21 @@
 import { getRequest, postRequest } from "./requests";
 
 export const login = async (data : {email : string, senha : string}) => {
-    return await postRequest("", "/auth/login", data)
+    return await postRequest("/auth/login", data)
 }
 
 export const logoutAsync = async () => {
-    return await getRequest("", "/auth/logout")
+    return await getRequest("/auth/logout")
 }
 
-export const logadoAsync = async (token : string) => {
-    return await getRequest(token, "/auth/logado")
+export const logadoAsync = async () => {
+    return await getRequest("/auth/logado")
 }
 
 export const refreshAsync = async () => {
-    return await getRequest("","/auth/refresh")
+    return await getRequest("/auth/refresh")
 }
 
 export const accessAsync = async () => {
-    return await getRequest("","/auth/access")
+    return await getRequest("/auth/access")
 } 

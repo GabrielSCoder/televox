@@ -1,5 +1,3 @@
-import { useProfileMang } from "../../hooks/useProfileMang"
-import { profile } from "../../types/profileType"
 import FeedList from "../Feed"
 import ProfileCard from "../ProfileCard"
 
@@ -17,10 +15,10 @@ const tst = {
 
 export type ProfileTemplateProps = {
     profileData : any
-    userData : any
+    userData ?: any
     postData : any
     ProfilePostQTD : any
-    isFollowing : boolean
+    followSituation : number
     handleFollow : any
     handleUnfollow : any
     followers : number
@@ -30,7 +28,7 @@ export type ProfileTemplateProps = {
 export default function ProfileTemplate(props : ProfileTemplateProps) {
 
     
-    const { postData, ProfilePostQTD, profileData, userData, isFollowing, handleFollow, handleUnfollow, followers, following} = props
+    const { postData, ProfilePostQTD, profileData, userData, followSituation, handleFollow, handleUnfollow, followers, following} = props
 
     return (
         <>
@@ -39,7 +37,7 @@ export default function ProfileTemplate(props : ProfileTemplateProps) {
                 <h3 className="text-gray-500 text-xs">{ProfilePostQTD} posts</h3>
             </div>
 
-            <ProfileCard profileData={profileData} userData={userData} isFollowing={isFollowing} handleFollow={handleFollow} handleUnfollow={handleUnfollow} followers={followers} following={following} />
+            <ProfileCard profileData={profileData} userData={userData} followSituation={followSituation} handleFollow={handleFollow} handleUnfollow={handleUnfollow} followers={followers} following={following} />
             
             <FeedList data={postData} />
 

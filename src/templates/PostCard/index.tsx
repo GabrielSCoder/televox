@@ -19,10 +19,15 @@ type cardProps = {
 export default function PostCard(props: cardProps) {
 
     const { body, title, likes, user, username, img_url } = props
-    
+
     const nav = useNavigate()
 
     const redirect = () => nav("/post")
+
+    const btn = (event : React.MouseEvent) => {
+        event.stopPropagation()
+        nav("/" + username)
+    }
 
     return (
         <>
@@ -31,7 +36,9 @@ export default function PostCard(props: cardProps) {
                     <div className="rounded-full h-[40px] w-[40px] bg-purple-500 ">
                         {!img_url ? <div className="w-full h-full rounded-full bg-red-500 m-2"></div> : <img src={img_url} className="h-full w-full rounded-full object-cover"></img>}
                     </div>
-                    <TitleTag.Sub className="hover:underline hover:decoration-white">{user}</TitleTag.Sub>
+                    <button onClick={btn} className="">
+                        <TitleTag.Sub className="hover:underline hover:decoration-white hover:cursor-pointer"> {user}</TitleTag.Sub>
+                    </button>
                     <TitleTag.Normal className="text-gray-500">@{username}</TitleTag.Normal>
                     <TitleTag.Normal className="text-gray-500">- 9h</TitleTag.Normal>
                 </Card>

@@ -1,13 +1,14 @@
 import getaxios from "./axiosConfig";
 
-export const getRequest = async (accessToken: string, url: string) => {
+export const getRequest = async (url: string) => {
+
 
     const axios = await getaxios();
 
     try {
         return axios.get(url, {
             headers: {
-                Authorization: accessToken ? `Bearer ${accessToken}` : "",
+                Authorization: window.sessionStorage.getItem("profile") ? `Bearer ${window.sessionStorage.getItem("profile")}` : "",
             },
             withCredentials : true
         });
@@ -17,14 +18,16 @@ export const getRequest = async (accessToken: string, url: string) => {
     }
 }
 
-export const postRequest = async (accessToken: string, url: string, obj: any) => {
+export const postRequest = async (url: string, obj: any) => {
+
+
 
     const axios = await getaxios();
 
     try {
         return axios.post(url, obj, {
             headers: {
-                Authorization: accessToken ? `Bearer ${accessToken}` : "",
+                Authorization: window.sessionStorage.getItem("profile") ? `Bearer ${window.sessionStorage.getItem("profile")}` : "",
             },
             withCredentials : true
         });
@@ -33,14 +36,14 @@ export const postRequest = async (accessToken: string, url: string, obj: any) =>
     }
 };
 
-export const postRequestWoError = async (accessToken: string, url: string, obj: any) => {
+export const postRequestWoError = async (url: string, obj: any) => {
     
     const axios = await getaxios();
 
     try {
         return axios.post(url, obj, {
             headers: {
-                Authorization: accessToken ? `Bearer ${accessToken}` : "",
+                Authorization: window.sessionStorage.getItem("profile") ? `Bearer ${window.sessionStorage.getItem("profile")}` : "",
             },
             withCredentials : true
         });

@@ -3,6 +3,7 @@ import { useState, useEffect, Key } from "react"
 import { API_URL } from "../../utils/api"
 import PostCard from "../PostCard"
 import { MakeFakeCards } from "../../hooks/useFakeData"
+import LoadingItemTemplate from "../LoadingItem"
 
 type props = {
     data: any
@@ -24,11 +25,11 @@ export default function FeedList(props: props) {
 
     useEffect(() => {
         setLoading(false)
-    }, [data.lenght])
+    }, [data])
 
     if (loading) {
         return (
-            <h2 className="font-bold text-xl text-white text-center">Loading...</h2>
+            <LoadingItemTemplate />
         )
     }
 

@@ -19,28 +19,28 @@ export default function useRequest() {
 
     }
 
-    const handleGetByUsername = async (token: string, username: string) => {
+    const handleGetByUsername = async ( username: string) => {
         try {
-            const resp = await getByUsername(token, username ?? "")
+            const resp = await getByUsername( username ?? "")
             return ({success: true, dados : resp.data.dados})
         } catch (error) {
             return ({ success: false, msg : error})
         }
     }
 
-    const handleGetById = async (token: string, id: string) => {
+    const handleGetById = async ( id: string) => {
         try {
-            const resp = await getByUserId(token, id ?? "")
+            const resp = await getByUserId( id ?? "")
             return ({success: true, dados : resp.data.dados})
         } catch (error) {
             return ({ success: false, msg : error})
         }
     }
 
-    const handleGetPostsByFilter = async (token : string, data : postFilterDTO) => {
+    const handleGetPostsByFilter = async (data : postFilterDTO) => {
 
         try {
-            const resp = await getPostsByFilter(token, data)
+            const resp = await getPostsByFilter( data)
             return ({success : true, dados : resp.data})
         } catch (error) {
             return ({success : false, msg : error})

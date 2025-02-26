@@ -6,8 +6,8 @@ const success = (res: any) => res;
 
 const error = (err: { response?: { status: number } }) => {
 
-    if (err.response?.status === 403) {
-        window.sessionStorage.setItem("content", "false")
+    if (err.response?.status === 401) {
+        window.localStorage.setItem("content", "false")
         window.location.href = "/";
         return;
     }
@@ -20,7 +20,6 @@ const getaxios = async (timeout = 3000) => {
         timeout: timeout
     });
 
-   
     instance.interceptors.response.use(success, error);
 
     return instance;

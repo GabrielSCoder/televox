@@ -2,21 +2,21 @@ import { feedFilterDTO, postFilterDTO } from "../types/postType";
 import { getRequest, postRequest } from "./requests";
 
 export const getPostbyId = async (id : string) => {
-    return await getRequest("", "/post/" + id)
+    return await getRequest( "/post/" + id)
 }
 
-export const getAllPostByUsrId = async (token : string, id : string) => {
-    return await getRequest(token,"/post/all/" + id)
+export const getAllPostByUsrId = async ( id : string) => {
+    return await getRequest("/post/all/" + id)
 } 
 
-export const sendPostAsync = async (token : string, data : any) => {
-    return await postRequest(token, "/post", data)
+export const sendPostAsync = async ( data : any) => {
+    return await postRequest("/post", data)
 }
 
-export const getPostsByFilter = async (token : string, data : postFilterDTO) => {
-    return await postRequest(token, "post/filter/", data)
+export const getPostsByFilter = async ( data : postFilterDTO) => {
+    return await postRequest("post/filter/", data)
 }
 
-export const getFeedMk1 = async (token : string, data : feedFilterDTO) => {
-    return await postRequest(token, "feed/mk1/", data)
+export const getFeedMk1 = async ( data : feedFilterDTO) => {
+    return await postRequest( "feed/mk1/", data)
 }

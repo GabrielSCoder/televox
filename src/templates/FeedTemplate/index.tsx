@@ -4,14 +4,14 @@ import { PiCarDuotone } from "react-icons/pi"
 import Card from "../../components/Card"
 import { ProfileTemplateProps } from "../ProfileTemplate"
 
-export default function FeedTemplate(props : {username: any, feedData: any, img_url: any, nome: any}) {
+export default function FeedTemplate(props : {feedData: any, userData : any}) {
 
-    const { username, feedData, img_url, nome} = props
+    const { feedData, userData} = props
 
     return (
         <Card className="flex-col w-full gap-4 justify-start items-start rounded-md">
 
-            <CreatePostCard />
+            <CreatePostCard userData={userData}/>
 
             <div className=" border-b w-full"></div>
 

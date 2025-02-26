@@ -1,3 +1,4 @@
+import { useLocation, useNavigate } from "react-router-dom";
 import Avatar from "../../components/Avatar";
 import Button from "../../components/Button";
 import Card from "../../components/Card";
@@ -10,8 +11,8 @@ const background_test = "https://shared.fastly.steamstatic.com/store_item_assets
 
 type cardProps = {
     profileData: any
-    userData: any
-    isFollowing: boolean
+    userData?: any
+    followSituation : number
     handleFollow: any
     handleUnfollow: any
     followers: any
@@ -20,29 +21,27 @@ type cardProps = {
 
 export default function ProfileCard(props: cardProps) {
 
-    const { profileData, userData, isFollowing, followers, following, handleFollow, handleUnfollow } = props
+    const { profileData, userData, followSituation, followers, following, handleFollow, handleUnfollow } = props
 
-    const logado = window.sessionStorage.getItem("content")
+    const logado = window.localStorage.getItem("content")
 
-    const debounceFollow = (data: any) => {
-        handleFollow(data)
-    }
+    console.log(following)
+    console.log("user :", userData)
 
-    const debounceUnfollow = (data: any) => [
-        handleUnfollow(data)
-    ]
+    const nav = useNavigate()
 
-    const debounceHandlerFollow = useDebounce(debounceFollow, 2000)
-    const debounceHandlerUnfollow = useDebounce(debounceUnfollow, 2000)
+    const location = useLocation()
 
+  
     const FollowBtn = () => {
-        if (logado) {
-            if (isFollowing) {
+
+        if (logado == "true" && userData && userData.nome != profileData.nome) {
+            if (followSituation == 1) {
                 return <Button className="text-white dark:text-black dark:bg-white bg-black rounded-3xl py-0 px-4 font-semibold text-lg hover:bg-slate-200"
-                    text="Deixar de seguir" onClick={() => debounceHandlerUnfollow({ follower_id: userData.id, following_id: profileData.id })} />
-            } else if (userData.id != profileData.id) {
+                    text="Deixar de seguir" onClick={() => handleUnfollow({ follower_id: userData.id, following_id: profileData.id })} />
+            } else if (userData?.id != profileData?.id) {
                 return <Button className="text-white dark:text-black dark:bg-white bg-black rounded-3xl py-0 px-4 font-semibold text-lg hover:bg-slate-200"
-                    text="Seguir" onClick={() => debounceHandlerFollow({ follower_id: userData.id, following_id: profileData.id })} />
+                    text={followSituation == 2 ? "Seguir de volta" : "seguir"} onClick={() => handleFollow({ follower_id: userData.id, following_id: profileData.id })} />
             } else {
                 return <p className=""></p>
             }
@@ -80,12 +79,12 @@ export default function ProfileCard(props: cardProps) {
 
 
                     <Card className="gap-4">
-                        <div className="text-gray-500 flex gap-1 hover:underline hover:decoration-white hover:cursor-pointer">
-                            <p className="dark:text-white text-black">{following}</p>
+                        <div className="text-gray-500 flex gap-1 hover:underline hover:decoration-white hover:cursor-pointer" onClick={() => nav(`${location.pathname}/following`)}>
+                            <p className="dark:text-white text-black" >{following}</p>
                             <p>Seguindo</p>
                         </div>
-                        <div className="text-gray-500 flex gap-1 hover:underline hover:decoration-white hover:cursor-pointer">
-                            <p className="dark:text-white text-black">{followers}</p>
+                        <div className="text-gray-500 flex gap-1 hover:underline hover:decoration-white hover:cursor-pointer" onClick={() => nav(`${location.pathname}/followers`)}> 
+                            <p className="dark:text-white text-black" >{followers}</p>
                             <p>Seguidores</p>
                         </div>
                     </Card>

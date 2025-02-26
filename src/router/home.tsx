@@ -1,12 +1,9 @@
-import Postview from "../pages/PostView";
-import FeedTemplate from "../templates/FeedTemplate";
 import GroupsTemplate from "../templates/GroupsTemplate";
-import NotificationsTemplate from "../templates/Notifications";
-import PrivateMessagesTemplate from "../templates/PrivateMessages";
 import FeedLayout from "../layouts/FeedLayout";
 import ProfilePage from "../pages/Profile";
 import Home from "../pages/Home";
 import { Navigate } from "react-router-dom";
+import Postview from "../pages/PostView";
 
 const routesFeed = {
     path: "/",
@@ -26,13 +23,25 @@ const routesFeed = {
             )
         },
         {
-            path: "grupos",
-            element: <GroupsTemplate />
+            path: ":username/following",
+            element: (
+                <ProfilePage />
+            )
         },
         {
-            path: "/*",
-            element: <Navigate to={"/home"} />
-        }
+            path: ":username/followers",
+            element: (
+                <ProfilePage />
+            )
+        },
+        // {
+        //     path: "grupos",
+        //     element: <GroupsTemplate />
+        // },
+        // {
+        //     path: "/*",
+        //     element: <Navigate to={"/home"} />
+        // }
         // {
         //     path : "notifications",
         //     element : <NotificationsTemplate />
@@ -41,10 +50,10 @@ const routesFeed = {
         //     path : "messages",
         //     element : <PrivateMessagesTemplate />
         // },
-        // {
-        //     path : "post",
-        //     element : <Postview />
-        // },
+        {
+            path : "post",
+            element : <Postview />
+        },
     ]
 }
 
