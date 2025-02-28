@@ -39,24 +39,24 @@ export default function FollowListTemplate(props: props) {
         })
     }
 
-    const handleBtn = (relacao : {seguido: boolean, seguindo: boolean}, profileID ?: number) => {
-        if (relacao.seguido && relacao.seguindo) {
-            handleUnfollow({ follower_id: userData.id, following_id: profileID })
+    const handleBtn = (relacao : {seguido: boolean, seguindo: boolean}, profileID ?: number, invert ?: boolean, pfTotalizer?: boolean) => {
+        if (relacao.seguido && relacao.seguindo || relacao.seguindo) {
+            handleUnfollow({ follower_id: userData.id, following_id: profileID, invertTotalizer : invert ? true : false, profileId : profileData.id, returnProfileTotalizer : pfTotalizer ?? false})
         } else {
-            handleFollow({ follower_id: userData.id, following_id: profileID })
+            handleFollow({ follower_id: userData.id, following_id: profileID, invertTotalizer : invert ? true : false, profileId : profileData.id, returnProfileTotalizer : pfTotalizer ?? false})
         }
     }
 
-    const BtnManager = (data: {relacao : {seguido: boolean, seguindo: boolean}, profileID : number }) => {
+    const BtnManager = (data: {relacao : {seguido: boolean, seguindo: boolean}, choosedProfile : number }) => {
 
-        const {relacao, profileID} = data
+        const {relacao, choosedProfile} = data
 
         if (userData.username == profileData.username) {
             if (followType == "following") {
                 return (
                     <div>
                         <Button className="text-white dark:text-black dark:bg-white bg-black rounded-3xl py-0 px-4 font-semibold text-base hover:bg-slate-200"
-                            text={"deixar de seguir"} onClick={handleUnfollow({ follower_id: userData.id, following_id: profileID })}
+                            text={"deixar de seguir"} onClick={() => handleUnfollow({ follower_id: userData.id, following_id: choosedProfile, profileId : profileData.id })}
                         />
                     </div>
                 )
@@ -64,7 +64,7 @@ export default function FollowListTemplate(props: props) {
                 return (
                     <div>
                         <Button className="text-white dark:text-black dark:bg-white bg-black rounded-3xl py-0 px-4 font-semibold text-base hover:bg-slate-200"
-                            text={relacao.seguido && relacao.seguindo ? "deixar de seguir" : "seguir de volta"} onClick={() => handleBtn(relacao, profileID)}
+                            text={relacao.seguido && relacao.seguindo ? "deixar de seguir" : "seguir de volta"} onClick={() => handleBtn(relacao, choosedProfile, false )}
                         />
                     </div>
                 )
@@ -73,7 +73,7 @@ export default function FollowListTemplate(props: props) {
             return (
                 <div>
                     <Button className="text-white dark:text-black dark:bg-white bg-black rounded-3xl py-0 px-4 font-semibold text-base hover:bg-slate-200"
-                        text={relacao.seguido ? relacao.seguindo ? "deixar de seguir" : "seguir de volta" : "seguir"} onClick={() => handleBtn(relacao, profileID)}
+                        text={relacao.seguido && relacao.seguindo || !relacao.seguido && relacao.seguindo ? "deixar de seguir" : relacao.seguido && !relacao.seguindo ? "seguir de volta" : "seguir"} onClick={() => handleBtn(relacao, choosedProfile, true, true)}
                     />
                 </div>
             )
@@ -97,10 +97,10 @@ export default function FollowListTemplate(props: props) {
 
                 <div className="grid grid-cols-2 w-full text-center items-center h-[60px]">
                     <div className="hover:bg-gray-900 hover:cursor-pointer h-full flex items-center justify-center" onClick={followType != "following" ? () => nav(f1Url) : () => ""}>
-                        <h4 className="text-gray-600 ">Following</h4>
+                        <h4 className="text-gray-600 ">Seguindo</h4>
                     </div>
                     <div className="hover:bg-gray-900 hover:cursor-pointer h-full flex items-center justify-center" onClick={followType != "followers" ? () => nav(f2Url) : () => ""}>
-                        <h4 className="text-gray-600">Followers</h4>
+                        <h4 className="text-gray-600">Seguidores</h4>
                     </div>
                 </div>
             </div>
@@ -119,7 +119,7 @@ export default function FollowListTemplate(props: props) {
                                 </div>
                             </div>
 
-                            {value.id != userData.id ? (<BtnManager key={index}  relacao={value.relacao} profileID={value.id}/>) : ""}
+                            {value.id != userData.id ? (<BtnManager key={index}  relacao={value.relacao} choosedProfile={value.id}/>) : ""}
 
                     
                         </Card>

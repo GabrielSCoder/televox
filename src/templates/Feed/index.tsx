@@ -7,6 +7,7 @@ import LoadingItemTemplate from "../LoadingItem"
 
 type props = {
     data: any
+    handleReaction : any
 }
 
 export default function FeedList(props: props) {
@@ -16,8 +17,9 @@ export default function FeedList(props: props) {
 
     const makeCards = () => {
 
-        const cards = data.map((key: { conteudo: string, usuario : any }, index: Key | null | undefined) => (
-            <PostCard key={index} title={"Flemis2024"} body={key.conteudo} deslieks={0} likes={20} shares={9} user={key.usuario.nome} username={key.usuario.username} img_url={key.usuario.img_url}/>
+        const cards = data.map((key: { id : number, conteudo: string, usuario : any, total_reactions : string, liked : boolean }, index: Key | null | undefined) => (
+            <PostCard key={index} title={"Flemis2024"} body={key.conteudo} likes={parseInt(key.total_reactions, 10)} user={key.usuario.nome}
+             username={key.usuario.username} img_url={key.usuario.img_url} liked={key.liked} handleReaction={props.handleReaction} postId={key.id} />
         ))
 
         return cards
@@ -34,7 +36,7 @@ export default function FeedList(props: props) {
     }
 
     return (
-        <div className="flex flex-col h-full w-full">
+        <div className="flex flex-col h-full w-full ">
             {/* <MakeFakeCards /> */}
             {makeCards()}
     

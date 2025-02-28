@@ -21,6 +21,7 @@ export type ProfileTemplateProps = {
     followSituation : number
     handleFollow : any
     handleUnfollow : any
+    handleReaction : any
     followers : number
     following : number
 }
@@ -39,7 +40,7 @@ export default function ProfileTemplate(props : ProfileTemplateProps) {
 
             <ProfileCard profileData={profileData} userData={userData} followSituation={followSituation} handleFollow={handleFollow} handleUnfollow={handleUnfollow} followers={followers} following={following} />
             
-            <FeedList data={postData} />
+            <FeedList data={postData} handleReaction={props.handleReaction} />
 
         </>
 

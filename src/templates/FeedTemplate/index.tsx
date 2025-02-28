@@ -15,7 +15,7 @@ export default function FeedTemplate(props : {feedData: any, userData : any}) {
 
             <div className=" border-b w-full"></div>
 
-            <FeedList data={feedData} />
+            <FeedList data={feedData} handleReaction={undefined}/>
 
         </Card>
     )

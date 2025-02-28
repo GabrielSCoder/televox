@@ -9,6 +9,10 @@ export const getAllPostByUsrId = async ( id : string) => {
     return await getRequest("/post/all/" + id)
 } 
 
+export const getAllPostByUserIdAndReaction = async ( data : any) => {
+    return await postRequest("/post/reactPost/list", data)
+}
+
 export const sendPostAsync = async ( data : any) => {
     return await postRequest("/post", data)
 }

@@ -15,11 +15,14 @@ export default function ProfilePage() {
     const url = location.pathname.split('/')
 
     const { getProfileWithUser, getProfileWithoutUser, inx, Profileloading, ProfilePostQTD, ProfileData, postsData, followSituation, followers, following, followersData, followingData,
-        handleUnfollow, handleFollow } = useProfileMang()
+        handleUnfollow, handleFollow, handleReaction } = useProfileMang()
     const { getUser, tipo_usuario, authLoading } = AuthProvider()
     const [userData, setUserData] = useState<any>([])
 
     const userrr = async () => {
+
+        console.log("disparando user....")
+        
         const resp = await getUser()
         if (resp?.data) {
             setUserData(resp.data.user)
@@ -42,8 +45,14 @@ export default function ProfilePage() {
         handleUnfollow(data)
     }
 
+    const debounceReact = (data : any) => {
+        const xData = {post_id : data, usuario_id : userData.id}
+        handleReaction(xData)
+    }
+
     const debounceHandlerFollow = useDebounce(debounceFollow, 2000)
     const debounceHandlerUnfollow = useDebounce(debounceUnfollow, 2000)
+    const debounceHandlerReact = useDebounce(debounceReact, 500)
 
     useEffect(() => {
 
@@ -68,6 +77,7 @@ export default function ProfilePage() {
     return (
         <ProfileTemplate userData={userData} profileData={ProfileData} postData={postsData} handleFollow={debounceHandlerFollow}
             handleUnfollow={debounceHandlerUnfollow} ProfilePostQTD={ProfilePostQTD} followSituation={followSituation} followers={followers} following={following}
+            handleReaction={debounceHandlerReact}
         />
     )
 }

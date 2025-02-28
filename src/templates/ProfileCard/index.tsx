@@ -38,10 +38,10 @@ export default function ProfileCard(props: cardProps) {
         if (logado == "true" && userData && userData.nome != profileData.nome) {
             if (followSituation == 1) {
                 return <Button className="text-white dark:text-black dark:bg-white bg-black rounded-3xl py-0 px-4 font-semibold text-lg hover:bg-slate-200"
-                    text="Deixar de seguir" onClick={() => handleUnfollow({ follower_id: userData.id, following_id: profileData.id })} />
+                    text="Deixar de seguir" onClick={() => handleUnfollow({ follower_id: userData.id, following_id: profileData.id, invertTotalizer : true, profileId : profileData.id })} />
             } else if (userData?.id != profileData?.id) {
                 return <Button className="text-white dark:text-black dark:bg-white bg-black rounded-3xl py-0 px-4 font-semibold text-lg hover:bg-slate-200"
-                    text={followSituation == 2 ? "Seguir de volta" : "seguir"} onClick={() => handleFollow({ follower_id: userData.id, following_id: profileData.id })} />
+                    text={followSituation == 2 ? "Seguir de volta" : "seguir"} onClick={() => handleFollow({ follower_id: userData.id, following_id: profileData.id, invertTotalizer : true, profileId : profileData.id })} />
             } else {
                 return <p className=""></p>
             }
