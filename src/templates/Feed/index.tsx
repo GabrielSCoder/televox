@@ -1,13 +1,17 @@
-import axios from "axios"
-import { useState, useEffect, Key } from "react"
-import { API_URL } from "../../utils/api"
+import { useState, useEffect } from "react"
 import PostCard from "../PostCard"
-import { MakeFakeCards } from "../../hooks/useFakeData"
 import LoadingItemTemplate from "../LoadingItem"
 
+type liksList = {
+    liked : boolean
+    total_reactions : string
+}
+
 type props = {
-    data: any
+    data: Array<any>
     handleReaction : any
+    likesList : Array<liksList>
+    userId : number
 }
 
 export default function FeedList(props: props) {
@@ -15,11 +19,14 @@ export default function FeedList(props: props) {
     const [loading, setLoading] = useState(true)
     const [data, setData] = useState(props.data)
 
+
     const makeCards = () => {
 
-        const cards = data.map((key: { id : number, conteudo: string, usuario : any, total_reactions : string, liked : boolean }, index: Key | null | undefined) => (
-            <PostCard key={index} title={"Flemis2024"} body={key.conteudo} likes={parseInt(key.total_reactions, 10)} user={key.usuario.nome}
-             username={key.usuario.username} img_url={key.usuario.img_url} liked={key.liked} handleReaction={props.handleReaction} postId={key.id} />
+        const cards = data.map((key: { id : number, conteudo: string, usuario : {username : string, img_url : string, nome : string}, usuario_id : number, total_reactions : string, liked : boolean }, index ) => (
+            <PostCard key={index} title={"Flemis2024"} body={key.conteudo} likes={parseInt(props.likesList[index].total_reactions, 10)} user={key.usuario.nome}
+             username={key.usuario.username} img_url={key.usuario.img_url} liked={props.likesList[index].liked} handleReaction={props.handleReaction} postId={key.id}
+             lockedReact={!props.userId || props.userId == key.usuario_id}
+             />
         ))
 
         return cards

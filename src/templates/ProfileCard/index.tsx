@@ -4,7 +4,6 @@ import Button from "../../components/Button";
 import Card from "../../components/Card";
 import ProfileWallpaper from "../../components/ProfileWallpaper";
 import TitleTag from "../../components/TitleTags";
-import useDebounce from "../../hooks/useDebounce";
 import { formatDate } from "../../utils/dateFormat";
 
 const background_test = "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/70/header.jpg"

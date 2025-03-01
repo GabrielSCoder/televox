@@ -15,7 +15,7 @@ export default function ProfilePage() {
     const url = location.pathname.split('/')
 
     const { getProfileWithUser, getProfileWithoutUser, inx, Profileloading, ProfilePostQTD, ProfileData, postsData, followSituation, followers, following, followersData, followingData,
-        handleUnfollow, handleFollow, handleReaction } = useProfileMang()
+        handleUnfollow, handleFollow, handleReaction, likesList } = useProfileMang()
     const { getUser, tipo_usuario, authLoading } = AuthProvider()
     const [userData, setUserData] = useState<any>([])
 
@@ -61,7 +61,7 @@ export default function ProfilePage() {
     }, [username])
 
     if (Profileloading || authLoading) {
-        return <LoadingPageTemplate />
+        return <LoadingPageTemplate className="h-full w-full"/>
     }
 
     if (url && url[2]) {
@@ -77,7 +77,7 @@ export default function ProfilePage() {
     return (
         <ProfileTemplate userData={userData} profileData={ProfileData} postData={postsData} handleFollow={debounceHandlerFollow}
             handleUnfollow={debounceHandlerUnfollow} ProfilePostQTD={ProfilePostQTD} followSituation={followSituation} followers={followers} following={following}
-            handleReaction={debounceHandlerReact}
+            handleReaction={debounceHandlerReact} likesList={likesList}
         />
     )
 }

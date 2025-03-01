@@ -16,6 +16,7 @@ type cardProps = {
     img_url?: string
     liked : boolean
     handleReaction : any
+    lockedReact : boolean
 }
 
 const bodyTest = "Mauris eu tempor ante. Praesent semper ligula quis risus eleifend, eget congue est mattis. Praesent varius, quam a condimentum tristique, metus nisi pharetra diam, sed vehicula velit metus eget nunc. Cras commodo orci sagittis eleifend pellentesque. Aliquam metus mauris, efficitur eu ullamcorper eget, faucibus a purus. Nulla sed libero erat. Donec a semper massa. Duis pellentesque ex arcu, quis sollicitudin mauris rhoncus eu. Nullam venenatis euismod placerat. Duis vel blandit tortor."
@@ -23,7 +24,7 @@ const bodyTest = "Mauris eu tempor ante. Praesent semper ligula quis risus eleif
 
 export default function PostCard(props: cardProps) {
 
-    const { body, title, likes, user, username, img_url, liked, handleReaction } = props
+    const { body, title, likes, user, username, img_url, liked, handleReaction, lockedReact } = props
 
     const nav = useNavigate()
 
@@ -51,7 +52,7 @@ export default function PostCard(props: cardProps) {
                 <Card className="ml-12 flex-col justify-start">
                     <TitleTag.Parag className="break-words text-left ">{body}</TitleTag.Parag>
 
-                    <ReactionsTemplate props={{ likes: likes, isLiked : liked, handleReaction : handleReaction, id : props.postId}} />
+                    <ReactionsTemplate props={{ likes: likes, isLiked : liked, handleReaction : handleReaction, id : props.postId, locked : lockedReact}} />
                 </Card>
 
             </Card>

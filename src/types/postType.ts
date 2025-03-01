@@ -41,3 +41,9 @@ export type responsePostFilterDTO = {
     pagina : number
     numeroPaginas : number
 } & postListDTO
+
+export type liksList = {
+    id : number
+    liked : boolean
+    total_reactions : string
+}

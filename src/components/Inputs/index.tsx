@@ -1,4 +1,4 @@
-import { useForm, Control, UseFormRegister, Controller } from "react-hook-form"
+import { Control, UseFormRegister, Controller } from "react-hook-form"
 import classNames from "../../utils/classNames";
 import { JSXElementConstructor, Key, ReactElement, ReactNode, ReactPortal, useState } from "react";
 import { formatCNPJ } from "../../utils/formartar";
@@ -7,9 +7,7 @@ import * as Check from "@radix-ui/react-checkbox"
 import { CheckIcon } from "@radix-ui/react-icons"
 import { LuEye, LuEyeClosed } from "react-icons/lu";
 import { inputClasses } from "../classes/inputs";
-import { SelectMain } from "../Select";
 import GeneroSelectTemplate from "../../templates/selects/GeneroSelect";
-import { IconBase } from "react-icons/lib";
 import DatePicker from "react-datepicker"
 import { parse, format } from "date-fns";
 import { ptBR } from "date-fns/locale";
@@ -36,7 +34,7 @@ type fieldInput = {
     Isrequired?: boolean
     requiredText?: string
     errors?: any
-    value ?: any
+    value?: any
 }
 
 type rootProps = {
@@ -87,7 +85,7 @@ export function Title(labelProps: labelProps) {
 
 export function Input(props: rootProps) {
 
-    const { children, className } = props
+    const { children } = props
 
     return (
         <>
@@ -96,13 +94,9 @@ export function Input(props: rootProps) {
     )
 }
 
-function Field() {
-    return (<></>)
-}
-
 function DateInput(props: fieldInput) {
 
-    const { name, Isrequired, className, requiredText, control } = props
+    const { name, Isrequired, requiredText, control } = props
 
     return (
         <Controller
@@ -138,17 +132,30 @@ function DateInput(props: fieldInput) {
     );
 }
 
-function TextInput(props: fieldInput) {
+function TextInput(props: fieldInput & {onFocus ?: Function, onBlur ?: Function }) {
 
-    const { name, onChange, disabled, maxLength, register, className, placeholder, errors, requiredText, Isrequired, value } = props
+    const { name, onChange, disabled, maxLength, register, className, placeholder, errors, requiredText, Isrequired, value, onFocus, onBlur } = props
 
 
     return (
-        <div>
-            <input type="text" value={value} {...(register ? Isrequired ? register(name, { required: requiredText }) : register(name) : {})} disabled={disabled} maxLength={maxLength}
-                className={classNames("rounded-md w-full text-[15px]", className, errors?.[name] ? "border-red-500 focus:border-red-500" : "border-slate-300")} placeholder={placeholder} />
+        <>
+            <input type="text" value={value} {...(register ? Isrequired ? register(name, { required: requiredText }) : register(name) : {})}
+                disabled={disabled}
+                maxLength={maxLength}
+                className={classNames("text-[15px]", className, errors?.[name] ? "border-red-500 focus:border-red-500" : "border-slate-300")}
+                placeholder={placeholder}
+                onChange={(e) => {
+                    register?.(name)?.onChange(e);
+                    onChange?.(e);
+                }}
+                onFocus={(e) => {onFocus ? onFocus(e) : ""}}
+                onBlur={(e) => {onBlur ? onBlur(e) : ""}}
+                autoComplete="off"
+            />
             {errors?.[name]?.message && <p className="text-red-500 text-sm">{errors?.[name]?.message}</p>}
-        </div>
+        </>
+
+
 
     )
 
@@ -156,7 +163,7 @@ function TextInput(props: fieldInput) {
 
 function VerifyTextInput(props: fieldInput) {
 
-    const { name, onChange, disabled, maxLength, register, className, placeholder, errors, Isrequired, requiredText } = props
+    const { name, disabled, maxLength, register, className, placeholder, errors, Isrequired, requiredText } = props
 
 
     return (
@@ -170,9 +177,9 @@ function VerifyTextInput(props: fieldInput) {
 
 }
 
-function TextArea(props: textAreaInput) {
+function TextArea(props: textAreaInput & React.HtmlHTMLAttributes<HTMLTextAreaElement>) {
 
-    const { name, onChange, disabled, maxLength, register, className, placeholder, label, labelStyle, columns, rows } = props
+    const { name, onChange, disabled, register, className, placeholder, label, labelStyle, columns, rows, ...rest } = props
 
     return (
         <textarea
@@ -180,8 +187,13 @@ function TextArea(props: textAreaInput) {
             cols={columns ? columns : 3}
             name={name}
             placeholder={placeholder}
-            {...register && register(name)}
-            className={classNames(className, inputClasses, "border rounded-md w-full placeholder:text-black placeholder:dark:text-white focus:outline-none border-gray-500 dark:border-0")}
+            {...register?.(name)}
+            {...rest}
+            onChange={(e) => {
+                register?.(name)?.onChange(e); // Chama a função do react-hook-form
+                onChange?.(e); // Chama o onChange do componente pai
+            }}
+            className={classNames(className, inputClasses, "border rounded-md w-full placeholder:text-black placeholder:dark:text-white focus:outline-none border-gray-500 dark:border-0 resize-none")}
             disabled={disabled}>
         </textarea>
     )
@@ -190,9 +202,9 @@ function TextArea(props: textAreaInput) {
 function CheckBox(props: fieldInput) {
 
 
-    const { name, disabled, className, label, labelStyle, register, control } = props
+    const { name, disabled, className, label, labelStyle, control } = props
 
-    
+
     const Check2 = () => {
         return (
             <Controller
@@ -215,7 +227,7 @@ function CheckBox(props: fieldInput) {
     return (
         <Input className={className}>
             {label && !!label ? (
-       
+
                 <div className="flex items-center justify-center">
                     <Check2 />
                     <label

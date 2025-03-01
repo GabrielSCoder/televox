@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { responsePostFilterDTO } from "../types/postType"
+import { liksList } from "../types/postType"
 import { profile } from "../types/profileType"
 import useRequest from "./useRequest"
 import { compareForm, followForm, relationFollow } from "../types/follow"
@@ -17,6 +17,7 @@ export default function useProfileMang() {
     const [followingData, setFollowingData] = useState([])
     const [Profileloading, setProfileLoading] = useState(true)
     const [followSituation, setFollowSituation] = useState(0)
+    const [likesList, setLikesList] = useState<liksList[]>([])
     const [followers, setFollowers] = useState(0)
     const [following, setFollowing] = useState(0)
     const [inx, setInx] = useState(false)
@@ -66,6 +67,10 @@ export default function useProfileMang() {
             console.log(resp2.data)
             setProfilePostQTD(resp2.data.dados.quantidade_postagens)
             setPostsData(resp2.data.dados.listaPostagens)
+            const lkList = resp2.data.dados.listaPostagens.map((value: { id: number, liked: any; total_reactions: any }) => {
+                return { id: value.id, liked: value.liked, total_reactions: value.total_reactions }
+            })
+            setLikesList(lkList)
         }
     }
 
@@ -184,12 +189,20 @@ export default function useProfileMang() {
         })
 
         socket.on("reactResponse", (data) => {
-            console.log(data)
-            const red = postsData.filter((value) => value.id === data.data.post_id)
-            if (red.length > 0) {
-                red.liked = data.liked.liked
-                red.total_reactions = data.total.total_reactions
-            }
+            // const red = likesList.filter((value) => value.id === data.data.post_id)[0]
+            // if (red) {
+            //     red.liked = data.liked.liked
+            //     red.total_reactions = data.total.total_reactions
+            //     setLikesList((prev) => { })
+            // }
+            setLikesList((prev) =>
+                prev.map((post) =>
+                    post.id === data.data.post_id
+                        ? { ...post, liked: data.liked.liked, total_reactions: data.total.total_reactions }
+                        : post
+                )
+            );
+
         })
 
         socket.on("followResponse", (data) => {
@@ -231,6 +244,8 @@ export default function useProfileMang() {
         })
 
         return () => {
+            socket.off("reactResponse")
+            socket.off("followResponse")
             socket.off("unfollowResponse")
             socket.disconnect()
         }
@@ -254,6 +269,7 @@ export default function useProfileMang() {
         Profileloading,
         inx,
         followSituation,
+        likesList,
         followers,
         following
     }

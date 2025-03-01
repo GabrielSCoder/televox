@@ -24,3 +24,7 @@ export const getPostsByFilter = async ( data : postFilterDTO) => {
 export const getFeedMk1 = async ( data : feedFilterDTO) => {
     return await postRequest( "feed/mk1/", data)
 }
+
+export const getFeedMk2 = async ( data : feedFilterDTO) => {
+    return await postRequest( "feed/mk2/", data)
+}

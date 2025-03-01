@@ -1,3 +1,4 @@
+import { usuarioFilterDTO } from "../types/user";
 import { getRequest, postRequest, postRequestWoError } from "./requests";
 
 export const getByUserId = async (  id : string) => {
@@ -6,6 +7,10 @@ export const getByUserId = async (  id : string) => {
 
 export const getByUsername = async ( username : string) => {
     return await getRequest("/usuario/find/" + username)
+}
+
+export const getUserByFilter = async ( data : usuarioFilterDTO) => {
+    return await postRequest("/usuario/getByFilter", data)
 }
 
 export const signup = async (data : any) => {

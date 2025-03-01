@@ -23,7 +23,7 @@ const Button = (props: props) => {
                 loading && "cursor-not-allowed grayscale-[50%]",
                 type == "submit" && "text-white bg-gradient-to-r from-green-500 via-green-600 to-green-700 hover:bg-gradient-to-br ring-inset ring-1 focus:ring-2 focus:outline-none focus:ring-green-400 dark:focus:ring-green-800 font-bold rounded-md text-sm py-2.5 text-center mb-2",
                 type == "delete" && "bg-red-500",
-                type == "submitt" && "bg-green-500 hover:bg-green-400 dark:bg-neutral-600 hover:dark:bg-neutral-400",
+                type == "submitt" && "bg-green-500 hover:bg-green-400 dark:bg-white hover:dark:bg-neutral-200 disabled:bg-neutral-600 disabled:hover:bg-neutral-600",
                 className
             )
         }>

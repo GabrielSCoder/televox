@@ -1,5 +1,5 @@
-import { useState, createContext, ReactNode, useEffect, useContext } from "react";
-import { accessAsync, logadoAsync, logoutAsync } from "../services/auth";
+import { useState } from "react";
+import { logadoAsync, logoutAsync } from "../services/auth";
 import useRequest from "../hooks/useRequest";
 import { socket } from "../services/socket";
 

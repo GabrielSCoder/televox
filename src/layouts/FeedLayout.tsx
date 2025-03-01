@@ -6,7 +6,7 @@ import { FakeFriends } from "../hooks/useFakeData";
 import { GuestFooterAdvice } from "../templates/GuestFooterAdvice";
 import { useEffect, useState } from "react";
 import { AuthProvider } from "../contexts/userContext";
-import { socket } from "../services/socket";
+import SearchBarTemplate from "../templates/SearchBar";
 
 export default function FeedLayout() {
 
@@ -45,12 +45,12 @@ export default function FeedLayout() {
                     {tipo_usuario == "conta" && <button className="px-4 py-2 rounded-3xl text-black dark:text-white border hover:bg-gray-800 w-fit mx-auto mt-auto mb-2" onClick={handleLogout}>Logout</button>}
                 </div>
 
-                <div className="w-[600px] flex flex-col justify-start items-start gap-0 border-l  border-r">
+                <div className="w-[600px] flex flex-col justify-start items-start gap-0 border-l  border-r min-h-[100vh]">
                     <Outlet />
                 </div>
 
-                <div className="sticky w-1/6 flex flex-col justify-start items-start px-4 gap-10 overflow-auto h-[910px] top-1 ">
-                    <input type="text" placeholder="Search" className="rounded-3xl border border-gray-700 text-white bg-black px-3 py-2 w-full" />
+                <div className="sticky w-1/6 flex flex-col justify-start items-start px-4 gap-10 overflow-auto h-[910px] top-1 z-0">
+                    <SearchBarTemplate />
                     {tipo_usuario == "conta" ? (
                         <>
                             <div className="flex flex-col border border-gray-700 w-full p-4 rounded-md gap-2">

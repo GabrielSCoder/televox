@@ -1,17 +1,17 @@
 import FeedList from "../Feed"
 import ProfileCard from "../ProfileCard"
 
-const tst = {
-    profileName: "gabriel",
-    postValue: 10,
-    accountUser: "@sjsjsjs",
-    meetText: "Olá",
-    createDate: "92038-2012",
-    followingValue: 10,
-    followersValue: 21,
-    backgroundUrl: "https://images.saymedia-content.com/.image/ar_16:9%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:eco%2Cw_1200/MjAwMDEyMjE2ODQ4NjIyNzAw/25-fun-things-to-do-at-the-beach.jpg",
-    ProfileAvatarUrl: "https://dogsinc.org/wp-content/uploads/2021/08/extraordinary-dog.png"
-}
+// const tst = {
+//     profileName: "gabriel",
+//     postValue: 10,
+//     accountUser: "@sjsjsjs",
+//     meetText: "Olá",
+//     createDate: "92038-2012",
+//     followingValue: 10,
+//     followersValue: 21,
+//     backgroundUrl: "https://images.saymedia-content.com/.image/ar_16:9%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:eco%2Cw_1200/MjAwMDEyMjE2ODQ4NjIyNzAw/25-fun-things-to-do-at-the-beach.jpg",
+//     ProfileAvatarUrl: "https://dogsinc.org/wp-content/uploads/2021/08/extraordinary-dog.png"
+// }
 
 export type ProfileTemplateProps = {
     profileData : any
@@ -24,12 +24,13 @@ export type ProfileTemplateProps = {
     handleReaction : any
     followers : number
     following : number
+    likesList : any
 }
 
 export default function ProfileTemplate(props : ProfileTemplateProps) {
 
     
-    const { postData, ProfilePostQTD, profileData, userData, followSituation, handleFollow, handleUnfollow, followers, following} = props
+    const { postData, ProfilePostQTD, profileData, userData, followSituation, handleFollow, handleUnfollow, followers, following , likesList} = props
 
     return (
         <>
@@ -40,7 +41,7 @@ export default function ProfileTemplate(props : ProfileTemplateProps) {
 
             <ProfileCard profileData={profileData} userData={userData} followSituation={followSituation} handleFollow={handleFollow} handleUnfollow={handleUnfollow} followers={followers} following={following} />
             
-            <FeedList data={postData} handleReaction={props.handleReaction} />
+            <FeedList data={postData} handleReaction={props.handleReaction} likesList={likesList} userId={userData.id ?? 0}/>
 
         </>
 

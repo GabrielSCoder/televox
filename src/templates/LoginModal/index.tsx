@@ -22,7 +22,7 @@ export default function LoginModal(props: modalProps) {
 
     const nav = useNavigate()
 
-    const { register, handleSubmit, getValues, reset, clearErrors } = useForm({
+    const { register, handleSubmit, reset } = useForm({
         defaultValues: {
             email: "",
             senha: "",
@@ -87,7 +87,7 @@ export default function LoginModal(props: modalProps) {
                     <div className="mt-8 flex flex-col justify-center items-center gap-8">
 
                         <div className="flex flex-col gap-4 w-full">
-                            <Input.Text register={register} name="email" placeholder="E-mail" className="px-2 p-4 outline-none text-white placeholder:text-gray-500 border bg-black focus:border-blue-500" />
+                            <Input.Text register={register} name="email" placeholder="E-mail" className="rounded-md px-2 p-4 outline-none text-white placeholder:text-gray-500 border bg-black focus:border-blue-500" />
                             <Input.Password register={register} name="senha" placeholder="Senha" />
                             <p className="text-red-500 text-center" hidden={!errorMsg}>{errorMsg}</p>
                         </div>

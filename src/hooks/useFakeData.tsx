@@ -61,7 +61,7 @@ export const FakeGroups = () => {
 export const MakeFakeCards = () => {
 
     const cards = Array.from({ length: 10 }, (_, index) => (
-       <PostCard key={index} title={"Flemis2024"} body={"DSAJKDJASLDKJASLDJALJ"} deslieks={0} likes={20} shares={9} />
+       <PostCard key={index} title={"Flemis2024"} body={"DSAJKDJASLDKJASLDJALJ"} deslieks={0} likes={20} shares={9} postId={0} liked handleReaction={undefined} lockedReact={true} />
    ))
 
    return cards

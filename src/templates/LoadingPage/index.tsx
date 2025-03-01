@@ -10,7 +10,7 @@ export default function LoadingPageTemplate(props : props) {
     const { className } = props
 
     return (
-        <div className={classNames("flex items-center justify-center h-[100vh] w-full", className)}>
+        <div className={classNames("flex items-center justify-center", className)}>
             <AiOutlineLoading3Quarters className="text-blue-500 animate-spin" size={30} />
         </div>
     )

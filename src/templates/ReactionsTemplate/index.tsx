@@ -1,7 +1,7 @@
-import { CiShare2 } from "react-icons/ci";
-import { FaRegThumbsUp, FaRegThumbsDown } from "react-icons/fa";
+// import { CiShare2 } from "react-icons/ci";
+// import { FaRegThumbsUp, FaRegThumbsDown } from "react-icons/fa";
 import { BsChat } from "react-icons/bs";
-import { CiHeart } from "react-icons/ci";
+// import { CiHeart } from "react-icons/ci";
 import { IoIosHeartEmpty, IoIosHeart } from "react-icons/io";
 
 type reactionsProps = {
@@ -12,10 +12,10 @@ type reactionsProps = {
     shares?: number;
     replies?: number;
     id : number
+    locked : boolean
 }
 
 export default function ReactionsTemplate({ props }: { props: reactionsProps }) {
-
 
     return (
         <>
@@ -23,11 +23,11 @@ export default function ReactionsTemplate({ props }: { props: reactionsProps }) 
 
                 <div className="group flex text-center justify-center items-center transition gap-0">
                     {props.isLiked ? (
-                        <div className="p-1 rounded-full group-hover:bg-rose-900/30" onClick={() => props.handleReaction(props.id)}>
+                        <div className="p-1 rounded-full group-hover:bg-rose-900/30" onClick={!props.locked ? () => props.handleReaction(props.id) : () => ""}>
                             <IoIosHeart size={18} className="text-rose-500 transition" />
                         </div>
                     ) : (
-                        <div className="p-1 rounded-full group-hover:bg-rose-900/30" onClick={() => props.handleReaction(props.id)}>
+                        <div className="p-1 rounded-full group-hover:bg-rose-900/30" onClick={!props.locked ? () => props.handleReaction(props.id) : () => ""}>
                             <IoIosHeartEmpty size={18} className="text-gray-400 group-hover:text-rose-500 transition" />
                         </div>
                     )}
