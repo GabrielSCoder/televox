@@ -18,6 +18,8 @@ export default function FollowListTemplate(props: props) {
 
     const { followingList, followerList, followType, profileData, userData, handleFollow, handleUnfollow } = props
 
+    console.log(profileData)
+
     const location = useLocation()
     const raw = location.pathname.split("/")
     const nav = useNavigate()
@@ -114,14 +116,12 @@ export default function FollowListTemplate(props: props) {
                                     {!value?.img_url ? <div className="w-full h-full rounded-full  m-2"></div> : <img src={value.img_url} className="h-full w-full rounded-full object-cover"></img>}
                                 </div>
                                 <div className="flex flex-col">
-                                    <TitleTag.Sub>{value.nome}</TitleTag.Sub>
+                                    <TitleTag.Sub className="hover:underline hover:decoration-white" onClick={() => nav("/" + value.username)}>{value.nome}</TitleTag.Sub>
                                     <TitleTag.Normal className="text-gray-500">@{value.username}</TitleTag.Normal>
                                 </div>
                             </div>
 
                             {value.id != userData.id ? (<BtnManager key={index}  relacao={value.relacao} choosedProfile={value.id}/>) : ""}
-
-                    
                         </Card>
 
                     </Card>

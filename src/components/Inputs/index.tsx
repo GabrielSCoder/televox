@@ -193,7 +193,7 @@ function TextArea(props: textAreaInput & React.HtmlHTMLAttributes<HTMLTextAreaEl
                 register?.(name)?.onChange(e); // Chama a função do react-hook-form
                 onChange?.(e); // Chama o onChange do componente pai
             }}
-            className={classNames(className, inputClasses, "border rounded-md w-full placeholder:text-black placeholder:dark:text-white focus:outline-none border-gray-500 dark:border-0 resize-none")}
+            className={classNames(className, inputClasses, "border rounded-md w-full focus:outline-none border-gray-500 dark:border-0 resize-none")}
             disabled={disabled}>
         </textarea>
     )

@@ -7,6 +7,7 @@ import { AuthProvider } from "../../contexts/userContext";
 import FollowListTemplate from "../../templates/FollowListTemplate";
 import useProfileMang from "../../hooks/useProfileMang";
 import useDebounce from "../../hooks/useDebounce";
+import Postview from "../PostView";
 
 export default function ProfilePage() {
 
@@ -20,8 +21,6 @@ export default function ProfilePage() {
     const [userData, setUserData] = useState<any>([])
 
     const userrr = async () => {
-
-        console.log("disparando user....")
         
         const resp = await getUser()
         if (resp?.data) {
@@ -50,6 +49,7 @@ export default function ProfilePage() {
         handleReaction(xData)
     }
 
+
     const debounceHandlerFollow = useDebounce(debounceFollow, 2000)
     const debounceHandlerUnfollow = useDebounce(debounceUnfollow, 2000)
     const debounceHandlerReact = useDebounce(debounceReact, 500)
@@ -64,12 +64,15 @@ export default function ProfilePage() {
         return <LoadingPageTemplate className="h-full w-full"/>
     }
 
-    if (url && url[2]) {
+    if (url[2] == "following" || url[2] == "followers") {
         return <FollowListTemplate followingList={followingData} followType={url[2]} profileData={ProfileData} followerList={followersData}
          userData={userData} handleFollow={debounceHandlerFollow} handleUnfollow={debounceHandlerUnfollow} />
     }
 
-
+    if (url[2] == "post" && url[3]) {
+        return <Postview profileData={ProfileData} userData={userData} handleReaction={debounceHandlerReact}/>
+    }
+        
     if (inx) {
         return <UsuarioInexistente />
     }

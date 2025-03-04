@@ -34,14 +34,19 @@ const routesFeed = {
                 <ProfilePage />
             )
         },
+        {
+            path : ":username/post/:id",
+            element : <ProfilePage />
+        },
+        {
+            path: "/*",
+            element: <Navigate to={"/home"} />
+        },
         // {
         //     path: "grupos",
         //     element: <GroupsTemplate />
         // },
-        // {
-        //     path: "/*",
-        //     element: <Navigate to={"/home"} />
-        // }
+       
         // {
         //     path : "notifications",
         //     element : <NotificationsTemplate />
@@ -50,10 +55,7 @@ const routesFeed = {
         //     path : "messages",
         //     element : <PrivateMessagesTemplate />
         // },
-        {
-            path : "post",
-            element : <Postview />
-        },
+       
     ]
 }
 

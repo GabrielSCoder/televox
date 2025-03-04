@@ -67,8 +67,8 @@ export default function useProfileMang() {
             console.log(resp2.data)
             setProfilePostQTD(resp2.data.dados.quantidade_postagens)
             setPostsData(resp2.data.dados.listaPostagens)
-            const lkList = resp2.data.dados.listaPostagens.map((value: { id: number, liked: any; total_reactions: any }) => {
-                return { id: value.id, liked: value.liked, total_reactions: value.total_reactions }
+            const lkList = resp2.data.dados.listaPostagens.map((value: { id: number, liked: any; total_reactions: any, total_replies : any }) => {
+                return { id: value.id, liked: value.liked, total_reactions: value.total_reactions, total_replies : value.total_replies }
             })
             setLikesList(lkList)
         }
@@ -128,9 +128,6 @@ export default function useProfileMang() {
     //Recebe o id para pesquisa dos seguindo e seguidores e verifica se recebe o id do usuario logado e se são iguais, se não, ele retornar a lista do id em comparação com o usuario
     async function Totalizer(id: number, loggedUsedId?: number) {
 
-
-
-
         const resp = await getTotalizerF(id)
 
         if (resp) {
@@ -189,12 +186,7 @@ export default function useProfileMang() {
         })
 
         socket.on("reactResponse", (data) => {
-            // const red = likesList.filter((value) => value.id === data.data.post_id)[0]
-            // if (red) {
-            //     red.liked = data.liked.liked
-            //     red.total_reactions = data.total.total_reactions
-            //     setLikesList((prev) => { })
-            // }
+            
             setLikesList((prev) =>
                 prev.map((post) =>
                     post.id === data.data.post_id
@@ -241,6 +233,11 @@ export default function useProfileMang() {
                     TotalizerByResponse(data.dados.follower_id, data.dados.profileId)
                 }
             }
+        })
+
+        socket.on("replyResponse", (data) => {
+            console.log("reposta de reply\n")
+            console.log(data)
         })
 
         return () => {

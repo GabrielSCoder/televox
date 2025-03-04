@@ -17,22 +17,22 @@ export default function Home() {
     const [likesList, setLikesList] = useState<liksList[]>([])
     const { getUser } = AuthProvider()
 
-
     const getData = async () => {
         setLoading(true)
         const handle = await getUser()
-        const resp = await getFeedMk2({ id: 21, numeroPagina: 0, tamanhoPagina: 10 })
-        if (resp.data.success) {
-            setFeedData(resp.data.dados)
-            console.log(resp.data.dados)
-            const lkList = resp.data.dados.map((value: { id: number, liked: any; total_reactions: any }) => {
-                return { id: value.id, liked: value.liked, total_reactions: value.total_reactions }
-            })
-            setLikesList(lkList)
-        }
         if (handle?.data) {
             setUserData(handle.data.user)
             console.log(handle.data.user)
+        }
+        const resp = await getFeedMk2({ id: 21, numeroPagina: 0, tamanhoPagina: 15, profile_id : handle?.data.user.id })
+        if (resp.data.success) {
+            setFeedData(resp.data.dados)
+            console.log(resp.data.dados)
+            const lkList = resp.data.dados.map((value: { id: number, liked: any; total_reactions: any, total_replies : any }) => {
+                return { id: value.id, liked: value.liked, total_reactions: value.total_reactions, total_replies : value.total_replies }
+            })
+            console.log(lkList)
+            setLikesList(lkList)
         }
         setLoading(false)
     }

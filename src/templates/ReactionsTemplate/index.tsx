@@ -10,12 +10,17 @@ type reactionsProps = {
     handleReaction : any
     deslikes?: number;
     shares?: number;
-    replies?: number;
+    replies: number;
     id : number
     locked : boolean
 }
 
 export default function ReactionsTemplate({ props }: { props: reactionsProps }) {
+
+    const handleR = (event : React.MouseEvent) => {
+        event.stopPropagation()
+        props.handleReaction(props.id)
+    }
 
     return (
         <>
@@ -23,11 +28,11 @@ export default function ReactionsTemplate({ props }: { props: reactionsProps }) 
 
                 <div className="group flex text-center justify-center items-center transition gap-0">
                     {props.isLiked ? (
-                        <div className="p-1 rounded-full group-hover:bg-rose-900/30" onClick={!props.locked ? () => props.handleReaction(props.id) : () => ""}>
+                        <div className="p-1 rounded-full group-hover:bg-rose-900/30" onClick={handleR}>
                             <IoIosHeart size={18} className="text-rose-500 transition" />
                         </div>
                     ) : (
-                        <div className="p-1 rounded-full group-hover:bg-rose-900/30" onClick={!props.locked ? () => props.handleReaction(props.id) : () => ""}>
+                        <div className="p-1 rounded-full group-hover:bg-rose-900/30" onClick={handleR}>
                             <IoIosHeartEmpty size={18} className="text-gray-400 group-hover:text-rose-500 transition" />
                         </div>
                     )}
@@ -39,7 +44,7 @@ export default function ReactionsTemplate({ props }: { props: reactionsProps }) 
                     <div className="p-1 rounded-full group-hover:bg-blue-600/30">
                         <BsChat size={15} className="text-gray-400 group-hover:text-blue-500 transition" />
                     </div>
-                    <p className="text-gray-400 text-base group-hover:text-blue-500 transition">{props.deslikes}</p>
+                    <p className="text-gray-400 text-base group-hover:text-blue-500 transition">{props.replies}</p>
                 </div>
 
                 {/* <h2 className="flex text-center gap-2 justify-center items-center">

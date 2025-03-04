@@ -18,10 +18,13 @@ export default function SearchBarTemplate() {
     })
 
     const log = async (data: any) => {
-        const resp = await getUserByFilter({ search: data, tamanhoPagina: 5, pagina: 1 })
-        if (resp.data.success) {
-            setSearchData(resp.data.dados)
+        if (data.trim() != "") {
+            const resp = await getUserByFilter({ search: data, tamanhoPagina: 5, pagina: 1 })
+            if (resp.data.success) {
+                setSearchData(resp.data.dados)
+            }
         }
+
     }
 
     const handleDelaySearch = useDebounce(log, 500)
@@ -33,7 +36,7 @@ export default function SearchBarTemplate() {
                     setState(false);
                 }
             }}>
-                
+
             <Card className="group w-full items-center border border-gray-700 focus:outline-none focus-within:border-blue-500 rounded-3xl py-2">
                 <Card><FaMagnifyingGlass size={15} className="ml-4 text-white" /></Card>
                 <Input.Text name="busca" register={register} placeholder="Buscar"

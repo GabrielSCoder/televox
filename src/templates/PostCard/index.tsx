@@ -17,6 +17,7 @@ type cardProps = {
     liked : boolean
     handleReaction : any
     lockedReact : boolean
+    replies : number
 }
 
 const bodyTest = "Mauris eu tempor ante. Praesent semper ligula quis risus eleifend, eget congue est mattis. Praesent varius, quam a condimentum tristique, metus nisi pharetra diam, sed vehicula velit metus eget nunc. Cras commodo orci sagittis eleifend pellentesque. Aliquam metus mauris, efficitur eu ullamcorper eget, faucibus a purus. Nulla sed libero erat. Donec a semper massa. Duis pellentesque ex arcu, quis sollicitudin mauris rhoncus eu. Nullam venenatis euismod placerat. Duis vel blandit tortor."
@@ -24,11 +25,11 @@ const bodyTest = "Mauris eu tempor ante. Praesent semper ligula quis risus eleif
 
 export default function PostCard(props: cardProps) {
 
-    const { body, title, likes, user, username, img_url, liked, handleReaction, lockedReact } = props
+    const { body, title, likes, user, username, img_url, liked, handleReaction, lockedReact, postId, replies } = props
 
     const nav = useNavigate()
 
-    const redirect = () => nav("/post")
+    const redirect = () => nav(`/${username}/post/${postId}`)
 
     const btn = (event: React.MouseEvent) => {
         event.stopPropagation()
@@ -37,7 +38,7 @@ export default function PostCard(props: cardProps) {
 
     return (
         <>
-            <Card className="flex-col hover:bg-gray-100 dark:hover:bg-opacity-5 hover:cursor-pointer px-4 pt-3 border-b" >
+            <Card className="flex-col hover:bg-gray-100 dark:hover:bg-opacity-5 hover:cursor-pointer px-4 pt-3 border-b" click={redirect} >
                 <Card className="justify-start items-center gap-2" >
                     <div className="rounded-full h-[40px] w-[40px] bg-purple-500 ">
                         {!img_url ? <div className="w-full h-full rounded-full bg-red-500 m-2"></div> : <img src={img_url} className="h-full w-full rounded-full object-cover"></img>}
@@ -52,7 +53,7 @@ export default function PostCard(props: cardProps) {
                 <Card className="ml-12 flex-col justify-start">
                     <TitleTag.Parag className="break-words text-left ">{body}</TitleTag.Parag>
 
-                    <ReactionsTemplate props={{ likes: likes, isLiked : liked, handleReaction : handleReaction, id : props.postId, locked : lockedReact}} />
+                    <ReactionsTemplate props={{ likes: likes, isLiked : liked, handleReaction : handleReaction, id : props.postId, locked : lockedReact, replies : replies}} />
                 </Card>
 
             </Card>
