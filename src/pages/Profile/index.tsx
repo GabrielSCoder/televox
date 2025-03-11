@@ -3,7 +3,7 @@ import ProfileTemplate from "../../templates/ProfileTemplate";
 import { useParams, useLocation } from "react-router-dom";
 import UsuarioInexistente from "../../templates/UsuarioInexistente";
 import LoadingPageTemplate from "../../templates/LoadingPage";
-import { AuthProvider } from "../../contexts/userContext";
+import { AuthProvider } from "../../hooks/useAuth";
 import FollowListTemplate from "../../templates/FollowListTemplate";
 import useProfileMang from "../../hooks/useProfileMang";
 import useDebounce from "../../hooks/useDebounce";
@@ -16,7 +16,7 @@ export default function ProfilePage() {
     const url = location.pathname.split('/')
 
     const { getProfileWithUser, getProfileWithoutUser, inx, Profileloading, ProfilePostQTD, ProfileData, postsData, followSituation, followers, following, followersData, followingData,
-        handleUnfollow, handleFollow, handleReaction, likesList } = useProfileMang()
+        handleUnfollow, handleFollow, handleReaction, likesList, setLikesList } = useProfileMang()
     const { getUser, tipo_usuario, authLoading } = AuthProvider()
     const [userData, setUserData] = useState<any>([])
 
@@ -70,7 +70,7 @@ export default function ProfilePage() {
     }
 
     if (url[2] == "post" && url[3]) {
-        return <Postview profileData={ProfileData} userData={userData} handleReaction={debounceHandlerReact}/>
+        return <Postview profileData={ProfileData} userData={userData} handleReaction={debounceHandlerReact} setPostLikes={setLikesList} postLikes={likesList}/>
     }
         
     if (inx) {

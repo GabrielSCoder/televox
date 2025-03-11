@@ -4,16 +4,18 @@ import { Outlet, useNavigate } from "react-router-dom";
 import TitleTag from "../components/TitleTags";
 import { FakeFriends } from "../hooks/useFakeData";
 import { GuestFooterAdvice } from "../templates/GuestFooterAdvice";
-import { useEffect, useState } from "react";
-import { AuthProvider } from "../contexts/userContext";
+import { useContext, useEffect, useState } from "react";
+import { AuthProvider } from "../hooks/useAuth";
 import SearchBarTemplate from "../templates/SearchBar";
+import SocketProvider, { SocketContext } from "../contexts/socketContext";
+import LoadingPageTemplate from "../templates/LoadingPage";
+import classNames from "../utils/classNames";
 
 export default function FeedLayout() {
 
-    const { logout, tipo_usuario, getUser } = AuthProvider()
+    const { logout, tipo_usuario, getUser, authLoading } = AuthProvider()
+    
     const [UserData, setUserData] = useState<any>([])
-
-    const nav = useNavigate()
 
     const getData = async () => {
         if (window.localStorage.getItem("content") == "true") {
@@ -25,7 +27,6 @@ export default function FeedLayout() {
 
     const handleLogout = () => {
         logout()
-        nav("/")
     }
 
     useEffect(() => {
@@ -33,11 +34,15 @@ export default function FeedLayout() {
     }, [])
 
 
+    if (authLoading) {
+        return <LoadingPageTemplate className="w-full h-screen" />
+    }
+
     return (
         <div className="flex flex-col w-full">
             <div className="flex bg-black dark:bg-black justify-center">
 
-                <div className="sticky top-1 w-1/6 flex flex-col gap-10 px-2 overflow-auto h-[910px]">
+                <div className={classNames("sticky top-1 w-1/6 flex flex-col gap-10 px-2 overflow-auto h-[910px]", tipo_usuario == "conta" ? "h-[910px]" : "h-[800px]")}>
                     <TitleTag.Main className="text-center">Televox</TitleTag.Main>
                     <LateralMenu username={UserData.username}/>
                     {tipo_usuario == "conta" && <p className="text-xl text-black dark:text-white text-center mt-6">Olá! {UserData.username}</p>}
@@ -49,7 +54,7 @@ export default function FeedLayout() {
                     <Outlet />
                 </div>
 
-                <div className="sticky w-1/6 flex flex-col justify-start items-start px-4 gap-10 overflow-auto h-[910px] top-1 z-0">
+                <div className={classNames("sticky w-1/6 flex flex-col justify-start items-start px-4 gap-10 overflow-auto top-1 z-0", tipo_usuario == "conta" ? "h-[910px]" : "h-[800px]")}>
                     <SearchBarTemplate />
                     {tipo_usuario == "conta" ? (
                         <>

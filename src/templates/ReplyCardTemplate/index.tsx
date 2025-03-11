@@ -40,7 +40,7 @@ export default function ReplyCardTemplate(props: props) {
     return (
 
         <>
-            <div className="flex gap-2">
+            <div className="flex gap-2 px-4 py-2">
                 <div className="rounded-full h-[40px] w-[40px] bg-purple-500 ">
                     {!userData.img_url ? <div className="w-full h-full rounded-full bg-red-500 m-2"></div> : <img src={userData.img_url} className="h-full w-full rounded-full object-cover"></img>}
                 </div>

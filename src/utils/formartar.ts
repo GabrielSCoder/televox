@@ -71,20 +71,6 @@ export const brlCurrencyStringToNumber = (value: number): number => {
     return value ? Number(value.toString().replace(",", ".")) : 0;
 }
 
-export const formatarDinheiro = (valor: string | number): string => {
-    return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(Number(converterDecimal(valor)));
-}
-
-export const formatarDecimal = (valor: string | number, decimalPlaces: number = 2): string => {
-    if (valor === 0)
-        return "0";
-
-    return new Intl.NumberFormat('pt-BR', { minimumFractionDigits: decimalPlaces }).format(Number(converterDecimal(valor, decimalPlaces)));
-}
-
-export const converterDecimal = (valor: string | number, decimalPlaces: number = 2) => {
-    return new Decimal(valor).toDecimalPlaces(decimalPlaces, Decimal.ROUND_UP).toString();
-}
 
 export const formatarPlaca = (placa: string): string => {
     if (!!!placa) return "";

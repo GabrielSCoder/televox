@@ -20,7 +20,7 @@ const getaxios = async (timeout = 3000) => {
         timeout: timeout
     });
 
-    instance.interceptors.response.use(success, error);
+    // instance.interceptors.response.use(success, error);
 
     return instance;
 };

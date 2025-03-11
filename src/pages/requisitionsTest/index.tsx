@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom"
-import { useAuth } from "../../contexts/userContext"
+import { useAuth } from "../../hooks/useAuth"
 import { logadoAsync, refreshAsync } from "../../services/auth"
 import { useState } from "react"
 import { getAllPostByUsrId, sendPostAsync } from "../../services/post"

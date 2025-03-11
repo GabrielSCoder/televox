@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import ReactionsTemplate from "../ReactionsTemplate";
 import Card from "../../components/Card";
 import TitleTag from "../../components/TitleTags";
+import { formatDateTime } from "../../utils/dateFormat";
 
 type cardProps = {
     postId : number
@@ -18,14 +19,13 @@ type cardProps = {
     handleReaction : any
     lockedReact : boolean
     replies : number
+    data_criacao : string
 }
-
-const bodyTest = "Mauris eu tempor ante. Praesent semper ligula quis risus eleifend, eget congue est mattis. Praesent varius, quam a condimentum tristique, metus nisi pharetra diam, sed vehicula velit metus eget nunc. Cras commodo orci sagittis eleifend pellentesque. Aliquam metus mauris, efficitur eu ullamcorper eget, faucibus a purus. Nulla sed libero erat. Donec a semper massa. Duis pellentesque ex arcu, quis sollicitudin mauris rhoncus eu. Nullam venenatis euismod placerat. Duis vel blandit tortor."
-
 
 export default function PostCard(props: cardProps) {
 
-    const { body, title, likes, user, username, img_url, liked, handleReaction, lockedReact, postId, replies } = props
+    const { body, likes, user, username, img_url, liked, handleReaction, lockedReact, postId, replies, data_criacao } = props
+
 
     const nav = useNavigate()
 
@@ -47,7 +47,7 @@ export default function PostCard(props: cardProps) {
                         <TitleTag.Sub className="hover:underline hover:decoration-white hover:cursor-pointer"> {user}</TitleTag.Sub>
                     </button>
                     <TitleTag.Normal className="text-gray-500">@{username}</TitleTag.Normal>
-                    <TitleTag.Normal className="text-gray-500">- 9h</TitleTag.Normal>
+                    <TitleTag.Normal className="text-gray-500">·  {formatDateTime(data_criacao)}</TitleTag.Normal>
                 </Card>
 
                 <Card className="ml-12 flex-col justify-start">

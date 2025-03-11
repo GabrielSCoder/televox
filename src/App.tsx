@@ -1,7 +1,8 @@
 import { useState, useEffect, useContext } from 'react';
 import MainRouter from './router';
-import { AuthProvider } from './contexts/userContext';
+import { AuthProvider } from './hooks/useAuth';
 import ChatMK1 from './templates/ChatMK1Template';
+import SocketProvider from './contexts/socketContext';
 
 
 function App() {
@@ -32,8 +33,9 @@ function App() {
 
 
   return (
-
-    <MainRouter />
+    <SocketProvider>
+      <MainRouter />
+    </SocketProvider>
 
     // <ChatMK1 />
   )

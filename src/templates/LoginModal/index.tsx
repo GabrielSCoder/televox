@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import ForgotPasword from "../ForgotPassword";
-import { AuthProvider } from "../../contexts/userContext";
+import { AuthProvider } from "../../hooks/useAuth";
 
 const contentStyle = "p-8 px-36 fixed left-1/2 top-1/2 h-[68vh] max-h-[100vh] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-2xl bg-black p-[25px] shadow-[var(--shadow-6)] focus:outline-none data-[state=open]:animate-contentShow"
 

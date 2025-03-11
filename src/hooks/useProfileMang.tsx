@@ -179,12 +179,6 @@ export default function useProfileMang() {
 
     useEffect(() => {
 
-        socket.connect()
-
-        socket.on("connect", () => {
-            console.log("conectando")
-        })
-
         socket.on("reactResponse", (data) => {
             
             setLikesList((prev) =>
@@ -244,7 +238,6 @@ export default function useProfileMang() {
             socket.off("reactResponse")
             socket.off("followResponse")
             socket.off("unfollowResponse")
-            socket.disconnect()
         }
 
     }, [])
@@ -258,6 +251,7 @@ export default function useProfileMang() {
         handleFollow,
         handleUnfollow,
         handleReaction,
+        setLikesList,
         followersData,
         followingData,
         ProfileData,

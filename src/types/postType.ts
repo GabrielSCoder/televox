@@ -61,6 +61,7 @@ export type postView = {
     data_modificao: string
     total_replies: number
     total_reactions: number
+    liked : boolean
 
 }
 
