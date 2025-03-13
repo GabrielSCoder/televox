@@ -1,5 +1,5 @@
 import { usuarioFilterDTO } from "../types/user";
-import { getRequest, postRequest, postRequestWoError } from "./requests";
+import { getRequest, postRequest, postRequestWoError, putRequest } from "./requests";
 
 export const getByUserId = async (  id : string) => {
     return await getRequest("/usuario/" + id)
@@ -15,6 +15,10 @@ export const getUserByFilter = async ( data : usuarioFilterDTO) => {
 
 export const signup = async (data : any) => {
     return await postRequest("/usuario", data)
+}
+
+export const editUser = async (data : any) => {
+    return await putRequest("/usuario", data)
 }
 
 export const verifyEmail = async (data : any) => {

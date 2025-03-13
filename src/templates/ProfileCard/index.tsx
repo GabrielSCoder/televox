@@ -16,11 +16,13 @@ type cardProps = {
     handleUnfollow: any
     followers: any
     following: any
+    setProfileModal : any
+    profileModal : any
 }
 
 export default function ProfileCard(props: cardProps) {
 
-    const { profileData, userData, followSituation, followers, following, handleFollow, handleUnfollow } = props
+    const { profileData, userData, followSituation, followers, following, handleFollow, handleUnfollow, setProfileModal, profileModal } = props
 
     const logado = window.localStorage.getItem("content")
 
@@ -46,7 +48,8 @@ export default function ProfileCard(props: cardProps) {
             }
 
         } else {
-            return <p className=""></p>
+            return <Button className="text-white dark:text-black dark:bg-white bg-black rounded-3xl py-0 px-4 font-semibold text-lg hover:bg-slate-200"
+                    text={"Editar Perfil"} onClick={() => setProfileModal(true)} />
         }
 
     }
@@ -69,6 +72,7 @@ export default function ProfileCard(props: cardProps) {
                     <div>
                         <TitleTag.Main className="text-2xl font-semibold">{profileData.nome}</TitleTag.Main>
                         <TitleTag.Normal className="text-base font-normal dark:text-gray-500 text-gray-500">@{profileData.username}</TitleTag.Normal>
+                        <TitleTag.Parag className="mt-4">{profileData.texto_bio}</TitleTag.Parag>
                     </div>
 
                     <div>

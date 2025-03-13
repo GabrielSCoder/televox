@@ -1,7 +1,6 @@
 import { useContext, useState } from "react";
 import { logadoAsync, logoutAsync } from "../services/auth";
 import useRequest from "./useRequest";
-import { socket } from "../services/socket";
 import { SocketContext } from "../contexts/socketContext";
 
 
@@ -19,6 +18,9 @@ export function AuthProvider() {
             return resp
         } catch (error) {
             console.log(error)
+            window.localStorage.removeItem("content")
+            window.sessionStorage.clear()
+            window.location.href = "/"
         } finally {
             setAuthLoading(false)
         }
@@ -59,8 +61,5 @@ export function AuthProvider() {
         logout
     }
     
-     
-     
-
 }
 

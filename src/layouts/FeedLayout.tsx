@@ -14,7 +14,7 @@ import classNames from "../utils/classNames";
 export default function FeedLayout() {
 
     const { logout, tipo_usuario, getUser, authLoading } = AuthProvider()
-    
+
     const [UserData, setUserData] = useState<any>([])
 
     const getData = async () => {
@@ -33,6 +33,10 @@ export default function FeedLayout() {
         getData()
     }, [])
 
+    useEffect(() => {
+        console.log(UserData)
+    }, [UserData])
+
 
     if (authLoading) {
         return <LoadingPageTemplate className="w-full h-screen" />
@@ -42,10 +46,10 @@ export default function FeedLayout() {
         <div className="flex flex-col w-full">
             <div className="flex bg-black dark:bg-black justify-center">
 
-                <div className={classNames("sticky top-1 w-1/6 flex flex-col gap-10 px-2 overflow-auto h-[910px]", tipo_usuario == "conta" ? "h-[910px]" : "h-[800px]")}>
-                    <TitleTag.Main className="text-center">Televox</TitleTag.Main>
-                    <LateralMenu username={UserData.username}/>
-                    {tipo_usuario == "conta" && <p className="text-xl text-black dark:text-white text-center mt-6">Olá! {UserData.username}</p>}
+                <div className={classNames(" sticky top-1 w-[250px] flex flex-col gap-10 px-2 overflow-auto h-[910px] ", tipo_usuario == "conta" ? "h-[910px]" : "h-[800px]")}>
+                    <TitleTag.Main className="text-left px-2">Televox</TitleTag.Main>
+                    <LateralMenu username={UserData.username} id={UserData.id}/>
+                    {/* {tipo_usuario == "conta" && <p className="text-xl text-black dark:text-white text-center mt-6">Olá! {UserData.username}</p>} */}
                     {/* <DarkModeButton className="w-fit mx-auto py-2 px-4 rounded-3xl"/> */}
                     {tipo_usuario == "conta" && <button className="px-4 py-2 rounded-3xl text-black dark:text-white border hover:bg-gray-800 w-fit mx-auto mt-auto mb-2" onClick={handleLogout}>Logout</button>}
                 </div>
@@ -56,14 +60,15 @@ export default function FeedLayout() {
 
                 <div className={classNames("sticky w-1/6 flex flex-col justify-start items-start px-4 gap-10 overflow-auto top-1 z-0", tipo_usuario == "conta" ? "h-[910px]" : "h-[800px]")}>
                     <SearchBarTemplate />
-                    {tipo_usuario == "conta" ? (
+                    {/* {tipo_usuario == "conta" ? (
                         <>
                             <div className="flex flex-col border border-gray-700 w-full p-4 rounded-md gap-2">
                                 <h2 className="text-white text-xl font-semibold text-center">Following</h2>
                                 <FakeFriends />
-                            </div><Groups />
+                            </div>
+                            <Groups />
                         </>
-                    ) : ""}
+                    ) : ""} */}
 
                 </div>
             </div>

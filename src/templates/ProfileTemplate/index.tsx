@@ -25,12 +25,14 @@ export type ProfileTemplateProps = {
     followers : number
     following : number
     likesList : any
+    setState : any
+    state : boolean
 }
 
 export default function ProfileTemplate(props : ProfileTemplateProps) {
 
     
-    const { postData, ProfilePostQTD, profileData, userData, followSituation, handleFollow, handleUnfollow, followers, following , likesList} = props
+    const { postData, ProfilePostQTD, profileData, userData, followSituation, handleFollow, handleUnfollow, followers, following , likesList, setState, state} = props
 
     return (
         <>
@@ -39,7 +41,8 @@ export default function ProfileTemplate(props : ProfileTemplateProps) {
                 <h3 className="text-gray-500 text-xs">{ProfilePostQTD} posts</h3>
             </div>
 
-            <ProfileCard profileData={profileData} userData={userData} followSituation={followSituation} handleFollow={handleFollow} handleUnfollow={handleUnfollow} followers={followers} following={following} />
+            <ProfileCard profileData={profileData} userData={userData} followSituation={followSituation} handleFollow={handleFollow} handleUnfollow={handleUnfollow}
+             followers={followers} following={following} profileModal={state} setProfileModal={setState}/>
             
             <FeedList data={postData} handleReaction={props.handleReaction} likesList={likesList} userId={userData.id ?? 0}/>
 

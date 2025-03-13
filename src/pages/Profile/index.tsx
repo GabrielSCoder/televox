@@ -8,6 +8,7 @@ import FollowListTemplate from "../../templates/FollowListTemplate";
 import useProfileMang from "../../hooks/useProfileMang";
 import useDebounce from "../../hooks/useDebounce";
 import Postview from "../PostView";
+import ProfileEditModal from "../../templates/ProfileEditModal";
 
 export default function ProfilePage() {
 
@@ -19,9 +20,10 @@ export default function ProfilePage() {
         handleUnfollow, handleFollow, handleReaction, likesList, setLikesList } = useProfileMang()
     const { getUser, tipo_usuario, authLoading } = AuthProvider()
     const [userData, setUserData] = useState<any>([])
+    const [modal, setModal] = useState(false)
 
     const userrr = async () => {
-        
+
         const resp = await getUser()
         if (resp?.data) {
             setUserData(resp.data.user)
@@ -30,7 +32,7 @@ export default function ProfilePage() {
         await getData(resp?.data.user)
     }
 
-    const getData = async (loggedUser : any) => {
+    const getData = async (loggedUser: any) => {
         tipo_usuario == "convidado" ?
             await getProfileWithoutUser(username ?? "") :
             await getProfileWithUser(username ?? "", loggedUser)
@@ -44,8 +46,8 @@ export default function ProfilePage() {
         handleUnfollow(data)
     }
 
-    const debounceReact = (data : any) => {
-        const xData = {post_id : data, usuario_id : userData.id}
+    const debounceReact = (data: any) => {
+        const xData = { post_id: data, usuario_id: userData.id }
         handleReaction(xData)
     }
 
@@ -61,26 +63,30 @@ export default function ProfilePage() {
     }, [username])
 
     if (Profileloading || authLoading) {
-        return <LoadingPageTemplate className="h-full w-full"/>
+        return <LoadingPageTemplate className="h-full w-full" />
     }
 
     if (url[2] == "following" || url[2] == "followers") {
         return <FollowListTemplate followingList={followingData} followType={url[2]} profileData={ProfileData} followerList={followersData}
-         userData={userData} handleFollow={debounceHandlerFollow} handleUnfollow={debounceHandlerUnfollow} />
+            userData={userData} handleFollow={debounceHandlerFollow} handleUnfollow={debounceHandlerUnfollow} />
     }
 
     if (url[2] == "post" && url[3]) {
-        return <Postview profileData={ProfileData} userData={userData} handleReaction={debounceHandlerReact} setPostLikes={setLikesList} postLikes={likesList}/>
+        return <Postview profileData={ProfileData} userData={userData} handleReaction={debounceHandlerReact} setPostLikes={setLikesList} postLikes={likesList} />
     }
-        
+
     if (inx) {
         return <UsuarioInexistente />
     }
 
     return (
-        <ProfileTemplate userData={userData} profileData={ProfileData} postData={postsData} handleFollow={debounceHandlerFollow}
-            handleUnfollow={debounceHandlerUnfollow} ProfilePostQTD={ProfilePostQTD} followSituation={followSituation} followers={followers} following={following}
-            handleReaction={debounceHandlerReact} likesList={likesList}
-        />
+        <>
+            <ProfileTemplate userData={userData} profileData={ProfileData} postData={postsData} handleFollow={debounceHandlerFollow}
+                handleUnfollow={debounceHandlerUnfollow} ProfilePostQTD={ProfilePostQTD} followSituation={followSituation} followers={followers} following={following}
+                handleReaction={debounceHandlerReact} likesList={likesList} setState={setModal} state={modal}
+            />
+            <ProfileEditModal setState={setModal} state={modal} data={userData}/>
+        </>
+
     )
 }
