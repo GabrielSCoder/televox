@@ -22,10 +22,10 @@ export default function FeedList(props: props) {
 
     const makeCards = () => {
 
-        const cards = data.map((key: { id : number, conteudo: string, data_criacao : string, usuario : {username : string, img_url : string, nome : string}, usuario_id : number, total_reactions : string, liked : boolean }, index ) => (
+        const cards = data.map((key: { id : number, conteudo: string, data_criacao : string, usuario : {id : number, username : string, img_url : string, nome : string}, usuario_id : number, total_reactions : string, liked : boolean }, index ) => (
             <PostCard key={index} title={"Flemis2024"} body={key.conteudo} likes={props.likesList[index].total_reactions} user={key.usuario.nome}
              username={key.usuario.username} img_url={key.usuario.img_url} liked={props.likesList[index].liked} handleReaction={props.handleReaction} postId={key.id}
-             lockedReact={!props.userId || props.userId == key.usuario_id} replies={props.likesList[index].total_replies} data_criacao={key.data_criacao}
+             lockedReact={!props.userId || props.userId == key.usuario_id} replies={props.likesList[index].total_replies} data_criacao={key.data_criacao} profileId={key.usuario.id}
              />
         ))
 

@@ -20,10 +20,9 @@ export default function useProfileMang() {
     const [likesList, setLikesList] = useState<liksList[]>([])
     const [followers, setFollowers] = useState(0)
     const [following, setFollowing] = useState(0)
+    const [userId, setUserId] = useState(0)
     const [inx, setInx] = useState(false)
 
-
-    //função para chamar quando não estiver logado
     async function getProfileWithUser(username: string, userData: any) {
 
         setProfileLoading(true)
@@ -32,6 +31,7 @@ export default function useProfileMang() {
         if (resp.success) {
             if (resp.dados != ProfileData) {
                 setProfileData(resp.dados)
+                setUserId(userData.id)
                 await verifyUserXYithY({ follower_id: userData.id, following_id: resp.dados.id })
                 await getPostsData(resp.dados.id, userData.id)
                 await Totalizer(resp.dados.id, userData.id)
@@ -42,7 +42,7 @@ export default function useProfileMang() {
         setProfileLoading(false)
     }
 
-    //função para chamar quando estiver logado
+
     async function getProfileWithoutUser(username: string) {
 
         setProfileLoading(true)
@@ -64,11 +64,10 @@ export default function useProfileMang() {
         // const resp = await handleGetPostsByFilter({ usuario: username ?? "", numeroPagina: 1, tamanhoPagina: 10 })
         const resp2 = await getAllPostByUserIdAndReaction({ userId: user_id, authorId: profile_id })
         if (resp2.data.success) {
-            console.log(resp2.data)
             setProfilePostQTD(resp2.data.dados.quantidade_postagens)
             setPostsData(resp2.data.dados.listaPostagens)
-            const lkList = resp2.data.dados.listaPostagens.map((value: { id: number, liked: any; total_reactions: any, total_replies : any }) => {
-                return { id: value.id, liked: value.liked, total_reactions: value.total_reactions, total_replies : value.total_replies }
+            const lkList = resp2.data.dados.listaPostagens.map((value: { id: number, liked: any; total_reactions: any, total_replies: any }) => {
+                return { id: value.id, liked: value.liked, total_reactions: value.total_reactions, total_replies: value.total_replies }
             })
             setLikesList(lkList)
         }
@@ -88,11 +87,11 @@ export default function useProfileMang() {
     }
 
     function relationshipSituation(data: relationFollow) {
-        if (data.seguindo && data.seguido) {
+        if (data.seguindo && data.seguido || data.seguindo && !data.seguido) {
             setFollowSituation(1) //Deixar de seguir
         } else if (!data.seguindo && data.seguido) {
             setFollowSituation(2) //seguir de volta
-        } else {
+        } else if (!data.seguindo && !data.seguido) {
             setFollowSituation(3) //seguir
         }
     }
@@ -164,6 +163,51 @@ export default function useProfileMang() {
 
     }
 
+    const updateLikes = (data: any) => {
+
+        console.log(userId)
+
+        setLikesList((prev) =>
+            prev.map((post) =>
+                post.id === data.data.post_id
+                    ? { ...post, liked: data.data.usuario_id == userId ? data.liked.liked : post.liked, total_reactions: data.total.total_reactions }
+                    : post
+            )
+        );
+
+        // console.log(data.liked.liked)
+    }
+
+    const updateRel = (data: any) => {
+
+        console.log("UPDATEREL")
+        console.log(ProfileData?.id)
+
+        if (data.dados.profileId == ProfileData?.id) {
+
+            if (data.dados.follower_id == userId) {
+                relationshipSituation(data.relacao)
+            }
+
+            setFollowers(data.total.TotalFollowers)
+            setFollowing(data.total.TotalFollowings)
+        }
+
+        if (data.dados.follower_id == userId) {
+
+            if (data.dados.invertTotalizer) {  //Normalmente o id do totalizer é do perfil que seguiu, o invert faz com que receba a lista do usuario que foi seguido
+
+                TotalizerByResponse(data.dados.profileId, data.dados.follower_id) //Quando estou na lista de seg. de algum profile e quero comparar com os meus 
+            } else {
+
+                TotalizerByResponse(data.dados.follower_id, data.dados.profileId)
+            }
+        }
+
+
+
+    }
+
     const handleFollow = (data: followForm) => {
         socket.emit("follow", data)
     }
@@ -172,22 +216,25 @@ export default function useProfileMang() {
         socket.emit("unfollow", data)
     }
 
-    const handleReaction = (data: { post_id: number, usuario_id: number }) => {
+    const handleReaction = (data: { post_id: number, usuario_id: number, profile_id: number }) => {
         console.log(data)
-        socket.emit("react", data)
+        socket.emit("react", { post_id: data.post_id, usuario_id: data.usuario_id, profile_id: data.profile_id })
     }
 
     useEffect(() => {
 
+        console.log("------------------------------ AQui")
+        if (!ProfileData || !ProfileData.id || !userId) return;
+
+        console.log("passou")
+
         socket.on("reactResponse", (data) => {
-            
-            setLikesList((prev) =>
-                prev.map((post) =>
-                    post.id === data.data.post_id
-                        ? { ...post, liked: data.liked.liked, total_reactions: data.total.total_reactions }
-                        : post
-                )
-            );
+
+
+            console.log("----recebendo resposta de react-----\n")
+            console.log(data)
+
+            updateLikes(data)
 
         })
 
@@ -196,37 +243,16 @@ export default function useProfileMang() {
             console.log("----recebendo resposta de follow-----\n")
             console.log(data)
 
-            if (data) {
-                relationshipSituation(data.relacao)
-                setFollowers(data.total.TotalFollowers)
-                setFollowing(data.total.TotalFollowings)
-                if (data.dados.invertTotalizer) {  //Normalmente o id do totalizer é do perfil que seguiu, o invert faz com que receba a lista do usuario que foi seguido
-
-                    TotalizerByResponse(data.dados.profileId, data.dados.follower_id) //Quando estou na lista de seg. de algum profile e quero comparar com os meus 
-                } else {
-
-                    TotalizerByResponse(data.dados.follower_id, data.dados.profileId)
-                }
-            }
+            updateRel(data)
         })
 
         socket.on("unfollowResponse", (data) => {
 
             console.log("----recebendo respota de unfollow-----\n")
             console.log(data)
+            console.log(ProfileData)
 
-            if (data) {
-                relationshipSituation(data.relacao)
-                setFollowers(data.total.TotalFollowers)
-                setFollowing(data.total.TotalFollowings)
-                if (data.dados.invertTotalizer) {
-
-                    TotalizerByResponse(data.dados.profileId, data.dados.follower_id)
-                } else {
-
-                    TotalizerByResponse(data.dados.follower_id, data.dados.profileId)
-                }
-            }
+            updateRel(data)
         })
 
         socket.on("replyResponse", (data) => {
@@ -238,9 +264,10 @@ export default function useProfileMang() {
             socket.off("reactResponse")
             socket.off("followResponse")
             socket.off("unfollowResponse")
+            socket.off("replyResponse")
         }
 
-    }, [])
+    }, [ProfileData, userId])
 
     return {
         getFollowers,

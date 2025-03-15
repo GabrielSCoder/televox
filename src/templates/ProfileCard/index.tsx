@@ -26,14 +26,12 @@ export default function ProfileCard(props: cardProps) {
 
     const logado = window.localStorage.getItem("content")
 
-    console.log(following)
-    console.log("user :", userData)
-
     const nav = useNavigate()
 
     const location = useLocation()
 
-  
+    console.log(followSituation)
+    
     const FollowBtn = () => {
 
         if (logado == "true" && userData && userData.nome != profileData.nome) {

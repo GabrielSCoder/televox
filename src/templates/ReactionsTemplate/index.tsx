@@ -13,13 +13,14 @@ type reactionsProps = {
     replies: number;
     id : number
     locked : boolean
+    profileId ?: number
 }
 
 export default function ReactionsTemplate({ props }: { props: reactionsProps }) {
 
     const handleR = (event : React.MouseEvent) => {
         event.stopPropagation()
-        props.handleReaction(props.id)
+        props.handleReaction(props.id, props.profileId)
     }
 
     return (

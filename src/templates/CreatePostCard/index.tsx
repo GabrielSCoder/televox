@@ -56,7 +56,7 @@ export default function CreatePostCard(props: props) {
                 <>
                     <Card className="justify-start items-center gap-4">
                         {userData ? (
-                            <div className="rounded-full h-[60px] w-[60px] bg-purple-500 ">
+                            <div className="rounded-full h-[60px] w-[60px] bg-black border ">
                                 <img src={userData.img_url} className="h-full w-full rounded-full object-cover"></img>
                             </div>)
                             : (

@@ -47,7 +47,7 @@ export default function ProfilePage() {
     }
 
     const debounceReact = (data: any) => {
-        const xData = { post_id: data, usuario_id: userData.id }
+        const xData = { post_id: data, usuario_id: userData.id, profile_id : ProfileData?.id ?? 0}
         handleReaction(xData)
     }
 

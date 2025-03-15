@@ -24,9 +24,9 @@ export default function ProfileEditModal(props: props) {
     const { register, reset, handleSubmit, control } = useForm({
         defaultValues: {
             nome: data.nome,
-            bio: data.texto_bio,
-            background: data.background_url,
-            avatar: data.img_url
+            bio: data.texto_bio ?? "",
+            background: data.background_url ?? "",
+            avatar: data.img_url ?? ""
         }
     })
 

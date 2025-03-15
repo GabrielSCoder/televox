@@ -29,6 +29,8 @@ const textInput = (props: props & inputProps) => {
 
     const inputValue = useWatch ? useWatch({control, name}) : "";
 
+    console.log(inputValue)
+
     return (
         <div className={classNames("w-full border group rounded-md", required && inputValue.length == 0 ? "border-red-500 focus-within:border-red-500" : "border-gray-300 focus-within:border-blue-500")}>
             <div className="px-2 flex justify-between">

@@ -17,24 +17,28 @@ export default function Home() {
     const { getUser, tipo_usuario } = AuthProvider()
 
     const getDataWithUser = async () => {
-        setLoading(true)
-        const handle = await getUser()
+        setLoading(true);
+        const handle = await getUser();
+    
         if (handle?.data) {
-            setUserData(handle.data.user)
-            console.log(handle.data.user)
+            setUserData(handle.data.user);
+            await new Promise((resolve) => setTimeout(resolve, 0)); // Pequeno delay para garantir atualização do estado
         }
-        const resp = await getFeedMk2({ id: 21, numeroPagina: 0, tamanhoPagina: 15, profile_id : handle?.data.user.id })
+    
+        const resp = await getFeedMk2({ id: 21, numeroPagina: 0, tamanhoPagina: 15, profile_id: handle?.data.user.id });
+    
         if (resp.data.success) {
-            setFeedData(resp.data.dados)
-            console.log(resp.data.dados)
-            const lkList = resp.data.dados.map((value: { id: number, liked: any; total_reactions: any, total_replies : any }) => {
-                return { id: value.id, liked: value.liked, total_reactions: value.total_reactions, total_replies : value.total_replies }
-            })
-            console.log(lkList)
-            setLikesList(lkList)
+            setFeedData(resp.data.dados);
+            const lkList = resp.data.dados.map((value: { id: number, liked: any; total_reactions: any, total_replies: any }) => {
+                return { id: value.id, liked: value.liked, total_reactions: value.total_reactions, total_replies: value.total_replies };
+            });
+    
+            setLikesList(lkList);
         }
-        setLoading(false)
-    }
+    
+        setLoading(false);
+    };
+    
 
     const getDataWoutUser = async () => {
 
@@ -43,52 +47,71 @@ export default function Home() {
         const resp = await getFeedMk1({ id: 0, tamanhoPagina: 15, numeroPagina : 0})
         if (resp.data.success) {
             setFeedData(resp.data.dados)
-            console.log(resp.data.dados)
+           
             const lkList = resp.data.dados.map((value: { id: number, liked: any; total_reactions: any, total_replies : any }) => {
                 return { id: value.id, liked: value.liked, total_reactions: value.total_reactions, total_replies : value.total_replies }
             })
-            console.log(lkList)
+           
             setLikesList(lkList)
         }
         setLoading(false)
     }
 
-    const handleReaction = (data: { post_id: number, usuario_id: number }) => {
+    const handleReaction = (data: { post_id: number, usuario_id: number, profile_id : number }) => {
         console.log(data)
         socket.emit("react", data)
     }
 
-    const debounceReact = (data: any) => {
-        const xData = { post_id: data, usuario_id: userData.id }
+    const debounceReact = (post_id: number, profile_id : number) => {
+        console.log(userData.id, profile_id)
+        const xData = { post_id: post_id, usuario_id: userData.id, profile_id : profile_id }
+        console.log(xData)
         handleReaction(xData)
+    }
+
+    const updateLikes = (data : any) => {
+
+        console.log(userData)
+        console.log(data)
+
+        setLikesList((prev) =>
+            prev.map((post) =>
+                post.id === data.data.post_id
+                    ? { ...post, liked: data.data.usuario_id == userData.id ? data.liked.liked : post.liked, total_reactions: data.total.total_reactions }
+                    : post
+            )
+        );
     }
 
     const debounceHandlerFollow = useDebounce(debounceReact, 200)
 
     useEffect(() => {
-
-        socket.connect()
-
-        socket.on("reactResponse", (data) => {
-         
-            setLikesList((prev) =>
-                prev.map((post) =>
-                    post.id === data.data.post_id
-                        ? { ...post, liked: data.liked.liked, total_reactions: data.total.total_reactions }
-                        : post
-                )
-            );
-
-        })
-
-        tipo_usuario === "convidado" ? getDataWoutUser() : getDataWithUser()
-
+        socket.connect();
+        
+        tipo_usuario === "convidado" ? getDataWoutUser() : getDataWithUser();
+    
         return () => {
-            socket.off("reactResponse")
-        }
-    }, [])
+            socket.off("reactResponse");
+        };
+    }, []); 
+    
+    useEffect(() => {
+        if (!userData || !userData.id) return;
+    
+        console.log("Registrando socket.on reactResponse com userData:", userData);
+    
+        socket.on("reactResponse", (data) => {
+            console.log("Recebido reactResponse:", data);
+    
+            updateLikes(data);
+        });
+    
+        return () => {
+            socket.off("reactResponse"); 
+        };
+    }, [userData]);
 
-    if (loading) {
+    if (loading || userData == undefined) {
         return <LoadingPageTemplate  className="w-full h-full"/>
     }
 

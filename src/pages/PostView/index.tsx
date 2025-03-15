@@ -25,7 +25,6 @@ export default function Postview(props: props) {
 
     const { profileData, userData, setPostLikes } = props
     const { id } = useParams()
-    console.log(userData)
 
     const [postData, setPostData] = useState<postView>()
     const [repliesData, setRepliesData] = useState([])
@@ -64,7 +63,7 @@ export default function Postview(props: props) {
                 const lkList = resp.data.dados.map((value: { id: number, liked: any; total_reactions: any, total_replies: any }) => {
                     return { id: value.id, liked: value.liked, total_reactions: value.total_reactions, total_replies: value.total_replies }
                 })
-                console.log(lkList)
+
                 setLikesList(lkList)
                 setRepliesData(resp.data.dados)
             }
@@ -91,7 +90,7 @@ export default function Postview(props: props) {
     }
 
     const handleReaction = (data: { post_id: number, usuario_id: number }) => {
-        console.log(data)
+
         socket.emit("react", data)
     }
 
@@ -104,39 +103,49 @@ export default function Postview(props: props) {
 
     useEffect(() => {
 
+        if (!userData.id || !profileData.id || !postData?.id) return;
+
         socket.on("reactResponse", (data) => {
 
-            console.log("retorno", data)
+            console.log("POST PAI ATUAL:", postData.id)
 
             setLikesList((prev) =>
                 prev.map((post) =>
                     post.id === data.data.post_id
-                        ? { ...post, liked: data.liked.liked, total_reactions: data.total.total_reactions }
+                        ? {
+                            ...post, liked: userData.id == data.data.usuario_id ? data.liked.liked : post.liked,
+                            total_reactions: data.total.total_reactions 
+                        }
                         : post
                 )
             );
 
-            setPostData((prev) => (prev ? { ...prev, liked: data.liked.liked, total_reactions: data.total.total_reactions } : prev));
+            if (data.data.post_id == postData.id) {
+                setPostData((prev) => (prev ? {
+                    ...prev, liked: userData.id == data.data.usuario_id && postData.id == data.data.post_id ? data.liked.liked : prev.liked,
+                    total_reactions:  data.total.total_reactions
+                } : prev));
 
-            setPostLikes((prev: any) => prev.map((post: any) =>
-                post.id === data.data.post_id
-                    ? { ...post, liked: data.liked.liked, total_reactions: data.total.total_reactions }
-                    : post
-            ))
 
+                setPostLikes((prev: any) => prev.map((post: any) =>
+                    post.id === data.data.post_id
+                        ? {
+                            ...post, liked: userData.id == data.data.usuario_id && postData.id == data.data.post_id ? data.liked.liked : post.liked,
+                            total_reactions: postData?.id == data.data.post_id ? data.total.total_reactions : prev.total_reactions
+                        }
+                        : post
+                ))
+
+            }
         })
 
-        return () => {
-            socket.off("reactResponse")
-        }
-
-    }, [])
+    }, [profileData, userData, postData])
 
     useEffect(() => {
         getPostData()
     }, [id])
 
-    if (loading) {
+    if (loading || postData == undefined) {
         return <LoadingPageTemplate className="w-full h-full" />
     }
 
