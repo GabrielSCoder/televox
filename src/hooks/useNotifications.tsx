@@ -52,6 +52,29 @@ export default function useNotifications() {
                             notification_ids: [item.id] 
                         });
                     }
+                } else if (item.tipo === "reply") {
+                    let existing = acc.find((n: { tipo: string; post_id: any; }) => n.tipo === "reply" && n.post_id === item.post_id);
+    
+                    const usuarioData = {
+                        nome: item.usuario.nome,
+                        username: item.usuario.username,
+                        img_url: item.usuario.img_url || "https://img.freepik.com/premium-vector/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_561158-3383.jpg",
+                        post_id: item.post_id
+                    };
+    
+                    if (existing) {
+                        if (!existing.usuarios.some((u: { username: any; }) => u.username === usuarioData.username)) {
+                            existing.usuarios.push(usuarioData);
+                            existing.notification_ids.push(item.id); 
+                        }
+                    } else {
+                        acc.push({
+                            tipo: "reply",
+                            post_id: item.post_id,
+                            usuarios: [usuarioData],
+                            notification_ids: [item.id] 
+                        });
+                    }
                 }
                 return acc;
             }, []);

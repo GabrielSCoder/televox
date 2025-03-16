@@ -12,20 +12,19 @@ export function AuthProvider() {
     const { handleLogin } = useRequest()
 
     const getUser = async () => {
-        setAuthLoading(true)
+        setAuthLoading(true);
         try {
-            const resp = await logadoAsync()
-            return resp
+            const resp = await logadoAsync(); 
+            if (resp?.data?.newToken) {
+                window.sessionStorage.setItem("profile", resp.data.newToken);
+            }
+            return resp;
         } catch (error) {
-            console.log(error)
-            window.localStorage.removeItem("content")
-            window.sessionStorage.clear()
-            window.location.href = "/"
+            console.log(error);
         } finally {
-            setAuthLoading(false)
+            setAuthLoading(false);
         }
-
-    }
+    };
 
     const login = async (data: any) => {
         const resp = await handleLogin(data)
@@ -49,8 +48,9 @@ export function AuthProvider() {
             window.sessionStorage.clear()
             sockett?.disconnect()
         }
-
-        setAuthLoading(false)
+        
+        // setAuthLoading(false)
+        window.location.href = "/"
     }
 
     return {

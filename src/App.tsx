@@ -1,11 +1,12 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import MainRouter from './router';
-import { AuthProvider } from './hooks/useAuth';
-import ChatMK1 from './templates/ChatMK1Template';
 import SocketProvider from './contexts/socketContext';
-
+import { setErrorHandler } from './services/axiosConfig';
 
 function App() {
+
+  const [text, setText] = useState<string | null>()
+
 
   const [darkMode, setDarkMode] = useState(() => {
 
@@ -15,7 +16,6 @@ function App() {
     if (storedTheme) {
       return storedTheme === "dark";
     }
-
 
     return systemPrefersDark;
   });
@@ -31,13 +31,19 @@ function App() {
     }
   }, [darkMode]);
 
+  useEffect(() => {
+    setErrorHandler((msg) => {
+      return setText(msg);
+    })
+  }, [])
 
   return (
     <SocketProvider>
       <MainRouter />
+      <div className='bg-red-500 absolute bottom-0 left-1/2'>
+        <p className='text-white text-lg'>{text ?? ""}</p>
+      </div>
     </SocketProvider>
-
-    // <ChatMK1 />
   )
 }
 

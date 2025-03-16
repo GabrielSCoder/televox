@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import LoadingPageTemplate from "../../templates/LoadingPage";
 import { IoIosHeart } from "react-icons/io";
 import { AiOutlineUserAdd } from "react-icons/ai";
+import { CiChat1 } from "react-icons/ci";
 import useNotifications from "../../hooks/useNotifications";
 import React from "react";
 
@@ -37,7 +38,7 @@ export default function Notifications() {
             <h2 className="text-white text-xl font-bold mb-4 p-2">Notificações</h2>
             {notifyData.map((notification: any, index) => (
                 <div key={index} className="border-b border-t border-gray-500 h-[120px] text-white flex items-center gap-4 hover:cursor-pointer hover:bg-gray-800 px-2"
-                onClick={notification.tipo === "like" ? () => {nav(`/${user}/post/${notification.post_id}`)} : undefined}
+                    onClick={notification.tipo === "like" || notification.tipo === "reply" ? () => { nav(`/${user}/post/${notification.post_id}`) } : undefined}
                 >
 
                     {notification.tipo === "follow" && (
@@ -85,11 +86,11 @@ export default function Notifications() {
                                         </>
                                     ) : notification.usuarios.length <= 3 ? (
                                         <>
-                                            {notification.usuarios.map((u : any, idx : number) => (
+                                            {notification.usuarios.map((u: any, idx: number) => (
                                                 <span key={idx} className="font-bold hover:underline hover:decoration-white" onClick={e => btn(e, u.username)}>
                                                     {u.nome}
                                                 </span>
-                                            )).map((item : any, index : number, array : any) => (
+                                            )).map((item: any, index: number, array: any) => (
                                                 <React.Fragment key={index}>
                                                     {item}
                                                     {index < array.length - 1 && ", "}
@@ -98,17 +99,79 @@ export default function Notifications() {
                                         </>
                                     ) : (
                                         <>
-                                            {notification.usuarios.slice(0, 2).map((u : any, idx : number) => (
+                                            {notification.usuarios.slice(0, 2).map((u: any, idx: number) => (
                                                 <span key={idx} className="font-bold hover:underline hover:decoration-white" onClick={e => btn(e, u.username)}>
                                                     {u.nome}
                                                 </span>
-                                            )).map((item : any, index : number, array : any) => (
+                                            )).map((item: any, index: number, array: any) => (
                                                 <React.Fragment key={index}>
                                                     {item}
                                                     {index < array.length - 1 && ", "}
                                                 </React.Fragment>
                                             ))}
                                             e outras <span className="font-bold text-red-400">{notification.usuarios.length - 2}</span> pessoas curtiram seu post
+                                        </>
+                                    )}
+                                </p>
+
+                            </div>
+
+
+
+                        </div>
+                    )}
+
+                    {notification.tipo === "reply" && (
+                        <div className="flex items-start gap-1">
+
+                            <div className="mt-2">
+                                <CiChat1 size={30} className="text-white mr-6" />
+                            </div>
+
+                            <div className="flex flex-col gap-2">
+                                <div className="flex flex-wrap gap-2 -space-x-2 items-center">
+                                    {notification.usuarios.slice(0, 10).map((user: any, idx: number) => (
+                                        <img
+                                            key={idx}
+                                            src={user.img_url}
+                                            alt={user.nome}
+                                            className="w-10 h-10 rounded-full border-1 border-gray-200 object-cover"
+                                        />
+                                    ))}
+                                </div>
+                                <p>
+                                    {notification.usuarios.length === 1 ? (
+                                        <>
+                                            <span className="font-bold hover:underline hover:decoration-white" onClick={e => btn(e, notification.usuarios[0].username)}>
+                                                {notification.usuarios[0].nome}
+                                            </span> comentou no seu post
+                                        </>
+                                    ) : notification.usuarios.length <= 3 ? (
+                                        <>
+                                            {notification.usuarios.map((u: any, idx: number) => (
+                                                <span key={idx} className="font-bold hover:underline hover:decoration-white" onClick={e => btn(e, u.username)}>
+                                                    {u.nome}
+                                                </span>
+                                            )).map((item: any, index: number, array: any) => (
+                                                <React.Fragment key={index}>
+                                                    {item}
+                                                    {index < array.length - 1 && ", "}
+                                                </React.Fragment>
+                                            ))} comentaram no seu post
+                                        </>
+                                    ) : (
+                                        <>
+                                            {notification.usuarios.slice(0, 2).map((u: any, idx: number) => (
+                                                <span key={idx} className="font-bold hover:underline hover:decoration-white" onClick={e => btn(e, u.username)}>
+                                                    {u.nome}
+                                                </span>
+                                            )).map((item: any, index: number, array: any) => (
+                                                <React.Fragment key={index}>
+                                                    {item}
+                                                    {index < array.length - 1 && ", "}
+                                                </React.Fragment>
+                                            ))}
+                                            e outras <span className="font-bold text-red-400">{notification.usuarios.length - 2}</span> pessoas comentaram no seu post
                                         </>
                                     )}
                                 </p>

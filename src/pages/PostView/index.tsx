@@ -83,6 +83,7 @@ export default function Postview(props: props) {
         const resp = await sendPostAsync(dt)
         if (resp.data.success) {
             reset()
+            socket.emit("reply", ({usuario_id : userData.id, usuario_destino : profileData.id, post_id : resp.data.dados.parent_id}))
             getPostData()
         }
 

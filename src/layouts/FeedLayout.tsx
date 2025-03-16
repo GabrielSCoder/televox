@@ -1,10 +1,8 @@
 import LateralMenu from "../templates/LateralMenu";
-import Groups from "../templates/Groups";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import TitleTag from "../components/TitleTags";
-import { FakeFriends } from "../hooks/useFakeData";
 import { GuestFooterAdvice } from "../templates/GuestFooterAdvice";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { AuthProvider } from "../hooks/useAuth";
 import SearchBarTemplate from "../templates/SearchBar";
 import LoadingPageTemplate from "../templates/LoadingPage";
@@ -32,6 +30,7 @@ export default function FeedLayout() {
     const getNotify = async (id: number) => {
         const resp = await getNotificationsbyId(id)
         if (resp.data.success) {
+            console.log(resp.data.dados)
             const n = resp.data.dados.filter((value: any) => value.visualizado === false).length;
             setNotifications(n)
             console.log(n)
@@ -82,6 +81,7 @@ export default function FeedLayout() {
 
                 <div className={classNames("sticky w-1/6 flex flex-col justify-start items-start px-4 gap-10 overflow-auto top-1 z-0", tipo_usuario == "conta" ? "h-[910px]" : "h-[800px]")}>
                     <SearchBarTemplate />
+                    {/* <AlertConnection /> */}
                     {/* {tipo_usuario == "conta" ? (
                         <>
                             <div className="flex flex-col border border-gray-700 w-full p-4 rounded-md gap-2">
