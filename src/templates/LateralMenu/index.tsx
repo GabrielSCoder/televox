@@ -19,7 +19,7 @@ function LateralMenu(props: props) {
     const opts = ["Home", "Notifications", "Groups", "Messages", "Configuration"]
     const opts2 = ["Home", "Perfil", "Notificações"]
     const menu_convidado = ["Home"]
-    const logado = window.localStorage.getItem("content")
+    const logado = window.localStorage.getItem("profile")
 
     const nav = useNavigate()
 
@@ -57,7 +57,7 @@ function LateralMenu(props: props) {
 
     return (
         <div className="flex flex-col gap-8">
-                {logado == "true" ? getMenuOpts() : getConvidadoMenu()}
+                {logado ? getMenuOpts() : getConvidadoMenu()}
             
         </div>
     )

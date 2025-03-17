@@ -18,7 +18,7 @@ export default function FeedLayout() {
     const [notifications, setNotifications] = useState(0)
 
     const getData = async () => {
-        if (window.localStorage.getItem("content") == "true") {
+        if (window.localStorage.getItem("profile")) {
             const resp = await getUser()
             if (resp?.data) {
                 setUserData(resp.data.user)

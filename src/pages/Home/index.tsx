@@ -22,7 +22,7 @@ export default function Home() {
     
         if (handle?.data) {
             setUserData(handle.data.user);
-            await new Promise((resolve) => setTimeout(resolve, 0)); // Pequeno delay para garantir atualização do estado
+            await new Promise((resolve) => setTimeout(resolve, 0)); 
         }
     
         const resp = await getFeedMk2({ id: 21, numeroPagina: 0, tamanhoPagina: 15, profile_id: handle?.data.user.id });

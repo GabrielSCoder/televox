@@ -8,7 +8,8 @@ export default function useRequest() {
     const handleLogin = async (data: any) => {
 
         try {
-            const resp = await login({ email: data.email, senha: data.senha })
+           
+            const resp = await login(data)
 
             return { success: true, data: resp.data }
 

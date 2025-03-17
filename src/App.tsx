@@ -2,11 +2,11 @@ import { useState, useEffect } from 'react';
 import MainRouter from './router';
 import SocketProvider from './contexts/socketContext';
 import { setErrorHandler } from './services/axiosConfig';
+import { getFingerPrint } from './services/fingerprint';
 
 function App() {
 
   const [text, setText] = useState<string | null>()
-
 
   const [darkMode, setDarkMode] = useState(() => {
 

@@ -4,9 +4,10 @@ import HomeLayout from "../layouts/HomeLayout";
 import routesFeed from "./home";
 
 const PreventLoginRoute = () => {
-    const isAuthenticated = window.localStorage.getItem("content") === "true";
+    // const isAuthenticated = window.localStorage.getItem("content") === "true";
+    const auth = window.localStorage.getItem("profile")
 
-    return isAuthenticated ? <Navigate to="/home" /> : <Outlet />;
+    return auth ? <Navigate to="/home" /> : <Outlet />;
 };
 
 export default function MainRouter() {

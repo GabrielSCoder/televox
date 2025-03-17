@@ -9,7 +9,8 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import ForgotPasword from "../ForgotPassword";
 import { AuthProvider } from "../../hooks/useAuth";
-
+import { getOSAndBrowser, getIPAddress} from "../../services/soinformation"
+import { getFingerPrint } from "../../services/fingerprint";
 const contentStyle = "p-8 px-36 fixed left-1/2 top-1/2 h-[68vh] max-h-[100vh] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-2xl bg-black p-[25px] shadow-[var(--shadow-6)] focus:outline-none data-[state=open]:animate-contentShow"
 
 export default function LoginModal(props: modalProps) {
@@ -36,14 +37,17 @@ export default function LoginModal(props: modalProps) {
 
     const submit = async () => {
         setLoading(true)
-        console.log(tipo_usuario)
+        const ip = await getIPAddress()
+        const finger = await getFingerPrint()
+        const {os, browser} = getOSAndBrowser()
+
         handleSubmit(async (data) => {
-            const resp = await login(data)
+            const dados = {email : data.email, senha : data.senha, ip : ip, finger : finger, os : `${os} ${browser}`}
+            const resp = await login(dados)
             if (!resp.success) {
                 mapMsg(resp.msg)
             } else {
                 clearErrorMsg()
-                // nav("/profile", {state : {id : resp.data.usuario_id}})
                 nav("/home")
             }
 

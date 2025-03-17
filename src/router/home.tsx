@@ -5,9 +5,10 @@ import { Navigate, Outlet } from "react-router-dom";
 import Notifications from "../pages/Notifications";
 
 const PreventFeedRoute = () => {
-    const isAuthenticated = window.localStorage.getItem("content") === "true";
+    // const isAuthenticated = window.localStorage.getItem("content") === "true";
+    const auth = window.localStorage.getItem("profile")
 
-    return !isAuthenticated ? <Navigate to="/" /> : <Outlet />;
+    return !auth ? <Navigate to="/" /> : <Outlet />;
 };
 
 const routesFeed = {

@@ -12,7 +12,7 @@ const success = (res: any) => res;
 const error = (err: AxiosError) => {
    
     if (err.response?.status === 401) {
-        window.localStorage.setItem("content", "false");
+        window.localStorage.removeItem("profile");
         window.location.href = "/";
         return;
     }
@@ -31,7 +31,7 @@ const getaxios = async (timeout = 3000) => {
         timeout: timeout
     });
 
-    instance.interceptors.response.use(success, error);
+    // instance.interceptors.response.use(success, error);
 
     return instance;
 };

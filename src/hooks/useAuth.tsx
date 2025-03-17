@@ -6,7 +6,8 @@ import { SocketContext } from "../contexts/socketContext";
 
 export function AuthProvider() {
 
-    const tipo_usuario = window.localStorage.getItem("content") == "true" ? "conta" : "convidado"
+    // const tipo_usuario = window.localStorage.getItem("content") == "true" ? "conta" : "convidado"
+    const tipo_usuario = "conta"
     const [authLoading, setAuthLoading] = useState(false)
     const sockett = useContext(SocketContext)
     const { handleLogin } = useRequest()
@@ -16,7 +17,7 @@ export function AuthProvider() {
         try {
             const resp = await logadoAsync(); 
             if (resp?.data?.newToken) {
-                window.sessionStorage.setItem("profile", resp.data.newToken);
+                window.localStorage.setItem("profile", resp.data.newToken);
             }
             return resp;
         } catch (error) {
@@ -27,10 +28,11 @@ export function AuthProvider() {
     };
 
     const login = async (data: any) => {
+       
         const resp = await handleLogin(data)
         if (resp.success) {
-            window.sessionStorage.setItem("profile", resp.data.token)
-            window.localStorage.setItem("content", "true")
+            window.localStorage.setItem("profile", resp.data.token)
+            // window.localStorage.setItem("content", "true")
         }
         return (resp)
     }
@@ -44,8 +46,8 @@ export function AuthProvider() {
         const resp = await Promise.all([logoutAsync(), delay]);
 
         if (resp[0].data.success) {
-            window.localStorage.setItem("content", "false");
-            window.sessionStorage.clear()
+            // window.localStorage.setItem("content", "false");
+            window.localStorage.removeItem("profile")
             sockett?.disconnect()
         }
         
