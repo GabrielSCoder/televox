@@ -1,4 +1,3 @@
-import { useForm } from "react-hook-form"
 import Button from "../../components/Button"
 import Card from "../../components/Card"
 import { CountChars } from "../../components/CountChars"
@@ -16,26 +15,12 @@ type props = {
 
 export default function ReplyCardTemplate(props: props) {
 
-    const { profileData, userData, handleReply, postData, register } = props
+    const { userData, handleReply, postData, register } = props
     const [isFocused, setIsFocused] = useState(false);
     const [val, setVal] = useState(0)
 
     const charactersLimit = 150
     const charactersBuffer = 50
-
-    const charState = () => {
-
-        const completePercent = ((val) / (charactersLimit + charactersBuffer)) * 100
-        if (completePercent <= 25) {
-            return 2
-        } else if (completePercent <= 50) {
-            return 2
-        } else if (completePercent <= 75) {
-            return 3
-        } else {
-            return 4
-        }
-    }
 
     return (
 

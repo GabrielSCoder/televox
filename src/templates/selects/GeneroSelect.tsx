@@ -3,7 +3,7 @@ import { SelectMain } from "../../components/Select";
 
 export default function GeneroSelectTemplate(props: {field : any, errors ?: any, Isrequired ?: boolean, requiredText ?: string}) {
 
-    const { field, errors, Isrequired, requiredText } = props
+    const { field, errors } = props
 
     return (
         <SelectMain placeholder="Gênero" value={field.value} onChange={field.onChange} errors={errors} >

@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { confirmNotifications, getNotificationsbyId } from "../services/notification";
+import { useState } from "react";
+import { getNotificationsbyId } from "../services/notification";
 import { socket } from "../services/socket";
 
 export default function useNotifications() {
@@ -89,6 +89,7 @@ export default function useNotifications() {
     
 
     const confirmNotify = async (some : any, id : number) => {
+        console.log(some)
         socket.emit("notify", {id : id, notifications : notififyIdList})
     }
 

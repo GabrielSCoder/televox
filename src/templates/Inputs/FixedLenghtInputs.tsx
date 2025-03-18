@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import classNames from "../../utils/classNames"
 
 type props = {
@@ -25,7 +25,7 @@ function FixedInput() {
 
 const textInput = (props: props & inputProps) => {
 
-    const { className, name, register, placeholder, maxLenght, required, value = "", useWatch, control } = props
+    const { name, register, placeholder, maxLenght, required, useWatch, control } = props
 
     const inputValue = useWatch ? useWatch({control, name}) : "";
 
@@ -47,7 +47,7 @@ const textInput = (props: props & inputProps) => {
 const textareaInput = (props: props & inputProps) => {
 
 
-    const { className, name, register, placeholder, maxLenght, value = "" } = props
+    const { name, register, placeholder, maxLenght, value = "" } = props
     const [inputSize, setInputSize] = useState(value.length)
 
 

@@ -18,7 +18,7 @@ export default function LoginModal(props: modalProps) {
     const { stateMng, state, changeModals } = props
     const [loading, setLoading] = useState(false)
     const [errorMsg, setErrorMsg] = useState<string>()
-    const { tipo_usuario, login } = AuthProvider()
+    const { login } = AuthProvider()
     const [forgotPasword, setForgotPassword] = useState(false)
 
     const nav = useNavigate()
@@ -52,7 +52,7 @@ export default function LoginModal(props: modalProps) {
             }
 
         })()
-        setInterval(() => setLoading(false), 1000)
+        // setLoading(false)
     }
 
     const mapMsg = (data: any[]) => {
@@ -104,7 +104,7 @@ export default function LoginModal(props: modalProps) {
                         </Card>
 
                         <div className="m-4">
-                            <button className=" text-blue-500 hover:underline hover:decoration-blue-500" onClick={() => changeModals()}>Não tem uma conta? Inscreva-se</button>
+                            <button className=" text-blue-500 hover:underline hover:decoration-blue-500" onClick={() => {changeModals ? changeModals() : undefined}}>Não tem uma conta? Inscreva-se</button>
                         </div>
 
                     </div>

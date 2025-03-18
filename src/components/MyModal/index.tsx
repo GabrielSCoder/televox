@@ -1,5 +1,4 @@
 import * as Dialog from "@radix-ui/react-dialog"
-import { FaCross } from "react-icons/fa";
 import { Cross2Icon } from "@radix-ui/react-icons"
 import { ReactNode } from "react";
 

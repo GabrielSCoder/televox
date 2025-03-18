@@ -1,6 +1,4 @@
-import { useEffect, useRef, useState } from "react"
-import { API_URL } from "../../utils/api"
-import { io } from "socket.io-client"
+import { useEffect, useState } from "react"
 import { socket } from "../../services/socket";
 
 // export default function ChatMK1() {

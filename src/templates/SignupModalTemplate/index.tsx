@@ -3,10 +3,7 @@ import { Cross2Icon } from "@radix-ui/react-icons"
 import { useState, useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { AiOutlineLoading3Quarters } from "react-icons/ai"
-import { useNavigate } from "react-router-dom"
-import Card from "../../components/Card"
 import { modalProps } from "../../components/Dialog Alert"
-import { Input } from "../../components/Inputs"
 import useDebounce from "../../hooks/useDebounce";
 import { SignupModalEtapaUm } from "./EtapaUm";
 import { SignupModalEtapaDois } from "./EtapaDois";

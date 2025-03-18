@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { getPostbyId, getRepliesByPostId, sendPostAsync } from "../../services/post";
 import { useEffect, useState } from "react";
 import LoadingPageTemplate from "../../templates/LoadingPage";
@@ -12,6 +12,7 @@ import { createPostForm, liksList, postView } from "../../types/postType";
 import { useForm } from "react-hook-form";
 import useDebounce from "../../hooks/useDebounce";
 import { socket } from "../../services/socket";
+import PostNotFound from "../../templates/PostNotFound";
 
 type props = {
     profileData: any
@@ -148,6 +149,10 @@ export default function Postview(props: props) {
 
     if (loading || postData == undefined) {
         return <LoadingPageTemplate className="w-full h-full" />
+    }
+
+    if (profileData.id != postData.usuario_id) {
+        return <PostNotFound />
     }
 
     return (

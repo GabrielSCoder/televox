@@ -1,7 +1,5 @@
-import DatePicker from "react-datepicker";
 import Card from "../../components/Card";
 import { Input } from "../../components/Inputs";
-import { SelectMain } from "../../components/Select";
 
 type props = {
     register: any

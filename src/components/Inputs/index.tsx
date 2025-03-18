@@ -190,8 +190,8 @@ function TextArea(props: textAreaInput & React.HtmlHTMLAttributes<HTMLTextAreaEl
             {...register?.(name)}
             {...rest}
             onChange={(e) => {
-                register?.(name)?.onChange(e); // Chama a função do react-hook-form
-                onChange?.(e); // Chama o onChange do componente pai
+                register?.(name)?.onChange(e);
+                onChange?.(e); 
             }}
             className={classNames(className, inputClasses, "border rounded-md w-full focus:outline-none border-gray-500 dark:border-0 resize-none")}
             disabled={disabled}>
@@ -202,7 +202,7 @@ function TextArea(props: textAreaInput & React.HtmlHTMLAttributes<HTMLTextAreaEl
 function CheckBox(props: fieldInput) {
 
 
-    const { name, disabled, className, label, labelStyle, control } = props
+    const { name, className, label, labelStyle, control } = props
 
 
     const Check2 = () => {
@@ -245,7 +245,6 @@ function CheckBox(props: fieldInput) {
 }
 
 function SelectOption(props: selectInputOptions) {
-    const [date, setDate] = useState<any[]>([]);
 
     const { name, dados, register, className, label, labelStyle } = props
 
@@ -276,7 +275,7 @@ function SelectOption(props: selectInputOptions) {
 
 function SelectOpt2(props: { control: any, name: string, errors?: any, isRequired?: boolean, requiredText?: string }) {
 
-    const { control, name, isRequired, errors, requiredText } = props
+    const { control, name, isRequired, requiredText } = props
 
     return (
         <>
@@ -344,7 +343,7 @@ function InputCnpj(props: fieldInput) {
 
 function SwitchIPT(props: SwitchInput) {
 
-    const { name, control, label, labelStyle } = props
+    const { name, control, label } = props
     return (
         <Controller
             name={name}
@@ -416,3 +415,4 @@ Input.SelectOpt = SelectOpt2
 Input.Cnpj = InputCnpj
 Input.Password = Password
 Input.Date = DateInput
+Input.Select2 = SelectOption

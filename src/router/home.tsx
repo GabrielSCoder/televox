@@ -28,21 +28,15 @@ const routesFeed = {
                 },
                 {
                     path: ":username",
-                    element: (
-                        <ProfilePage />
-                    )
+                    element: <ProfilePage />
                 },
                 {
                     path: ":username/following",
-                    element: (
-                        <ProfilePage />
-                    )
+                    element: <ProfilePage />
                 },
                 {
                     path: ":username/followers",
-                    element: (
-                        <ProfilePage />
-                    )
+                    element: <ProfilePage />
                 },
                 {
                     path: ":username/post/:id",
@@ -56,17 +50,6 @@ const routesFeed = {
                     path : "notifications",
                     element : <Notifications />
                 },
-                // {
-                //     path: "grupos",
-                //     element: <GroupsTemplate />
-                // },
-
-                // {
-                //     path : "notifications",
-                //     element : <NotificationsTemplate />
-                // },
-                
-
             ]
         }
 

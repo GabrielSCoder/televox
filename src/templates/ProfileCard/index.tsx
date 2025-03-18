@@ -22,9 +22,9 @@ type cardProps = {
 
 export default function ProfileCard(props: cardProps) {
 
-    const { profileData, userData, followSituation, followers, following, handleFollow, handleUnfollow, setProfileModal, profileModal } = props
+    const { profileData, userData, followSituation, followers, following, handleFollow, handleUnfollow, setProfileModal } = props
 
-    const logado = window.localStorage.getItem("content")
+    const logado = window.localStorage.getItem("profile")
 
     const nav = useNavigate()
 
@@ -34,7 +34,7 @@ export default function ProfileCard(props: cardProps) {
     
     const FollowBtn = () => {
 
-        if (logado == "true" && userData && userData.nome != profileData.nome) {
+        if (logado && userData && userData.nome != profileData.nome) {
             if (followSituation == 1) {
                 return <Button className="text-white dark:text-black dark:bg-white bg-black rounded-3xl py-0 px-4 font-semibold text-lg hover:bg-slate-200"
                     text="Deixar de seguir" onClick={() => handleUnfollow({ follower_id: userData.id, following_id: profileData.id, invertTotalizer : true, profileId : profileData.id })} />

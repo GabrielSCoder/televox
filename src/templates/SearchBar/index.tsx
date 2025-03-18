@@ -43,7 +43,7 @@ export default function SearchBarTemplate() {
                     className="text-white bg-black w-full rounded-3xl px-2 focus:outline-none"
                     onChange={(e: any) => handleDelaySearch(e.target.value)} onFocus={() => setState(true)} />
             </Card>
-            <ResultList data={searchData} state={state} />
+            <ResultList data={searchData} state={state} className="top-full left-0"/>
         </Card>
 
     )

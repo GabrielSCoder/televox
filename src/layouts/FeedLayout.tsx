@@ -72,7 +72,7 @@ export default function FeedLayout() {
                     <LateralMenu username={UserData.username} id={UserData.id} notificationsNumber={notifications} />
                     {/* {tipo_usuario == "conta" && <p className="text-xl text-black dark:text-white text-center mt-6">Olá! {UserData.username}</p>} */}
                     {/* <DarkModeButton className="w-fit mx-auto py-2 px-4 rounded-3xl"/> */}
-                    {tipo_usuario == "conta" && <button className="px-4 py-2 rounded-3xl text-black dark:text-white border hover:bg-gray-800 w-fit mx-auto mt-auto mb-2" onClick={handleLogout}>Logout</button>}
+                    {tipo_usuario == "conta" && <button className="px-4 py-2 rounded-3xl text-black dark:text-white border hover:bg-gray-800 w-fit mt-auto mb-2" onClick={handleLogout}>Logout</button>}
                 </div>
 
                 <div className="w-[600px] flex flex-col justify-start items-start gap-0 border-l  border-r min-h-[100vh]">
@@ -94,7 +94,7 @@ export default function FeedLayout() {
 
                 </div>
             </div>
-            {tipo_usuario == "convidado" ? <GuestFooterAdvice setModal={undefined} modal={false} /> : ""}
+            {tipo_usuario == "convidado" ? <GuestFooterAdvice /> : ""}
         </div>
 
     )

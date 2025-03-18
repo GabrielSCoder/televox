@@ -12,7 +12,6 @@ export const getOSAndBrowser = () => {
     else if (userAgent.includes("Firefox/")) browser = "Firefox";
     else if (userAgent.includes("Safari/") && !userAgent.includes("Chrome/")) browser = "Safari";
 
-    // Retornamos um código numérico para cada navegador
     const browserCode = {
         Chrome: "1",
         Edge: "2",
@@ -21,11 +20,14 @@ export const getOSAndBrowser = () => {
         Desconhecido: "0",
     };
 
-    return { os, browser, browserId: browserCode[browser] };
+    type BrowserName = keyof typeof browserCode;
+
+    return { os, browser, browserId: browserCode[browser as BrowserName] ?? "0" };
+
 };
 
 export const getIPAddress = async () => {
-    const resp = await fetch("https://api.ipify.org?format=json"); 
+    const resp = await fetch("https://api.ipify.org?format=json");
     const data = await resp.json();
     return data.ip;
 };

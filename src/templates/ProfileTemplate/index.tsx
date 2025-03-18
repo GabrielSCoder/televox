@@ -1,5 +1,6 @@
 import FeedList from "../Feed"
 import ProfileCard from "../ProfileCard"
+import ProfileWithoutPosts from "../ProfileWithoutPosts"
 
 // const tst = {
 //     profileName: "gabriel",
@@ -43,8 +44,14 @@ export default function ProfileTemplate(props : ProfileTemplateProps) {
 
             <ProfileCard profileData={profileData} userData={userData} followSituation={followSituation} handleFollow={handleFollow} handleUnfollow={handleUnfollow}
              followers={followers} following={following} profileModal={state} setProfileModal={setState}/>
+
             
-            <FeedList data={postData} handleReaction={props.handleReaction} likesList={likesList} userId={userData.id ?? 0}/>
+            {postData.length > 0 ? (
+                <FeedList data={postData} handleReaction={props.handleReaction} likesList={likesList} userId={userData.id ?? 0}/>
+            ) : (
+                <ProfileWithoutPosts />
+            )}
+            
 
         </>
 

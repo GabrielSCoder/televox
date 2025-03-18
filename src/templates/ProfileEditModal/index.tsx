@@ -1,13 +1,11 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { Cross2Icon } from "@radix-ui/react-icons";
-import { Input } from "../../components/Inputs";
 import Card from "../../components/Card";
 import { useState } from "react";
 import FixedInput from "../Inputs/FixedLenghtInputs";
-import Button from "../../components/Button";
 import TitleTag from "../../components/TitleTags";
 import { useForm, useWatch } from "react-hook-form";
-import { editUser, getByUserId } from "../../services/user";
+import { editUser } from "../../services/user";
 import LoadingItemTemplate from "../LoadingItem";
 const contentStyle = "p-8 px-20 fixed left-1/2 top-1/2 h-[68vh] max-h-[100vh] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-2xl bg-black p-[25px] shadow-[var(--shadow-6)] focus:outline-none data-[state=open]:animate-contentShow"
 

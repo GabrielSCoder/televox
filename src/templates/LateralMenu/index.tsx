@@ -1,8 +1,6 @@
 import { useNavigate } from "react-router-dom"
-import ProfileCard from "../ProfileCard"
 import { GrHomeRounded } from "react-icons/gr";
 import { HiOutlineUser } from "react-icons/hi";
-import { BsBellFill } from "react-icons/bs";
 import { BsFillBellFill } from "react-icons/bs";
 
 type props = {
@@ -16,7 +14,7 @@ function LateralMenu(props: props) {
 
     console.log(username, id)
 
-    const opts = ["Home", "Notifications", "Groups", "Messages", "Configuration"]
+    // const opts = ["Home", "Notifications", "Groups", "Messages", "Configuration"]
     const opts2 = ["Home", "Perfil", "Notificações"]
     const menu_convidado = ["Home"]
     const logado = window.localStorage.getItem("profile")

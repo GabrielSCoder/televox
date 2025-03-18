@@ -2,9 +2,9 @@ import { useNavigate } from "react-router-dom";
 import Card from "../../components/Card";
 import classNames from "../../utils/classNames";
 
-export default function ResultList(props: { data: Array<any>, state: boolean }) {
+export default function ResultList(props: { data: Array<any>, state: boolean, className ?: string}) {
 
-    const { data, state } = props
+    const { data, state, className } = props
     const nav = useNavigate()
 
     const getRows = () => {
@@ -25,7 +25,7 @@ export default function ResultList(props: { data: Array<any>, state: boolean }) 
     }
 
     return (
-        <Card className={classNames("absolute flex-col top-full left-0 w-full min-h-[50px] rounded-md shadow-sm shadow-white z-10 bg-black", !state ? "hidden" : "")}>
+        <Card className={classNames("absolute flex-col w-full min-h-[50px] rounded-md shadow-sm shadow-white z-10 bg-black", className, !state || data.length < 1 ? "hidden" : "")}>
             {getRows()}
         </Card>
     )

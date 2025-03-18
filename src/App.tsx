@@ -2,13 +2,16 @@ import { useState, useEffect } from 'react';
 import MainRouter from './router';
 import SocketProvider from './contexts/socketContext';
 import { setErrorHandler } from './services/axiosConfig';
-import { getFingerPrint } from './services/fingerprint';
+import { getIPAddress } from './services/soinformation';
+import { generateHMAC } from './services/crypto';
+const key = import.meta.env.VITE_SECRET_KEY
+
 
 function App() {
-
+  const info = window.sessionStorage.getItem("NIF")
   const [text, setText] = useState<string | null>()
 
-  const [darkMode, setDarkMode] = useState(() => {
+  const darkMode = useState(() => {
 
     const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
     const storedTheme = localStorage.getItem("theme");
@@ -35,6 +38,19 @@ function App() {
     setErrorHandler((msg) => {
       return setText(msg);
     })
+  }, [])
+
+  useEffect(() => {
+
+    const inx = async () => {
+      if (!info) {
+        const resp = await getIPAddress()
+        const hmac = await generateHMAC(resp, key)
+        window.sessionStorage.setItem("NIF", hmac)
+      }
+    }
+
+    inx()
   }, [])
 
   return (

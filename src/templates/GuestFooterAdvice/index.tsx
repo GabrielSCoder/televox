@@ -2,7 +2,7 @@ import { useState } from "react"
 import classNames from "../../utils/classNames"
 import LoginModal from "../LoginModal"
 
-export function GuestFooterAdvice(props?: { setModal: any, modal: boolean }) {
+export function GuestFooterAdvice() {
 
     const [loginModal, setLoginModal] = useState(false)
 

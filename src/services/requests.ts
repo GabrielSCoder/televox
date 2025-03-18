@@ -1,13 +1,9 @@
 import getaxios from "./axiosConfig";
-import { generateHMAC } from "./crypto";
-import { getIPAddress } from "./soinformation";
 
-const secret_key = "DEUSEFIEL123"
+const hmac = window.sessionStorage.getItem("NIF")
 
 export const getRequest = async (url: string) => {
 
-    const ip = await getIPAddress()
-    const hmac = await generateHMAC(ip, secret_key)
     const axios = await getaxios();
 
     try {
@@ -27,8 +23,6 @@ export const getRequest = async (url: string) => {
 
 export const postRequest = async (url: string, obj: any) => {
 
-    const ip = await getIPAddress()
-    const hmac = await generateHMAC(ip, secret_key)
 
     const axios = await getaxios();
 
@@ -49,8 +43,6 @@ export const postRequest = async (url: string, obj: any) => {
 
 export const putRequest = async (url: string, obj: any) => {
 
-    const ip = await getIPAddress()
-    const hmac = await generateHMAC(ip, secret_key)
 
     const axios = await getaxios();
 
@@ -72,8 +64,6 @@ export const putRequest = async (url: string, obj: any) => {
 export const postRequestWoError = async (url: string, obj: any) => {
     
     const axios = await getaxios();
-    const ip = await getIPAddress()
-    const hmac = await generateHMAC(ip, secret_key)
 
     try {
         return axios.post(url, obj, {
