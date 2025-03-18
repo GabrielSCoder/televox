@@ -14,8 +14,7 @@ export default function useRequest() {
             return { success: true, data: resp.data }
 
         } catch (error: any) {
-            console.log(error)
-            return { success: false, msg: error ?? "Erro desconhecido" }
+            return { success: false, msg: error.response.data.error ?? "Erro desconhecido" }
         }
 
     }

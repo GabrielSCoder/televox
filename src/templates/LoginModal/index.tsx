@@ -23,7 +23,7 @@ export default function LoginModal(props: modalProps) {
 
     const nav = useNavigate()
 
-    const { register, handleSubmit, reset } = useForm({
+    const { register, handleSubmit, reset, watch } = useForm({
         defaultValues: {
             email: "",
             senha: "",
@@ -31,28 +31,31 @@ export default function LoginModal(props: modalProps) {
         }
     })
 
+    const m = watch("email")
+    const s = watch("senha")
+
     const clearErrorMsg = () => {
         setErrorMsg("")
     }
 
     const submit = async () => {
         setLoading(true)
-        const ip = await getIPAddress()
         const finger = await getFingerPrint()
         const {os, browser} = getOSAndBrowser()
 
         handleSubmit(async (data) => {
-            const dados = {email : data.email, senha : data.senha, ip : ip, finger : finger, os : `${os} ${browser}`}
+            const dados = {email : data.email, senha : data.senha, finger : finger, os : `${os} ${browser}`}
             const resp = await login(dados)
             if (!resp.success) {
-                mapMsg(resp.msg)
+                setLoading(false)
+                setErrorMsg(resp.msg.mensagem)
+                console.log(resp.msg)
             } else {
                 clearErrorMsg()
                 nav("/home")
             }
-
         })()
-        // setLoading(false)
+   
     }
 
     const mapMsg = (data: any[]) => {
@@ -86,7 +89,7 @@ export default function LoginModal(props: modalProps) {
             return (
                 <>
                     <Dialog.Title className="mt-8 text-[30px] font-medium text-mauve12 dark:text-white text-start">
-                        Entre no televox
+                        Entre no webvox
                     </Dialog.Title>
                     <div className="mt-8 flex flex-col justify-center items-center gap-8">
 
@@ -99,7 +102,7 @@ export default function LoginModal(props: modalProps) {
                         <p className="border-b border-gray-500 w-full" />
 
                         <Card className="flex-col w-full gap-6 mt-1">
-                            <button className="bg-black dark:bg-white dark:text-black text-white text-base rounded-3xl py-1 hover:bg-gray-200 font-semibold h-[36px] disabled:bg-gray-500" onClick={submit}>Login</button>
+                            <button className="bg-black dark:bg-white dark:text-black text-white text-base rounded-3xl py-1 hover:bg-gray-200 font-semibold h-[36px] disabled:bg-gray-500" disabled={m.trim().length < 1 || s.trim().length < 1} onClick={submit}>Login</button>
                             <button className="text-black dark:text-white text-base border rounded-3xl py-1 hover:bg-custom-bg-x font-semibold h-[36px]" onClick={() => setForgotPassword(true)}>Esqueceu sua senha?</button>
                         </Card>
 

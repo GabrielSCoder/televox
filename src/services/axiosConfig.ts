@@ -11,11 +11,14 @@ const success = (res: any) => res;
 
 const error = (err: AxiosError) => {
    
-    if (err.response?.status === 401) {
+
+    if (err.response?.status === 401 && err.request.__URL__ != "http://localhost:3003/auth/login") {
         window.localStorage.removeItem("profile");
         window.location.href = "/";
         return;
     }
+
+    if (err)
 
     if (err.code === "ERR_NETWORK") {
         console.error("❌ Erro de conexão: O servidor está offline!");

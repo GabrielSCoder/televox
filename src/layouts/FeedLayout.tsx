@@ -68,7 +68,7 @@ export default function FeedLayout() {
             <div className="flex bg-black dark:bg-black justify-center">
 
                 <div className={classNames(" sticky top-1 w-[250px] flex flex-col gap-10 px-2 overflow-auto h-[910px] ", tipo_usuario == "conta" ? "h-[910px]" : "h-[800px]")}>
-                    <TitleTag.Main className="text-left px-2">Televox</TitleTag.Main>
+                    <TitleTag.Main className="text-left px-2">Webvox</TitleTag.Main>
                     <LateralMenu username={UserData.username} id={UserData.id} notificationsNumber={notifications} />
                     {/* {tipo_usuario == "conta" && <p className="text-xl text-black dark:text-white text-center mt-6">Olá! {UserData.username}</p>} */}
                     {/* <DarkModeButton className="w-fit mx-auto py-2 px-4 rounded-3xl"/> */}

@@ -4,6 +4,7 @@ import { lazy } from "react";
 
 const Home : React.LazyExoticComponent<any> = lazy(() => import ("../layouts/HomeLayout"))
 const Login : React.LazyExoticComponent<any> = lazy(() => import("../pages/Login"))
+const Sobre : React.LazyExoticComponent<any> = lazy(() => import("../pages/Sobre"))
 
 const PreventLoginRoute = () => {
     // const isAuthenticated = window.localStorage.getItem("content") === "true";
@@ -25,7 +26,8 @@ export default function MainRouter() {
                     path: "",
                     element: <Home />,
                     children: [
-                        { path: "", element: <Login /> }
+                        { path: "", element: <Login /> },
+                        {path: "/sobre", element: <Sobre />}
                     ]
                 }
             ]
