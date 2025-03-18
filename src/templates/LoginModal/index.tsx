@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import ForgotPasword from "../ForgotPassword";
 import { AuthProvider } from "../../hooks/useAuth";
-import { getOSAndBrowser, getIPAddress} from "../../services/soinformation"
+import { getOSAndBrowser} from "../../services/soinformation"
 import { getFingerPrint } from "../../services/fingerprint";
 const contentStyle = "p-8 px-36 fixed left-1/2 top-1/2 h-[68vh] max-h-[100vh] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-2xl bg-black p-[25px] shadow-[var(--shadow-6)] focus:outline-none data-[state=open]:animate-contentShow"
 
@@ -48,8 +48,7 @@ export default function LoginModal(props: modalProps) {
             const resp = await login(dados)
             if (!resp.success) {
                 setLoading(false)
-                setErrorMsg(resp.msg.mensagem)
-                console.log(resp.msg)
+                setErrorMsg(resp.msg)
             } else {
                 clearErrorMsg()
                 nav("/home")
@@ -58,10 +57,10 @@ export default function LoginModal(props: modalProps) {
    
     }
 
-    const mapMsg = (data: any[]) => {
-        const resp = data.map(item => item.menssagem)
-        setErrorMsg(resp.toString())
-    }
+    // const mapMsg = (data: any[]) => {
+    //     const resp = data.map(item => item.menssagem)
+    //     setErrorMsg(resp.toString())
+    // }
 
     const clearForgot = (event : any) => {
         if (forgotPasword) {

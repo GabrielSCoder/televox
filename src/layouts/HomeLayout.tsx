@@ -12,7 +12,7 @@ export default function HomeLayout() {
                 {/* <DarkModeButton className="absolute top-1 left-1" /> */}
 
                 <div className="flex justify-center items-center w-full">
-                    <h1 className="text-8xl font-bold dark:text-white text-black">WEBVOX</h1>
+                    <h1 className="text-8xl font-bold dark:text-white text-black hover:cursor-pointer" onClick={() => nav("/")}>WEBVOX</h1>
                 </div>
 
                 <div className="w-[80vw] flex justify-start items-center p-4">
@@ -22,8 +22,9 @@ export default function HomeLayout() {
 
             <div className="w-full h-fit flex flex-col items-center justify-center gap-2">
                 <div className="flex gap-6">
-                    <h4 className="text-sm text-gray-500 hover:cursor-pointer" onClick={() => nav("/sobre")}>Sobre</h4>
-                    <a className="text-sm text-gray-500">Quem sou</a>
+                    <h4 className="text-sm text-gray-500 hover:cursor-pointer" onClick={() => nav("sobre")}>Sobre</h4>
+                    <a className="text-sm text-gray-500 hover:cursor-pointer" onClick={() => nav("sobremim")}>Quem sou</a>
+                    <h4 className="text-sm text-gray-500 hover:cursor-pointer" onClick={() => nav("tecnologias")}>Tecnologias</h4>
                 </div>
                 <h2 className="text-center text-base text-gray-500">2025 Gabriel Sena </h2>
             </div>

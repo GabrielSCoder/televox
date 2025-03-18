@@ -8,7 +8,7 @@ const key = import.meta.env.VITE_SECRET_KEY
 
 
 function App() {
-  const info = window.sessionStorage.getItem("NIF")
+  const info = window.localStorage.getItem("NIF") === "string"
   const [text, setText] = useState<string | null>()
 
   const darkMode = useState(() => {
@@ -43,14 +43,15 @@ function App() {
   useEffect(() => {
 
     const inx = async () => {
-      if (!info) {
         const resp = await getIPAddress()
         const hmac = await generateHMAC(resp, key)
-        window.sessionStorage.setItem("NIF", hmac)
-      }
+        window.localStorage.setItem("NIF", hmac)
     }
 
-    inx()
+    if (!info) {
+      inx()
+    }
+
   }, [])
 
   return (

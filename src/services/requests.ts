@@ -1,10 +1,10 @@
 import getaxios from "./axiosConfig";
 
-const hmac = window.sessionStorage.getItem("NIF")
 
 export const getRequest = async (url: string) => {
 
     const axios = await getaxios();
+    const hmac = window.localStorage.getItem("NIF")
 
     try {
         return axios.get(url, {
@@ -17,33 +17,35 @@ export const getRequest = async (url: string) => {
         });
 
     } catch (error) {
-        throw error
+        throw (error)
     }
 }
 
 export const postRequest = async (url: string, obj: any) => {
 
-
+    const hmac = window.localStorage.getItem("NIF")
+    console.log(hmac)
     const axios = await getaxios();
 
     try {
-        return axios.post(url, obj, {
+        return await axios.post(url, obj, {
             headers: {
                 Authorization: window.localStorage.getItem("profile") ? `Bearer ${window.localStorage.getItem("profile")}` : "",
-                HMAC : hmac,
-                Timestamp : Date.now()
+                HMAC: hmac,
+                Timestamp: Date.now(),
             },
-            withCredentials : true
+            withCredentials: true,
         });
     } catch (error: any) {
-        throw (error);
+        console.error("Erro na requisição:", error.response ? error.response.data : error);
+        throw error;
     }
 };
 
 
 export const putRequest = async (url: string, obj: any) => {
 
-
+    const hmac = window.localStorage.getItem("NIF")
     const axios = await getaxios();
 
     try {
@@ -62,7 +64,7 @@ export const putRequest = async (url: string, obj: any) => {
 
 
 export const postRequestWoError = async (url: string, obj: any) => {
-    
+    const hmac = window.localStorage.getItem("NIF")
     const axios = await getaxios();
 
     try {

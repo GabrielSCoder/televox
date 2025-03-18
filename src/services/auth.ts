@@ -1,6 +1,6 @@
 import { getRequest, postRequest } from "./requests";
 
-export const login = async (data : {email : string, senha : string}) => {
+export const loginAsync = async (data : {email : string, senha : string}) => {
     return await postRequest("/auth/login", data)
 }
 

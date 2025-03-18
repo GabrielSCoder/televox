@@ -30,9 +30,10 @@ export function AuthProvider() {
     const login = async (data: any) => {
        
         const resp = await handleLogin(data)
-        if (resp.success) {
-            window.localStorage.setItem("profile", resp.data.token)
-            // window.localStorage.setItem("content", "true")
+        if (resp.data.success) {
+            console.log("entrou aqui")
+            console.log(resp.data.dados.token)
+            window.localStorage.setItem("profile", resp.data.dados.token)
         }
         return (resp)
     }
