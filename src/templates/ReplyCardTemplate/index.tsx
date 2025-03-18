@@ -31,7 +31,7 @@ export default function ReplyCardTemplate(props: props) {
                 </div>
                 <Input.TextArea name="message" className="hover:outline-none text-white placeholder:text-black placeholder:dark:text-gray-500 bg-black outline-none w-full
                     placeholder:text-left leading-[2rem]" register={register}
-                    rows={6} placeholder={isFocused ? "" : "Comente..."} onChange={(e: any) => setVal(e.target.value.length)} maxLength={charactersLimit + charactersBuffer} onBlur={() => setIsFocused(false)}
+                    rows={3} placeholder={isFocused ? "" : "Comente..."} onChange={(e: any) => setVal(e.target.value.length)} maxLength={charactersLimit + charactersBuffer} onBlur={() => setIsFocused(false)}
                     onFocus={() => setIsFocused(true)} />
             </div>
 

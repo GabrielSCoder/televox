@@ -1,8 +1,10 @@
-import FeedLayout from "../layouts/FeedLayout";
-import ProfilePage from "../pages/Profile";
-import Home from "../pages/Home";
 import { Navigate, Outlet } from "react-router-dom";
-import Notifications from "../pages/Notifications";
+import { lazy } from "react";
+
+const FeedLayout : React.LazyExoticComponent<any> = lazy(() => import ("../layouts/FeedLayout"))
+const ProfilePage : React.LazyExoticComponent<any> = lazy(() => import ("../pages/Profile"))
+const Home : React.LazyExoticComponent<any> = lazy(() => import ("../pages/Home"))
+const Notifications : React.LazyExoticComponent<any> = lazy(() => import ("../pages/Notifications"))
 
 const PreventFeedRoute = () => {
     // const isAuthenticated = window.localStorage.getItem("content") === "true";

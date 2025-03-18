@@ -25,7 +25,7 @@ export default function Home() {
             await new Promise((resolve) => setTimeout(resolve, 0)); 
         }
     
-        const resp = await getFeedMk2({ id: 21, numeroPagina: 0, tamanhoPagina: 15, profile_id: handle?.data.user.id });
+        const resp = await getFeedMk2({ id: handle?.data.user.id, numeroPagina: 0, tamanhoPagina: 15, profile_id: handle?.data.user.id });
     
         if (resp.data.success) {
             setFeedData(resp.data.dados);
@@ -111,7 +111,7 @@ export default function Home() {
         };
     }, [userData]);
 
-    if (loading || userData == undefined) {
+    if (loading || userData.id == undefined) {
         return <LoadingPageTemplate  className="w-full h-full"/>
     }
 

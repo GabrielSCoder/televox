@@ -1,7 +1,9 @@
 import { createBrowserRouter, Navigate, Outlet, RouterProvider,  } from "react-router-dom";
-import Login from "../pages/Login";
-import HomeLayout from "../layouts/HomeLayout";
 import routesFeed from "./home";
+import { lazy } from "react";
+
+const Home : React.LazyExoticComponent<any> = lazy(() => import ("../layouts/HomeLayout"))
+const Login : React.LazyExoticComponent<any> = lazy(() => import("../pages/Login"))
 
 const PreventLoginRoute = () => {
     // const isAuthenticated = window.localStorage.getItem("content") === "true";
@@ -21,7 +23,7 @@ export default function MainRouter() {
             children: [
                 {
                     path: "",
-                    element: <HomeLayout />,
+                    element: <Home />,
                     children: [
                         { path: "", element: <Login /> }
                     ]
