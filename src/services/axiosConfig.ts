@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosInstance } from "axios";
+import axios, { AxiosError, AxiosInstance, AxiosResponse } from "axios";
 import { API_URL } from "../utils/api";
 
 let setErrorCallback: ((message: string | null) => void) | null = null;
@@ -7,11 +7,20 @@ export const setErrorHandler = (callback: (message: string | null) => void) => {
     setErrorCallback = callback;
 };
 
-const success = (res: any) => res;
+const success = (res: AxiosResponse) => {
+    const newToken = res.headers["authorization"];
+
+    if (newToken) {
+        const tokenValue = newToken.split(" ")[1]; 
+        localStorage.setItem("profile", tokenValue); 
+    }
+
+    return res;
+}
 
 const error = (err: AxiosError) => {
-   
-    if (err.response?.status === 401 && err.request.__URL__ != "http://localhost:3003/auth/login") {
+
+    if (err.response?.status === 401 || err.response?.status === 500 && err.request.__URL__ != "http://localhost:3003/auth/login") {
         window.localStorage.removeItem("profile");
         window.location.href = "/";
         return;

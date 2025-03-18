@@ -8,8 +8,6 @@ export function TagUserResult(props: { data: Array<any>, state: boolean, onSelec
         onSelect(username); 
     };
 
-    console.log(position)
-
     return (
         <div
             className={classNames(

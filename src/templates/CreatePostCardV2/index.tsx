@@ -136,7 +136,6 @@ export default function HighlightTextarea(props: props) {
         const resp = await sendPostAsync({ tipo: "feed", conteudo: txt, usuario_id: userData.id })
 
         if (resp.data.success) {
-            console.log(resp)
             setTxt("")
         }
 
