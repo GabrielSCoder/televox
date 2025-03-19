@@ -1,22 +1,9 @@
-import { loginAsync } from "../services/auth"
 import { getPostsByFilter } from "../services/post"
 import { getByUserId, getByUsername } from "../services/user"
 import { postFilterDTO } from "../types/postType"
 
 export default function useRequest() {
 
-    const handleLogin = async (data: any) => {
-
-        try {
-           
-            const resp = await loginAsync(data)
-            return { success: true, data: resp.data }
-
-        } catch (error: any) {
-            return { success: false, data: [], msg: error.response.data.error ?? "Erro desconhecido" }
-        }
-
-    }
 
     const handleGetByUsername = async ( username: string) => {
         try {
@@ -47,6 +34,6 @@ export default function useRequest() {
     }
 
     return {
-        handleLogin, handleGetByUsername, handleGetPostsByFilter, handleGetById
+    handleGetByUsername, handleGetPostsByFilter, handleGetById
     }
 }

@@ -1,6 +1,5 @@
 import { useContext, useState } from "react";
-import { logadoAsync, logoutAsync } from "../services/auth";
-import useRequest from "./useRequest";
+import { logadoAsync, loginAsync, logoutAsync } from "../services/auth";
 import { SocketContext } from "../contexts/socketContext";
 
 
@@ -10,12 +9,11 @@ export function AuthProvider() {
     const tipo_usuario = "conta"
     const [authLoading, setAuthLoading] = useState(false)
     const sockett = useContext(SocketContext)
-    const { handleLogin } = useRequest()
 
     const getUser = async () => {
         setAuthLoading(true);
         try {
-            const resp = await logadoAsync(); 
+            const resp = await logadoAsync();
             if (resp?.data?.newToken) {
                 window.localStorage.setItem("profile", resp.data.newToken);
             }
@@ -28,13 +26,21 @@ export function AuthProvider() {
     };
 
     const login = async (data: any) => {
-       
-        const resp = await handleLogin(data)
 
-        if (resp.data.success) {
-            window.localStorage.setItem("profile", resp.data.dados.token)
+        try {
+
+            const resp = await loginAsync(data)
+
+            if (resp.data.success) {
+                window.localStorage.setItem("profile", resp.data.dados.token)
+            }
+
+            return { success: true, data: resp.data }
+
+        } catch (error: any) {
+            return { success: false, data: [], msg: error.response.data.error ?? "Erro desconhecido" }
         }
-        return (resp)
+
     }
 
     const logout = async () => {
@@ -50,7 +56,7 @@ export function AuthProvider() {
             window.localStorage.removeItem("profile")
             sockett?.disconnect()
         }
-        
+
         // setAuthLoading(false)
         window.location.href = "/"
     }
@@ -62,6 +68,6 @@ export function AuthProvider() {
         login,
         logout
     }
-    
+
 }
 

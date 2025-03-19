@@ -2,17 +2,17 @@ import { useNavigate } from "react-router-dom"
 import { GrHomeRounded } from "react-icons/gr";
 import { HiOutlineUser } from "react-icons/hi";
 import { BsFillBellFill } from "react-icons/bs";
+import classNames from "../../utils/classNames";
 
 type props = {
     username?: string
     id ?: number
     notificationsNumber : number
+    className ?: string
 }
 function LateralMenu(props: props) {
 
-    const { username, id, notificationsNumber } = props
-
-    console.log(username, id)
+    const { username, id, notificationsNumber, className } = props
 
     // const opts = ["Home", "Notifications", "Groups", "Messages", "Configuration"]
     const opts2 = ["Home", "Perfil", "Notificações"]
@@ -54,9 +54,8 @@ function LateralMenu(props: props) {
     }
 
     return (
-        <div className="flex flex-col gap-8">
+        <div className={classNames("flex flex-col gap-8", className)}>
                 {logado ? getMenuOpts() : getConvidadoMenu()}
-            
         </div>
     )
 }

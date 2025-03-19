@@ -18,34 +18,31 @@ export default function Tecnologias() {
 
                     <div className="flex gap-10 justify-center">
 
-                        <div>
-                            <div className="flex gap-8">
 
-                                <a href="https://react.dev/" target="_blank">
-                                    <img src={ReactLogo} className="h-[80px] w-[80px]" ></img>
-                                </a>
-                                <a href="https://vite.dev/" target="_blank">
-                                    <img src={"/vite.svg"} className="h-[80px] w-[80px]"></img>
-                                </a>
-                                <a href="https://tailwindcss.com/" target="_blank">
-                                    <img src={TailwindCSSLogo} className="h-[80px] w-[90px]"></img>
-                                </a>
-                                <a href="https://www.typescriptlang.org/" target="_blank">
-                                    <img src={TypeScriptLogo} className="h-[80px] w-[80px]"></img>
-                                </a>
-                                <a href="https://nodejs.org/en" target="_blank">
-                                    <img src={NodejsLogo} className="h-[80px] w-[80px]"></img>
-                                </a>
-                                <a href="https://www.postgresql.org/" target="_blank">
-                                    <img src={PostGreLogo} className="h-[80px] w-[80px]"></img>
-                                </a>
+                        <div className="grid grid-cols-3 lg:flex gap-8">
 
-                            </div>
+                            <a href="https://react.dev/" target="_blank">
+                                <img src={ReactLogo} className="h-[80px] w-[80px]" ></img>
+                            </a>
+                            <a href="https://vite.dev/" target="_blank">
+                                <img src={"/vite.svg"} className="h-[80px] w-[80px]"></img>
+                            </a>
+                            <a href="https://tailwindcss.com/" target="_blank">
+                                <img src={TailwindCSSLogo} className="h-[80px] w-[90px]"></img>
+                            </a>
+                            <a href="https://www.typescriptlang.org/" target="_blank">
+                                <img src={TypeScriptLogo} className="h-[80px] w-[80px]"></img>
+                            </a>
+                            <a href="https://nodejs.org/en" target="_blank">
+                                <img src={NodejsLogo} className="h-[80px] w-[80px]"></img>
+                            </a>
+                            <a href="https://www.postgresql.org/" target="_blank">
+                                <img src={PostGreLogo} className="h-[80px] w-[80px]"></img>
+                            </a>
+
                         </div>
 
-
                     </div>
-
 
                 </div>
             </div>

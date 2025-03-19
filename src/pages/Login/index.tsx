@@ -14,9 +14,9 @@ export default function Login() {
 
     return (
         <>
-            <div className="">
-                <h1 className="text-6xl font-semibold dark:text-white text-black font-serif">Conheça o mundo</h1>
-                <h2 className="text-3xl font-semibold font-serif mt-16 dark:text-white text-black">Inscreva-se hoje</h2>
+            <div className="flex flex-col justify-center items-center lg:items-start lg:justify-start md:h-fit">
+                <h1 className="text-3xl md:text-6xl font-semibold dark:text-white text-black font-serif">Conheça o mundo</h1>
+                <h2 className="text-xl md:text-3xl font-semibold font-serif mt-16 dark:text-white text-black">Inscreva-se hoje</h2>
                 <input type="button" value="Criar conta" className="text-white font-semibold text-lg bg-sky-500 rounded-3xl w-[280px] py-1 h-[38px] mt-8 hover:bg-blue-500 hover:cursor-pointer"
                     onClick={() => setCadastroModal(true)}
                 />

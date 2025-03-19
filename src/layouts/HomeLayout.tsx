@@ -8,14 +8,14 @@ export default function HomeLayout() {
     return (
         <div className="dark:bg-black h-screen bg-white flex-col ">
 
-            <div className="flex h-[94vh] p-2">
+            <div className="flex flex-col h-[94vh] p-2 lg:flex-row ">
                 {/* <DarkModeButton className="absolute top-1 left-1" /> */}
 
                 <div className="flex justify-center items-center w-full">
-                    <h1 className="text-8xl font-bold dark:text-white text-black hover:cursor-pointer" onClick={() => nav("/")}>WEBVOX</h1>
+                    <h1 className="text-3xl md:text-8xl font-bold dark:text-white text-black hover:cursor-pointer" onClick={() => nav("/")}>WEBVOX</h1>
                 </div>
 
-                <div className="w-[80vw] flex justify-start items-center p-4">
+                <div className="lg:w-[80vw] flex justify-center lg:justify-start items-center p-0 md:p-4 h-full w-full">
                     <Outlet />
                 </div>
             </div>

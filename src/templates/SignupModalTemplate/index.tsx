@@ -11,7 +11,7 @@ import { signup, verifyEmail, verifyPassword, verifyUsername } from "../../servi
 import EtapaConclusao from "./EtapaConclusao";
 import CadastroConcluido from "./CadastroConcluido";
 
-const contentStyle = "p-8 px-36 fixed left-1/2 top-1/2 min-h-[68vh] max-h-[100vh] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-2xl bg-black p-[25px] shadow-[var(--shadow-6)] focus:outline-none data-[state=open]:animate-contentShow"
+const contentStyle = "p-2 lg:p-8 px-10 lg:px-36 fixed left-1/2 top-1/2 max-h-[100vh] w-[400px] md:w-[500px] lg:w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-2xl bg-black p-[25px] shadow-[var(--shadow-6)] focus:outline-none data-[state=open]:animate-contentShow"
 
 export default function SignupModalTemplate(props: modalProps) {
 
@@ -55,7 +55,6 @@ export default function SignupModalTemplate(props: modalProps) {
         handleSubmit(async data => {
             const item = { ...data }
             const resp = await signup(item)
-            console.log(resp)
             if (resp.data.success) {
                 setCadastroConcluido(true)
                 // reset()
@@ -185,7 +184,6 @@ export default function SignupModalTemplate(props: modalProps) {
     useEffect(() => {
         if (username != "" && senha != "" && senhaConfirmacao != "" && cookieCheck == true) {
             setEtapaDoisCompleta(true)
-            console.log("segunda completa")
         } else {
             setEtapaDoisCompleta(false)
         }

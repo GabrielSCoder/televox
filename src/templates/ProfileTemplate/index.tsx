@@ -37,7 +37,7 @@ export default function ProfileTemplate(props : ProfileTemplateProps) {
 
     return (
         <>
-            <div className="sticky top-0 dark:bg-black bg-white bg-white/50 dark:text-white text-black w-full pl-8 z-20 p-2 dark:bg-black/50 backdrop-blur-[10px]">
+            <div className="lg:sticky lg:top-0 dark:bg-black bg-white bg-white/50 dark:text-white text-black w-full pl-8 lg:z-20 p-2 dark:bg-black/50 lg:backdrop-blur-[10px]">
                 <h2 className="text-lg font-semibold">{profileData.nome}</h2>
                 <h3 className="text-gray-500 text-xs">{ProfilePostQTD} posts</h3>
             </div>

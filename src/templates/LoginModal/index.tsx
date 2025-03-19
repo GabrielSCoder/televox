@@ -11,7 +11,7 @@ import ForgotPasword from "../ForgotPassword";
 import { AuthProvider } from "../../hooks/useAuth";
 import { getOSAndBrowser} from "../../services/soinformation"
 import { getFingerPrint } from "../../services/fingerprint";
-const contentStyle = "p-8 px-36 fixed left-1/2 top-1/2 h-[68vh] max-h-[100vh] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-2xl bg-black p-[25px] shadow-[var(--shadow-6)] focus:outline-none data-[state=open]:animate-contentShow"
+const contentStyle = "p-2 lg:p-8 px-10 lg:px-36 fixed left-1/2 top-1/2 h-[68vh] max-h-[100vh] w-[400px] lg:w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-2xl bg-black p-[25px] shadow-[var(--shadow-6)] focus:outline-none data-[state=open]:animate-contentShow"
 
 export default function LoginModal(props: modalProps) {
 
@@ -46,21 +46,17 @@ export default function LoginModal(props: modalProps) {
         handleSubmit(async (data) => {
             const dados = {email : data.email, senha : data.senha, finger : finger, os : `${os} ${browser}`}
             const resp = await login(dados)
-            if (!resp.success) {
-                setLoading(false)
-                setErrorMsg(resp.msg)
-            } else {
+            if (resp.success) {
                 clearErrorMsg()
                 nav("/home")
+            } else {
+                console.log(resp.msg)
+                setLoading(false)
+                setErrorMsg(resp.msg)
             }
         })()
    
     }
-
-    // const mapMsg = (data: any[]) => {
-    //     const resp = data.map(item => item.menssagem)
-    //     setErrorMsg(resp.toString())
-    // }
 
     const clearForgot = (event : any) => {
         if (forgotPasword) {
@@ -87,7 +83,7 @@ export default function LoginModal(props: modalProps) {
         } else {
             return (
                 <>
-                    <Dialog.Title className="mt-8 text-[30px] font-medium text-mauve12 dark:text-white text-start">
+                    <Dialog.Title className="mt-8 text-lg lg:text-[30px] font-medium text-mauve12 dark:text-white text-center lg:text-start">
                         Entre no webvox
                     </Dialog.Title>
                     <div className="mt-8 flex flex-col justify-center items-center gap-8">

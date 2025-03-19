@@ -1,15 +1,13 @@
 import { useState, useEffect } from 'react';
 import MainRouter from './router';
 import SocketProvider from './contexts/socketContext';
-import { setErrorHandler } from './services/axiosConfig';
 import { getIPAddress } from './services/soinformation';
 import { generateHMAC } from './services/crypto';
 const key = import.meta.env.VITE_SECRET_KEY
 
 
 function App() {
-  const info = window.localStorage.getItem("NIF") === "string"
-  const [text, setText] = useState<string | null>()
+  const info = window.localStorage.getItem("NIF")
 
   const darkMode = useState(() => {
 
@@ -35,12 +33,6 @@ function App() {
   }, [darkMode]);
 
   useEffect(() => {
-    setErrorHandler((msg) => {
-      return setText(msg);
-    })
-  }, [])
-
-  useEffect(() => {
 
     const inx = async () => {
         const resp = await getIPAddress()
@@ -57,9 +49,6 @@ function App() {
   return (
     <SocketProvider>
       <MainRouter />
-      <div className='bg-red-500 absolute bottom-0 left-1/2'>
-        <p className='text-white text-lg'>{text ?? ""}</p>
-      </div>
     </SocketProvider>
   )
 }
