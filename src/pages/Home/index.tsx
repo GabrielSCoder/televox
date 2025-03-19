@@ -58,21 +58,18 @@ export default function Home() {
     }
 
     const handleReaction = (data: { post_id: number, usuario_id: number, profile_id : number }) => {
-        console.log(data)
         socket.emit("react", data)
     }
 
     const debounceReact = (post_id: number, profile_id : number) => {
-        console.log(userData.id, profile_id)
         const xData = { post_id: post_id, usuario_id: userData.id, profile_id : profile_id }
-        console.log(xData)
+        
         handleReaction(xData)
     }
 
     const updateLikes = (data : any) => {
 
-        console.log(userData)
-        console.log(data)
+    
 
         setLikesList((prev) =>
             prev.map((post) =>

@@ -18,8 +18,6 @@ export default function FollowListTemplate(props: props) {
 
     const { followingList, followerList, followType, profileData, userData, handleFollow, handleUnfollow } = props
 
-    console.log(profileData)
-
     const location = useLocation()
     const raw = location.pathname.split("/")
     const nav = useNavigate()

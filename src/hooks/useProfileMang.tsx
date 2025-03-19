@@ -165,7 +165,7 @@ export default function useProfileMang() {
 
     const updateLikes = (data: any) => {
 
-        console.log(userId)
+     
 
         setLikesList((prev) =>
             prev.map((post) =>
@@ -175,13 +175,10 @@ export default function useProfileMang() {
             )
         );
 
-        // console.log(data.liked.liked)
+    
     }
 
     const updateRel = (data: any) => {
-
-        console.log("UPDATEREL")
-        console.log(ProfileData?.id)
 
         if (data.dados.profileId == ProfileData?.id) {
 

@@ -32,10 +32,8 @@ export default function CreatePostCard(props: props) {
         handleSubmit(async data => {
             const resp = await sendPostAsync({ tipo: "feed", conteudo: data.message, usuario_id: userData.id })
             if (resp.data.success) {
-                console.log(resp)
                 reset()
             }
-            console.log(data)
         })()
     }
 

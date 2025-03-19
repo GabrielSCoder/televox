@@ -24,7 +24,6 @@ export const getRequest = async (url: string) => {
 export const postRequest = async (url: string, obj: any) => {
 
     const hmac = window.localStorage.getItem("NIF")
-    console.log(hmac)
     const axios = await getaxios();
 
     try {
