@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import MainRouter from './router';
 import SocketProvider from './contexts/socketContext';
 import { getIPAddress } from './services/soinformation';
-import { generateHMAC, generateHMAC2 } from './services/crypto';
+import { generateHMAC2 } from './services/crypto';
 const key = import.meta.env.VITE_SECRET_KEY
 
 function App() {
