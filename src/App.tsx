@@ -2,9 +2,8 @@ import { useState, useEffect } from 'react';
 import MainRouter from './router';
 import SocketProvider from './contexts/socketContext';
 import { getIPAddress } from './services/soinformation';
-import { generateHMAC } from './services/crypto';
+import { generateHMAC, generateHMAC2 } from './services/crypto';
 const key = import.meta.env.VITE_SECRET_KEY
-
 
 function App() {
   const info = window.localStorage.getItem("NIF")
@@ -36,7 +35,7 @@ function App() {
 
     const inx = async () => {
         const resp = await getIPAddress()
-        const hmac = await generateHMAC(resp, key)
+        const hmac = await generateHMAC2(resp, key)
         window.localStorage.setItem("NIF", hmac)
     }
 

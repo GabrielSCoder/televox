@@ -16,10 +16,10 @@ const error = (err: AxiosError) => {
 
     if (err.response?.status === 401 || err.response?.status === 500) {
         console.log(err.request.responseURL)
-        if (err.request.responseURL != "http://localhost:3003/auth/login") {
-            window.localStorage.removeItem("profile");
-            window.location.href = "/";
-        }
+        // if (err.request.responseURL != `${API_URL}auth/login`) {
+        //     window.localStorage.removeItem("profile");
+        //     window.location.href = "/";
+        // }
     }
 
     return Promise.reject(err);
