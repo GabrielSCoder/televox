@@ -8,7 +8,6 @@ import SearchBarTemplate from "../templates/SearchBar";
 import LoadingPageTemplate from "../templates/LoadingPage";
 import classNames from "../utils/classNames";
 import { getNotificationsbyId } from "../services/notification";
-import { socket } from "../services/socket";
 import HorizontalMenu from "../templates/HorizontalMenu";
 
 export default function FeedLayout() {
@@ -42,19 +41,6 @@ export default function FeedLayout() {
     const handleLogout = () => {
         logout()
     }
-
-    useEffect(() => {
-        socket.on("notifyResponse", (data) => {
-            console.log("----REtorno de notificação")
-            console.log(data)
-            if (UserData.id == data.usuario_destino)
-                setNotifications(data.notificacoes)
-        })
-
-        return () => {
-            socket.off("notifyResponse")
-        }
-    })
 
     useEffect(() => {
         getData()

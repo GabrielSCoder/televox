@@ -1,6 +1,5 @@
-import { useContext, useState } from "react";
+import {useState } from "react";
 import { logadoAsync, loginAsync, logoutAsync } from "../services/auth";
-import { SocketContext } from "../contexts/socketContext";
 
 
 export function AuthProvider() {
@@ -8,7 +7,6 @@ export function AuthProvider() {
     // const tipo_usuario = window.localStorage.getItem("content") == "true" ? "conta" : "convidado"
     const tipo_usuario = "conta"
     const [authLoading, setAuthLoading] = useState(false)
-    const sockett = useContext(SocketContext)
 
     const getUser = async () => {
         setAuthLoading(true);
@@ -54,7 +52,6 @@ export function AuthProvider() {
         if (resp[0].data.success) {
             // window.localStorage.setItem("content", "false");
             window.localStorage.removeItem("profile")
-            sockett?.disconnect()
         }
 
         // setAuthLoading(false)

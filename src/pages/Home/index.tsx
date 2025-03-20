@@ -5,7 +5,6 @@ import { getFeedMk1, getFeedMk2 } from "../../services/post";
 import { AuthProvider } from "../../hooks/useAuth";
 import { liksList } from "../../types/postType";
 import useDebounce from "../../hooks/useDebounce";
-import { socket } from "../../services/socket";
 
 
 export default function Home() {
@@ -58,7 +57,7 @@ export default function Home() {
     }
 
     const handleReaction = (data: { post_id: number, usuario_id: number, profile_id : number }) => {
-        socket.emit("react", data)
+        console.log("react", data)
     }
 
     const debounceReact = (post_id: number, profile_id : number) => {
@@ -67,45 +66,32 @@ export default function Home() {
         handleReaction(xData)
     }
 
-    const updateLikes = (data : any) => {
+    // const updateLikes = (data : any) => {
 
     
 
-        setLikesList((prev) =>
-            prev.map((post) =>
-                post.id === data.data.post_id
-                    ? { ...post, liked: data.data.usuario_id == userData.id ? data.liked.liked : post.liked, total_reactions: data.total.total_reactions }
-                    : post
-            )
-        );
-    }
+    //     setLikesList((prev) =>
+    //         prev.map((post) =>
+    //             post.id === data.data.post_id
+    //                 ? { ...post, liked: data.data.usuario_id == userData.id ? data.liked.liked : post.liked, total_reactions: data.total.total_reactions }
+    //                 : post
+    //         )
+    //     );
+    // }
 
     const debounceHandlerFollow = useDebounce(debounceReact, 200)
 
     useEffect(() => {
-        socket.connect();
+      
         
         tipo_usuario === "convidado" ? getDataWoutUser() : getDataWithUser();
     
-        return () => {
-            socket.off("reactResponse");
-        };
+  
     }, []); 
     
     useEffect(() => {
         if (!userData || !userData.id) return;
-    
-        console.log("Registrando socket.on reactResponse com userData:", userData);
-    
-        socket.on("reactResponse", (data) => {
-            console.log("Recebido reactResponse:", data);
-    
-            updateLikes(data);
-        });
-    
-        return () => {
-            socket.off("reactResponse"); 
-        };
+           
     }, [userData]);
 
     if (loading || userData.id == undefined) {

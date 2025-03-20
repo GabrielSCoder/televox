@@ -11,7 +11,6 @@ import FeedList from "../../templates/Feed";
 import { createPostForm, liksList, postView } from "../../types/postType";
 import { useForm } from "react-hook-form";
 import useDebounce from "../../hooks/useDebounce";
-import { socket } from "../../services/socket";
 import PostNotFound from "../../templates/PostNotFound";
 
 type props = {
@@ -24,7 +23,7 @@ type props = {
 
 export default function Postview(props: props) {
 
-    const { profileData, userData, setPostLikes } = props
+    const { profileData, userData } = props
     const { id } = useParams()
 
     const [postData, setPostData] = useState<postView>()
@@ -84,7 +83,7 @@ export default function Postview(props: props) {
         const resp = await sendPostAsync(dt)
         if (resp.data.success) {
             reset()
-            socket.emit("reply", ({usuario_id : userData.id, usuario_destino : profileData.id, post_id : resp.data.dados.parent_id}))
+            console.log("reply", ({usuario_id : userData.id, usuario_destino : profileData.id, post_id : resp.data.dados.parent_id}))
             getPostData()
         }
 
@@ -93,7 +92,7 @@ export default function Postview(props: props) {
 
     const handleReaction = (data: { post_id: number, usuario_id: number }) => {
 
-        socket.emit("react", data)
+        console.log("react", data)
     }
 
     const debounceReact = (data: any) => {
@@ -107,39 +106,39 @@ export default function Postview(props: props) {
 
         if (!userData.id || !profileData.id || !postData?.id) return;
 
-        socket.on("reactResponse", (data) => {
+        // socket.on("reactResponse", (data) => {
 
-            console.log("POST PAI ATUAL:", postData.id)
+        //     console.log("POST PAI ATUAL:", postData.id)
 
-            setLikesList((prev) =>
-                prev.map((post) =>
-                    post.id === data.data.post_id
-                        ? {
-                            ...post, liked: userData.id == data.data.usuario_id ? data.liked.liked : post.liked,
-                            total_reactions: data.total.total_reactions 
-                        }
-                        : post
-                )
-            );
+        //     setLikesList((prev) =>
+        //         prev.map((post) =>
+        //             post.id === data.data.post_id
+        //                 ? {
+        //                     ...post, liked: userData.id == data.data.usuario_id ? data.liked.liked : post.liked,
+        //                     total_reactions: data.total.total_reactions 
+        //                 }
+        //                 : post
+        //         )
+        //     );
 
-            if (data.data.post_id == postData.id) {
-                setPostData((prev) => (prev ? {
-                    ...prev, liked: userData.id == data.data.usuario_id && postData.id == data.data.post_id ? data.liked.liked : prev.liked,
-                    total_reactions:  data.total.total_reactions
-                } : prev));
+        //     if (data.data.post_id == postData.id) {
+        //         setPostData((prev) => (prev ? {
+        //             ...prev, liked: userData.id == data.data.usuario_id && postData.id == data.data.post_id ? data.liked.liked : prev.liked,
+        //             total_reactions:  data.total.total_reactions
+        //         } : prev));
 
 
-                setPostLikes((prev: any) => prev.map((post: any) =>
-                    post.id === data.data.post_id
-                        ? {
-                            ...post, liked: userData.id == data.data.usuario_id && postData.id == data.data.post_id ? data.liked.liked : post.liked,
-                            total_reactions: postData?.id == data.data.post_id ? data.total.total_reactions : prev.total_reactions
-                        }
-                        : post
-                ))
+        //         setPostLikes((prev: any) => prev.map((post: any) =>
+        //             post.id === data.data.post_id
+        //                 ? {
+        //                     ...post, liked: userData.id == data.data.usuario_id && postData.id == data.data.post_id ? data.liked.liked : post.liked,
+        //                     total_reactions: postData?.id == data.data.post_id ? data.total.total_reactions : prev.total_reactions
+        //                 }
+        //                 : post
+        //         ))
 
-            }
-        })
+        //     }
+        // })
 
     }, [profileData, userData, postData])
 

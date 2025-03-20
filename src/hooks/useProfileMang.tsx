@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { liksList } from "../types/postType"
 import { profile } from "../types/profileType"
 import useRequest from "./useRequest"
 import { compareForm, followForm, relationFollow } from "../types/follow"
 import { getAllFollowers, getAllFollowersCompare, getTotalizerF, VerifyFollowing, VerifyFollowingCompare, VerifyXY } from "../services/follow"
-import { socket } from "../services/socket"
 import { getAllPostByUserIdAndReaction } from "../services/post"
 
 export default function useProfileMang() {
@@ -32,6 +31,7 @@ export default function useProfileMang() {
             if (resp.dados != ProfileData) {
                 setProfileData(resp.dados)
                 setUserId(userData.id)
+                console.log(userId)
                 await verifyUserXYithY({ follower_id: userData.id, following_id: resp.dados.id })
                 await getPostsData(resp.dados.id, userData.id)
                 await Totalizer(resp.dados.id, userData.id)
@@ -147,124 +147,123 @@ export default function useProfileMang() {
         }
     }
 
-    async function TotalizerByResponse(id: number, loggedUsedId?: number) {
+    // async function TotalizerByResponse(id: number, loggedUsedId?: number) {
 
-        if (loggedUsedId && id == loggedUsedId) {
+    //     if (loggedUsedId && id == loggedUsedId) {
 
-            await getFollowers(id)
-            await getFollowing(id)
-        } else if (loggedUsedId) {
+    //         await getFollowers(id)
+    //         await getFollowing(id)
+    //     } else if (loggedUsedId) {
 
-            await getCompareFollowers({ compare_id: loggedUsedId, user_id: id })
-            await getCompareFollowing({ compare_id: loggedUsedId, user_id: id })
-        } else {
-            console.log("3")
-        }
+    //         await getCompareFollowers({ compare_id: loggedUsedId, user_id: id })
+    //         await getCompareFollowing({ compare_id: loggedUsedId, user_id: id })
+    //     } else {
+    //         console.log("3")
+    //     }
 
-    }
+    // }
 
-    const updateLikes = (data: any) => {
-
-     
-
-        setLikesList((prev) =>
-            prev.map((post) =>
-                post.id === data.data.post_id
-                    ? { ...post, liked: data.data.usuario_id == userId ? data.liked.liked : post.liked, total_reactions: data.total.total_reactions }
-                    : post
-            )
-        );
-
-    
-    }
-
-    const updateRel = (data: any) => {
-
-        if (data.dados.profileId == ProfileData?.id) {
-
-            if (data.dados.follower_id == userId) {
-                relationshipSituation(data.relacao)
-            }
-
-            setFollowers(data.total.TotalFollowers)
-            setFollowing(data.total.TotalFollowings)
-        }
-
-        if (data.dados.follower_id == userId) {
-
-            if (data.dados.invertTotalizer) {  //Normalmente o id do totalizer é do perfil que seguiu, o invert faz com que receba a lista do usuario que foi seguido
-
-                TotalizerByResponse(data.dados.profileId, data.dados.follower_id) //Quando estou na lista de seg. de algum profile e quero comparar com os meus 
-            } else {
-
-                TotalizerByResponse(data.dados.follower_id, data.dados.profileId)
-            }
-        }
+    // const updateLikes = (data: any) => {
 
 
 
-    }
+    //     setLikesList((prev) =>
+    //         prev.map((post) =>
+    //             post.id === data.data.post_id
+    //                 ? { ...post, liked: data.data.usuario_id == userId ? data.liked.liked : post.liked, total_reactions: data.total.total_reactions }
+    //                 : post
+    //         )
+    //     );
+
+
+    // }
+
+    // const updateRel = (data: any) => {
+
+    //     if (data.dados.profileId == ProfileData?.id) {
+
+    //         if (data.dados.follower_id == userId) {
+    //             relationshipSituation(data.relacao)
+    //         }
+
+    //         setFollowers(data.total.TotalFollowers)
+    //         setFollowing(data.total.TotalFollowings)
+    //     }
+
+    //     if (data.dados.follower_id == userId) {
+
+    //         if (data.dados.invertTotalizer) {  //Normalmente o id do totalizer é do perfil que seguiu, o invert faz com que receba a lista do usuario que foi seguido
+
+    //             TotalizerByResponse(data.dados.profileId, data.dados.follower_id) //Quando estou na lista de seg. de algum profile e quero comparar com os meus 
+    //         } else {
+
+    //             TotalizerByResponse(data.dados.follower_id, data.dados.profileId)
+    //         }
+    //     }
+
+
+
+    // }
 
     const handleFollow = (data: followForm) => {
-        socket.emit("follow", data)
+        console.log("follow", data)
     }
 
     const handleUnfollow = (data: followForm) => {
-        socket.emit("unfollow", data)
+        console.log("unfollow", data)
     }
 
     const handleReaction = (data: { post_id: number, usuario_id: number, profile_id: number }) => {
-        console.log(data)
-        socket.emit("react", { post_id: data.post_id, usuario_id: data.usuario_id, profile_id: data.profile_id })
+        console.log("react", { post_id: data.post_id, usuario_id: data.usuario_id, profile_id: data.profile_id })
     }
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        console.log("------------------------------ AQui")
-        if (!ProfileData || !ProfileData.id || !userId) return;
+    //     console.log("------------------------------ AQui")
+    //     if (!ProfileData || !ProfileData.id || !userId) return;
 
-        console.log("passou")
+    //     console.log("passou")
 
-        socket.on("reactResponse", (data) => {
+    //     socket.on("reactResponse", (data) => {
 
 
-            console.log("----recebendo resposta de react-----\n")
-            console.log(data)
+    //         console.log("----recebendo resposta de react-----\n")
+    //         console.log(data)
 
-            updateLikes(data)
+    //         updateLikes(data)
 
-        })
+    //     })
 
-        socket.on("followResponse", (data) => {
+    //     socket.on("followResponse", (data) => {
 
-            console.log("----recebendo resposta de follow-----\n")
-            console.log(data)
+    //         console.log("----recebendo resposta de follow-----\n")
+    //         console.log(data)
 
-            updateRel(data)
-        })
+    //         updateRel(data)
+    //     })
 
-        socket.on("unfollowResponse", (data) => {
+    //     socket.on("unfollowResponse", (data) => {
 
-            console.log("----recebendo respota de unfollow-----\n")
-            console.log(data)
-            console.log(ProfileData)
+    //         console.log("----recebendo respota de unfollow-----\n")
+    //         console.log(data)
+    //         console.log(ProfileData)
 
-            updateRel(data)
-        })
+    //         updateRel(data)
+    //     })
 
-        socket.on("replyResponse", (data) => {
-            console.log("reposta de reply\n")
-            console.log(data)
-        })
+    //     socket.on("replyResponse", (data) => {
+    //         console.log("reposta de reply\n")
+    //         console.log(data)
+    //     })
 
-        return () => {
-            socket.off("reactResponse")
-            socket.off("followResponse")
-            socket.off("unfollowResponse")
-            socket.off("replyResponse")
-        }
+    //     return () => {
+    //         socket.off("reactResponse")
+    //         socket.off("followResponse")
+    //         socket.off("unfollowResponse")
+    //         socket.off("replyResponse")
+    //     }
 
-    }, [ProfileData, userId])
+    // }, [ProfileData, userId])
 
     return {
         getFollowers,

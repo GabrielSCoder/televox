@@ -1,12 +1,9 @@
 import { useState, useEffect } from 'react';
 import MainRouter from './router';
-import SocketProvider from './contexts/socketContext';
 import { getIPAddress } from './services/soinformation';
 import { generateHMAC2 } from './services/crypto';
 const key = import.meta.env.VITE_SECRET_KEY
-const url = import.meta.env.VITE_API_URL
 
-console.log(url)
 
 function App() {
   const info = window.localStorage.getItem("NIF")
@@ -37,9 +34,9 @@ function App() {
   useEffect(() => {
 
     const inx = async () => {
-        const resp = await getIPAddress()
-        const hmac = await generateHMAC2(resp, key)
-        window.localStorage.setItem("NIF", hmac)
+      const resp = await getIPAddress()
+      const hmac = await generateHMAC2(resp, key)
+      window.localStorage.setItem("NIF", hmac)
     }
 
     if (!info) {
@@ -49,9 +46,7 @@ function App() {
   }, [])
 
   return (
-    <SocketProvider>
-      <MainRouter />
-    </SocketProvider>
+    <MainRouter />
   )
 }
 

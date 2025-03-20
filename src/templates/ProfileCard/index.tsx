@@ -6,7 +6,6 @@ import ProfileWallpaper from "../../components/ProfileWallpaper";
 import TitleTag from "../../components/TitleTags";
 import { formatDate } from "../../utils/dateFormat";
 
-const background_test = "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/70/header.jpg"
 
 type cardProps = {
     profileData: any
@@ -58,8 +57,7 @@ export default function ProfileCard(props: cardProps) {
 
             <Card className="relative flex-col w-full justify-start items-start pb-6 border-b">
 
-                <ProfileWallpaper backgroundUrl={profileData.background_url ?? background_test} />
-
+                <ProfileWallpaper backgroundUrl={profileData.background_url ?? ""} />
 
                 <div className="w-full flex justify-end mt-2 px-2 h-[44px]">
                     <FollowBtn />

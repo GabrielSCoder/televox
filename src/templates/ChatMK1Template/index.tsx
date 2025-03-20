@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react"
-import { socket } from "../../services/socket";
+import { useState } from "react"
 
 // export default function ChatMK1() {
 
@@ -103,42 +102,17 @@ export default function DeleteFollow() {
 
     const [input1, setInput1] = useState("")
     const [input2, setInput2] = useState("")
-    const [conectado, setConectado] = useState(false)
+    const conectado = true
 
-    const onConnect = () => {
-        socket.connect()
-    }
 
     const em = () => {
-        socket.emit("unfollow", ({ follower_id: input1, following_id: input2 }))
+        console.log("unfollow", ({ follower_id: input1, following_id: input2 }))
     }
-
-    const disc = () => {
-        socket.disconnect()
-    }
-
-    useEffect(() => {
-
-        socket.on("connect", () => {
-            console.log("conectado")
-            setConectado(true)
-        })
-
-        socket.on("unfollowResponse", (msg) => {
-            console.log(msg)
-        })
-
-        return () => {
-            socket.off("unfollowResponse")
-            socket.off("connect")
-            socket.disconnect()
-        }
-    }, [])
 
     const Connect = () => {
         return (
             <div className="h-screen bg-black text-white flex justify-center items-center">
-                <button className="p-4 rounded-md text-white bg-blue-500" onClick={onConnect}>CONECTAR</button>
+                <button className="p-4 rounded-md text-white bg-blue-500" onClick={undefined}>CONECTAR</button>
             </div>
         )
     }
@@ -150,7 +124,7 @@ export default function DeleteFollow() {
                 <input type="text" className="col-span-1 text-white bg-black placeholder:text-white" placeholder="follower_id" onChange={(e) => setInput1(e.target.value)} value={input1} />
                 <input type="text" className="col-span-1 text-white bg-black placeholder:text-white" placeholder="following_id" onChange={(e) => setInput2(e.target.value)} value={input2} />
                 <button className="text-white bg-red-500 rounded-md col-span-2" onClick={em}>Deletar</button>
-                <button className="text-white bg-red-500 rounded-md col-span-2" onClick={disc}>OFF</button>
+                <button className="text-white bg-red-500 rounded-md col-span-2" onClick={undefined}>OFF</button>
             </div>
         )
     }
