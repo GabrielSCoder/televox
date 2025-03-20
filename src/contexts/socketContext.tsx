@@ -1,4 +1,4 @@
-import { createContext, ReactNode,  useEffect } from "react";
+import { createContext, ReactNode } from "react";
 import { socket } from "../services/socket";
 
 interface SocketContextType {
@@ -15,23 +15,23 @@ export default function SocketProvider (props : {children : ReactNode}) {
         socket.disconnect()
     }
 
-    useEffect(() => {
-        socket.connect()
+    // useEffect(() => {
+    //     socket.connect()
 
-        socket.on("connect", () => {
-            console.log("conectado")
-        })
+    //     socket.on("connect", () => {
+    //         console.log("conectado")
+    //     })
 
-        socket.on("desconnect", () => {
-            console.log("desconectado")
-        })
+    //     socket.on("desconnect", () => {
+    //         console.log("desconectado")
+    //     })
 
-        return () => {
-            socket.off("connect")
-            socket.off("disconnect")
-            socket.disconnect()
-        }
-    })
+    //     return () => {
+    //         socket.off("connect")
+    //         socket.off("disconnect")
+    //         socket.disconnect()
+    //     }
+    // })
 
     return (
         <SocketContext.Provider value={{disconnect : handleDisconnect}}>
