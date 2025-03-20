@@ -27,7 +27,7 @@ export default function ReplyCardTemplate(props: props) {
         <>
             <div className="flex gap-2 px-4 py-2">
                 <div className="rounded-full h-[40px] w-[40px] bg-purple-500 ">
-                    {!userData.img_url ? <div className="w-full h-full rounded-full bg-red-500 m-2"></div> : <img src={userData.img_url} className="h-full w-full rounded-full object-cover"></img>}
+                    {!userData.img_url ? <div className="w-full h-full rounded-full bg-red-500"></div> : <img src={userData.img_url} className="h-full w-full rounded-full object-cover"></img>}
                 </div>
                 <Input.TextArea name="message" className="hover:outline-none text-white placeholder:text-black placeholder:dark:text-gray-500 bg-black outline-none w-full
                     placeholder:text-left leading-[2rem]" register={register}

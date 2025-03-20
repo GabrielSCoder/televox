@@ -25,7 +25,7 @@ const error = (err: AxiosError) => {
     return Promise.reject(err);
 };
 
-const getaxios = async (timeout = 9000) => {
+const getaxios = async (timeout = 20000) => {
     const instance: AxiosInstance = axios.create({
         baseURL: API_URL,
         timeout: timeout

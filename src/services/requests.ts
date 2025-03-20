@@ -31,7 +31,7 @@ export const postRequest = async (url: string, obj: any) => {
             headers: {
                 Authorization: window.localStorage.getItem("profile") ? `Bearer ${window.localStorage.getItem("profile")}` : "",
                 HMAC: hmac,
-                Timestamp: Date.now(),
+                Timestamp: Date.now()
             },
             withCredentials: true,
         });

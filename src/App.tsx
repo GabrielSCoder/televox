@@ -4,9 +4,7 @@ import SocketProvider from './contexts/socketContext';
 import { getIPAddress } from './services/soinformation';
 import { generateHMAC2 } from './services/crypto';
 const key = import.meta.env.VITE_SECRET_KEY
-const url = import.meta.env.VITE_API_URL
 
-console.log(key, url)
 
 function App() {
   const info = window.localStorage.getItem("NIF")

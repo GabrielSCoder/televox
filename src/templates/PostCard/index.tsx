@@ -43,7 +43,7 @@ export default function PostCard(props: cardProps) {
             <Card className="flex-col hover:bg-gray-100 dark:hover:bg-opacity-5 hover:cursor-pointer px-4 pt-3 border-b" click={redirect} >
                 <Card className="justify-start items-center gap-2" >
                     <div className="rounded-full h-[40px] w-[40px] bg-black">
-                        {!img_url ? <div className="w-full h-full rounded-full bg-red-500 m-2"></div> : <img src={img_url} className="h-full w-full rounded-full object-cover"></img>}
+                        {!img_url ? <div className="w-full h-full rounded-full bg-red-500"></div> : <img src={img_url} className="h-full w-full rounded-full object-cover"></img>}
                     </div>
                     <button onClick={btn} className="">
                         <TitleTag.Sub className="hover:underline hover:decoration-white hover:cursor-pointer"> {user}</TitleTag.Sub>

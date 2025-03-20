@@ -157,13 +157,13 @@ export default function HighlightTextarea(props: props) {
                 <LoadingPageTemplate className="w-full h-[320px]" />
             ) : (
                 <>
-                    <Card className="relative flex justify-start items-center gap-4">
-                        {userData ? (
+                    <Card className="relative flex justify-start items-center gap-4 p-2">
+                        {userData.img_url ? (
                             <div className="relative rounded-full h-[50px] w-[50px] bg-black border m-2 ">
                                 <img src={userData.img_url} className="h-full w-full rounded-full object-cover" />
                             </div>
                         ) : (
-                            <div className="relative bg-red-500 rounded-full p-4"></div>
+                            <div className="relative bg-red-500 rounded-full p-4 h-[50px] w-[50px]"></div>
                         )}
                         <TitleTag.Sub className="relative">{userData.username}</TitleTag.Sub>
                     </Card>
