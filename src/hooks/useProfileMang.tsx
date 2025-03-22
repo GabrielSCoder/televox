@@ -3,8 +3,8 @@ import { liksList } from "../types/postType"
 import { profile } from "../types/profileType"
 import useRequest from "./useRequest"
 import { compareForm, followForm, relationFollow } from "../types/follow"
-import { getAllFollowers, getAllFollowersCompare, getTotalizerF, VerifyFollowing, VerifyFollowingCompare, VerifyXY } from "../services/follow"
-import { getAllPostByUserIdAndReaction } from "../services/post"
+import { followAsync, getAllFollowers, getAllFollowersCompare, getTotalizerF, unfollowAsync, VerifyFollowing, VerifyFollowingCompare, VerifyXY } from "../services/follow"
+import { getAllPostByUserIdAndReaction, reactToPost } from "../services/post"
 
 export default function useProfileMang() {
 
@@ -163,17 +163,15 @@ export default function useProfileMang() {
 
     // }
 
-    // const updateLikes = (data: any) => {
-
-
-
-    //     setLikesList((prev) =>
-    //         prev.map((post) =>
-    //             post.id === data.data.post_id
-    //                 ? { ...post, liked: data.data.usuario_id == userId ? data.liked.liked : post.liked, total_reactions: data.total.total_reactions }
-    //                 : post
-    //         )
-    //     );
+    const updateLikes = (data : any, response : any) => {
+        setLikesList((prev) =>
+            prev.map((post) =>
+                post.id === data.post_id
+                    ? { ...post, liked: response, total_reactions: response == true ? post.total_reactions + 1 : post.total_reactions - 1 }
+                    : post
+            )
+        );
+    }
 
 
     // }
@@ -205,16 +203,24 @@ export default function useProfileMang() {
 
     // }
 
-    const handleFollow = (data: followForm) => {
+    const handleFollow = async (data: followForm) => {
         console.log("follow", data)
+        const resp = await followAsync(data)
+        console.log(resp)
     }
 
-    const handleUnfollow = (data: followForm) => {
+    const handleUnfollow = async (data: followForm) => {
         console.log("unfollow", data)
+        const resp = await unfollowAsync(data)
+        console.log(resp)
     }
 
-    const handleReaction = (data: { post_id: number, usuario_id: number, profile_id: number }) => {
+    const handleReaction = async (data: { post_id: number, usuario_id: number, profile_id: number }) => {
         console.log("react", { post_id: data.post_id, usuario_id: data.usuario_id, profile_id: data.profile_id })
+        const resp = await reactToPost(data)
+        if (resp.data.success) {
+            updateLikes(data, resp.data.dados.liked)
+        }
     }
 
     // useEffect(() => {

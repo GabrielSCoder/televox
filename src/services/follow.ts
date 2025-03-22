@@ -9,6 +9,14 @@ export const VerifyFollowing = async (id : any) => {
     return await getRequest( "/follow/following/" + id)
 }
 
+export const followAsync = async (data : any) => {
+    return await postRequest( "/follow/", data)
+}
+
+export const unfollowAsync = async (data : any) => {
+    return await postRequest( "/follow/unfollow", data)
+}
+
 export const getAllFollowersCompare = async (data : compareForm) => {
     return await postRequest("/follow/compare/followers", data)
 } 
@@ -24,3 +32,4 @@ export const VerifyXY = async ( data : any) => {
 export const getTotalizerF = async (id : any) => {
     return await getRequest( "/follow/total/" + id)
 }
+

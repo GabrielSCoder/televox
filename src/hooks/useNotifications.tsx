@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { getNotificationsbyId } from "../services/notification";
+import { confirmNotifications, getNotificationsbyId } from "../services/notification";
 
 export default function useNotifications() {
 
@@ -89,7 +89,9 @@ export default function useNotifications() {
 
     const confirmNotify = async (some : any, id : number) => {
         console.log(some)
-        console.log("notify", {id : id, notifications : notififyIdList})
+        const data = {id : id, notifications : notififyIdList}
+        const resp = await confirmNotifications(data)
+        return resp
     }
 
     return {

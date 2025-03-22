@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { getPostbyId, getRepliesByPostId, sendPostAsync } from "../../services/post";
+import { getPostbyId, getRepliesByPostId, reactToPost, sendPostAsync } from "../../services/post";
 import { useEffect, useState } from "react";
 import LoadingPageTemplate from "../../templates/LoadingPage";
 import TitleTag from "../../components/TitleTags";
@@ -83,62 +83,67 @@ export default function Postview(props: props) {
         const resp = await sendPostAsync(dt)
         if (resp.data.success) {
             reset()
-            console.log("reply", ({usuario_id : userData.id, usuario_destino : profileData.id, post_id : resp.data.dados.parent_id}))
+            console.log("reply", ({ usuario_id: userData.id, usuario_destino: profileData.id, post_id: resp.data.dados.parent_id }))
             getPostData()
         }
 
         setLoadingReply(false)
     }
 
-    const handleReaction = (data: { post_id: number, usuario_id: number }) => {
+    const updateLikes = (data: any, response: any) => {
+        console.log(data, response)
 
-        console.log("react", data)
+        setPostData((prev) => (prev ? {
+            ...prev, liked: response, total_reactions: response == true ? prev.total_reactions + 1 : prev.total_reactions - 1
+        } : prev));
+
+    }
+
+    const updatePostLikes = (data: any, response: any) => {
+        setLikesList((prev: any) => prev.map((post: any) =>
+            post.id === data.post_id
+                ? {
+                    ...post, liked: response,
+                    total_reactions: response == true ? post.total_reactions + 1 : post.total_reactions - 1
+                }
+                : post
+        ))
+    }
+
+    const handleReaction = async (data: { post_id: number, usuario_id: number, profile_id: number }) => {
+        console.log("react", { post_id: data.post_id, usuario_id: data.usuario_id, profile_id: data.profile_id })
+        const resp = await reactToPost(data)
+        if (resp.data.success) {
+            updateLikes(data, resp.data.dados.liked)
+        }
+        console.log(resp)
+    }
+
+    const handleReactionPosts = async (data: { post_id: number, usuario_id: number, profile_id: number }) => {
+        console.log("react", { post_id: data.post_id, usuario_id: data.usuario_id, profile_id: data.profile_id })
+        const resp = await reactToPost(data)
+        if (resp.data.success) {
+            updatePostLikes(data, resp.data.dados.liked)
+        }
+        console.log(resp)
     }
 
     const debounceReact = (data: any) => {
-        const xData = { post_id: data, usuario_id: userData.id }
+        const xData = { post_id: data, usuario_id: userData.id, profile_id: profileData.id }
         handleReaction(xData)
     }
 
+    const debounceReactPosts = (data: any) => {
+        const xData = { post_id: data, usuario_id: userData.id, profile_id: profileData.id }
+        handleReactionPosts(xData)
+    }
+    
     const debounceHandlerReact = useDebounce(debounceReact, 200)
+    const debounceHandlerReactPosts = useDebounce(debounceReactPosts, 200)
 
     useEffect(() => {
 
         if (!userData.id || !profileData.id || !postData?.id) return;
-
-        // socket.on("reactResponse", (data) => {
-
-        //     console.log("POST PAI ATUAL:", postData.id)
-
-        //     setLikesList((prev) =>
-        //         prev.map((post) =>
-        //             post.id === data.data.post_id
-        //                 ? {
-        //                     ...post, liked: userData.id == data.data.usuario_id ? data.liked.liked : post.liked,
-        //                     total_reactions: data.total.total_reactions 
-        //                 }
-        //                 : post
-        //         )
-        //     );
-
-        //     if (data.data.post_id == postData.id) {
-        //         setPostData((prev) => (prev ? {
-        //             ...prev, liked: userData.id == data.data.usuario_id && postData.id == data.data.post_id ? data.liked.liked : prev.liked,
-        //             total_reactions:  data.total.total_reactions
-        //         } : prev));
-
-
-        //         setPostLikes((prev: any) => prev.map((post: any) =>
-        //             post.id === data.data.post_id
-        //                 ? {
-        //                     ...post, liked: userData.id == data.data.usuario_id && postData.id == data.data.post_id ? data.liked.liked : post.liked,
-        //                     total_reactions: postData?.id == data.data.post_id ? data.total.total_reactions : prev.total_reactions
-        //                 }
-        //                 : post
-        //         ))
-
-        //     }
-        // })
 
     }, [profileData, userData, postData])
 
@@ -183,8 +188,6 @@ export default function Postview(props: props) {
             </div>
 
 
-
-
             <div className="flex items-center justify-center border-t border-b w-full border-gray-600 hover:cursor-pointer">
                 <ReactionsTemplate props={{ likes: postData?.total_reactions ?? 0, isLiked: postData?.liked ?? false, handleReaction: debounceHandlerReact, id: postData?.id ?? 0, locked: false, replies: postData?.total_replies ?? 0 }} />
             </div>
@@ -196,7 +199,7 @@ export default function Postview(props: props) {
             ) : ""
             }
 
-            <FeedList data={repliesData} handleReaction={debounceHandlerReact} likesList={likesList} userId={userData.id ?? 0} />
+            <FeedList data={repliesData} handleReaction={debounceHandlerReactPosts} likesList={likesList} userId={userData.id ?? 0} />
 
         </div>
 

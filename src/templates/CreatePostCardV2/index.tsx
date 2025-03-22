@@ -105,7 +105,7 @@ export default function HighlightTextarea(props: props) {
 
   
         setCursorPos({
-            top: textareaRect.top + (rect.top - textareaRect.top) - textarea.scrollTop + 90, 
+            top: textareaRect.top + (rect.top - textareaRect.top) - textarea.scrollTop + 110, 
             left: textareaRect.left + (rect.left - textareaRect.left) - 20
         });
 
@@ -151,13 +151,13 @@ export default function HighlightTextarea(props: props) {
 
     return (
 
-        <div className={classNames("relative w-full px-2  max-h-[320px]", !expand ? "h-[150px]" : "h-[320px]")}>
+        <div className={classNames("relative w-full px-2 ", !expand ? userData.img_url ? "h-[170px]" : "h-[150px]" : "h-[330px]")}>
 
             {loading ? (
                 <LoadingPageTemplate className="w-full h-[320px]" />
             ) : (
                 <>
-                    <Card className="relative flex justify-start items-center gap-4 p-2">
+                    <Card className="relative flex justify-start items-center gap-4 p-2 ">
                         {userData.img_url ? (
                             <div className="relative rounded-full h-[50px] w-[50px] bg-black border m-2 ">
                                 <img src={userData.img_url} className="h-full w-full rounded-full object-cover" />
@@ -193,7 +193,7 @@ export default function HighlightTextarea(props: props) {
 
                     <p className="relative border-b border-gray-800"></p>
 
-                    <Card className="justify-end items-center gap-4 px-2 mt-2">
+                    <Card className={classNames("justify-end items-center gap-4 px-2", expand ? "mt-1" : "mt-2")}>
                         <CountChars data={val} max={charactersLimit} />
                         <Button text="Post" onClick={() => delayPost()} type="submitt" disabled={txt.trim().length < 1 || val > charactersLimit} className="relative px-4" />
                     </Card>

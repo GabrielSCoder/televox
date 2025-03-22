@@ -25,6 +25,10 @@ export const getRepliesByPostId = async ( data : feedFilterDTO) => {
     return await postRequest( "post/reply", data)
 }
 
+export const reactToPost = async ( data : any) => {
+    return await postRequest( "post/reactPost", data)
+}
+
 export const getFeedMk1 = async ( data : feedFilterDTO) => {
     return await postRequest( "feed/mk1/", data)
 }
@@ -32,3 +36,4 @@ export const getFeedMk1 = async ( data : feedFilterDTO) => {
 export const getFeedMk2 = async ( data : feedFilterDTO) => {
     return await postRequest( "feed/mk2/", data)
 }
+

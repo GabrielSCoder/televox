@@ -26,6 +26,7 @@ export default function Notifications() {
 
     useEffect(() => {
         confirmNotify(true, id)
+
     }, [notifyData.length > 0])
 
 

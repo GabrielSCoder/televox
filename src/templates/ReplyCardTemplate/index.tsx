@@ -24,22 +24,24 @@ export default function ReplyCardTemplate(props: props) {
 
     return (
 
-        <>
-            <div className="flex gap-2 px-4 py-2">
+        <div className="border border-gray-800 mx-4 my-2">
+            <div className="flex gap-2 px-4 py-2 ">
                 <div className="rounded-full h-[40px] w-[40px] bg-purple-500 ">
                     {!userData.img_url ? <div className="w-full h-full rounded-full bg-red-500"></div> : <img src={userData.img_url} className="h-full w-full rounded-full object-cover"></img>}
                 </div>
                 <Input.TextArea name="message" className="hover:outline-none text-white placeholder:text-black placeholder:dark:text-gray-500 bg-black outline-none w-full
                     placeholder:text-left leading-[2rem]" register={register}
-                    rows={3} placeholder={isFocused ? "" : "Comente..."} onChange={(e: any) => setVal(e.target.value.length)} maxLength={charactersLimit + charactersBuffer} onBlur={() => setIsFocused(false)}
+                    rows={5} placeholder={isFocused ? "" : "Comente..."} onChange={(e: any) => setVal(e.target.value.length)} maxLength={charactersLimit + charactersBuffer} onBlur={() => setIsFocused(false)}
                     onFocus={() => setIsFocused(true)} />
             </div>
 
-            <Card className="justify-end items-center gap-4">
+            <p className="border border-b border-gray-700 mx-4"></p>
+
+            <Card className="justify-end items-center gap-4 px-2 mt-2">
                 <CountChars data={val} max={charactersLimit} />
                 <Button text="Reply" onClick={() => handleReply({ parent_id: postData.id, usuario_id: userData.id })} type="submitt" disabled={val < 1 || val > charactersLimit} className="px-4" />
             </Card>
-        </>
+        </div>
 
 
 
