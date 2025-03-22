@@ -25,7 +25,11 @@ export default function Notifications() {
     }, []);
 
     useEffect(() => {
-        confirmNotify(true, id)
+        const confirm = async () => {
+            await confirmNotify(true, id)
+        }
+
+        confirm()
 
     }, [notifyData.length > 0])
 
